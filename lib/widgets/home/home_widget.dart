@@ -197,7 +197,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                     items!.image != null
                         ? imageUrl = ApiConstants.baseUrl + items.image!
                         : imageUrl = null;
-
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,16 +205,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Welcome',
+                              'Welcome, ${items.lastname ?? ''}',
                               style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 18.sp,
+                                fontFamily: 'PublicSans',
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.w700,
                                 color: tcBlack,
                               ),
                             ),
                             Text(
-                              '${items.lastname}, ${items.firstname}',
+                              'Not feeling safe?',
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
                                 fontSize: 16.sp,
@@ -223,39 +222,55 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 color: tcBlack,
                               ),
                             ),
+                            Container(
+                              width: 150,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  final Uri launchUri = Uri(
+                                    scheme: 'tel',
+                                    path: '123456789',
+                                  );
+                                  await launchUrl(launchUri);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: tcViolet,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Call Us',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: tcWhite,
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return AccountScreen();
-                                },
-                              ),
-                            );
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            child: ClipOval(
-                              child: (imageUrl?.isEmpty ?? true)
-                                  ? Center(
-                                      child: Icon(
-                                        Icons.question_mark,
-                                        size: 50,
-                                        color: tcBlack,
-                                      ),
-                                    )
-                                  : Image.network(
-                                      imageUrl!,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
+                        Container(
+                          width: 70,
+                          height: 70,
+                          child: ClipOval(
+                            child: (imageUrl?.isEmpty ?? true)
+                                ? Center(
+                                    child: Icon(
+                                      Icons.question_mark,
+                                      size: 50,
+                                      color: tcBlack,
                                     ),
-                            ),
+                                  )
+                                : Image.network(
+                                    imageUrl!,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
-                        )
+                        ),
                       ],
                     );
                   } else {
@@ -268,80 +283,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                   return Text('Error: $e');
                 }
               },
-            ),
-            Divider(
-              color: Colors.transparent,
-              height: 10,
-            ),
-            Stack(
-              children: [
-                Positioned(
-                  child: Container(
-                    height: 100.h,
-                    decoration: BoxDecoration(
-                      color: tcViolet,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 95,
-                  bottom: -1,
-                  child: Image.asset(
-                    'assets/images/phone.png',
-                    scale: 9,
-                  ),
-                ),
-                Positioned(
-                  top: 15,
-                  left: 15,
-                  child: Text(
-                    'Not feeling safe?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: tcWhite,
-                      fontFamily: 'Roboto',
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 15,
-                  bottom: 15,
-                  child: Container(
-                    width: 80.w,
-                    height: 30.h,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final Uri launchUri = Uri(
-                          scheme: 'tel',
-                          path: '123456789',
-                        );
-                        await launchUrl(launchUri);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: tcWhite,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                      ),
-                      child: Text(
-                        'Call Us',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: tcViolet,
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
             ),
             Divider(
               color: Colors.transparent,
@@ -1007,7 +948,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         tappable: false,
         closedBuilder: (BuildContext context, VoidCallback openContainer) {
           return FloatingActionButton(
-            backgroundColor: tcRed,
+            backgroundColor: tcViolet,
             onPressed: openContainer,
             child: const Icon(
               Icons.add,
