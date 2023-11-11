@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14139759586",
+    "project_id": "taguigconnect-3259c",
+    "storage_bucket": "taguigconnect-3259c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14139759586:android:41825f0533031ebf8537bb",
+        "android_client_info": {
+          "package_name": "com.example.taguigconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBIp02EXplGAp_S8_-l-gYFG7a5dB0MPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
