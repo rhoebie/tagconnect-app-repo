@@ -18,8 +18,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.dark,
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
     );
     return ScreenUtilInit(
-      designSize: Size(screenWidth, screenHeight),
+      designSize: Size(360, 800),
       builder: (context, child) {
         final customTheme = ThemeData.from(
           colorScheme: const ColorScheme(
