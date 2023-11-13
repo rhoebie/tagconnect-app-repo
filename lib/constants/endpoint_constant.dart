@@ -19,6 +19,9 @@ class ApiConstants {
   static String barangayEndpoint = '/barangays';
   static String reportEndpoint = '/reports';
 
+  // News
+  static String newsEndpoint = '/get-news';
+
   // Api Url for request
   static String apiUrl = '$baseUrl/api';
 }

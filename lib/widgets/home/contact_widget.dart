@@ -104,6 +104,7 @@ class _ContactWidgetState extends State<ContactWidget> {
     return RefreshIndicator(
       onRefresh: refreshAll,
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         width: double.infinity,
         color: tcWhite,
         child: Column(

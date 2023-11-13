@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/animations/slideLeft_animation.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/screens/notification_screen.dart';
-import 'package:taguigconnect/screens/report-list_screen.dart';
 import 'package:taguigconnect/widgets/home/menu_widget.dart';
 import 'package:taguigconnect/widgets/home/contact_widget.dart';
 import 'package:taguigconnect/widgets/home/explore_widget.dart';
@@ -32,7 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _currentIndex = index;
       });
-      _pageController.jumpToPage(index);
+      _pageController.animateToPage(
+        index,
+        duration: Duration(milliseconds: 300), // Adjust the duration as needed
+        curve: Curves.easeInOut, // Adjust the curve as needed
+      );
     }
   }
 
@@ -42,66 +42,69 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: tcWhite,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        toolbarHeight: 50,
         backgroundColor: tcWhite,
         automaticallyImplyLeading: false,
+        centerTitle: true,
+        toolbarHeight: 40,
         elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context, SlideLeftAnimation(const NotificationScreen()));
-            },
-            icon: Icon(
-              Icons.notifications_rounded,
-              color: tcBlack,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                print('Hello');
+              },
+              child: Container(
+                child: Icon(
+                  Icons.menu,
+                  size: 25,
+                  color: tcBlack,
+                ),
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context, SlideLeftAnimation(const ReportListScreen()));
-            },
-            icon: Icon(
-              Icons.note_alt,
-              color: tcBlack,
+            Text(
+              getTitleForIndex(_currentIndex),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w900,
+                color: tcBlack,
+              ),
             ),
-          ),
-          VerticalDivider(
-            color: Colors.transparent,
-            width: 5,
-          ),
-        ],
-        title: Text(
-          getTitleForIndex(_currentIndex),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w900,
-            color: tcBlack,
-          ),
+            InkWell(
+              onTap: () {
+                print('Hello');
+              },
+              child: Container(
+                child: Icon(
+                  Icons.notifications_rounded,
+                  size: 25,
+                  color: tcBlack,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: PageView(
-              controller: _pageController,
-              children: [
-                HomeWidget(),
-                ContactWidget(),
-                ExploreWidget(),
-                MenuWidget(),
-              ],
-              onPageChanged: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              physics:
-                  NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics
-            )),
+          controller: _pageController,
+          children: [
+            HomeWidget(),
+            ContactWidget(),
+            ExploreWidget(),
+            MenuWidget(),
+          ],
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          physics: NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics
+        )),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: tcWhite,
@@ -109,27 +112,27 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedItemColor: tcBlack,
         selectedItemColor: tcViolet,
         showUnselectedLabels: false,
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         currentIndex: _currentIndex,
         onTap: (index) {
           _onItemTapped(index);
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.phone),
-            label: 'Contact',
+            icon: Icon(Icons.language_rounded),
+            label: 'Feed',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
+            icon: Icon(Icons.phone_rounded),
+            label: 'Contacts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore_rounded),
             label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
           ),
         ],
       ),
@@ -142,11 +145,11 @@ String getTitleForIndex(int index) {
     case 0:
       return 'HOME';
     case 1:
-      return 'CONTACTS';
+      return 'FEED';
     case 2:
-      return 'EXPLORE';
+      return 'CONTACTS';
     case 3:
-      return 'MENU';
+      return 'EXPLORE';
     default:
       return 'HOME'; // Default title
   }
