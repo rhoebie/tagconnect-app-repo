@@ -16,7 +16,7 @@ class ApiConstants {
   static String userEndpoint = '/users';
   static String hotlineEndpoint = '/hotlines';
   static String incidentEndpoint = '/incidents';
-  static String barangayEndpoint = '/barangays';
+  static String barangayEndpoint = '/get-barangay';
   static String reportEndpoint = '/reports';
 
   // News

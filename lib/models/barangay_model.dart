@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final barangayModel = barangayModelFromJson(jsonString);
+
 import 'dart:convert';
 
 List<BarangayModel> barangayModelFromJson(String str) =>
@@ -8,22 +12,26 @@ String barangayModelToJson(List<BarangayModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class BarangayModel {
-  int id;
+  int? id;
   int? moderatorId;
-  String name;
+  String? name;
   int? district;
   String? contact;
-  String address;
+  String? address;
+  Location? location;
   String? image;
+  Analytics? analytics;
 
   BarangayModel({
-    required this.id,
+    this.id,
     this.moderatorId,
-    required this.name,
+    this.name,
     this.district,
     this.contact,
-    required this.address,
+    this.address,
+    this.location,
     this.image,
+    this.analytics,
   });
 
   factory BarangayModel.fromJson(Map<String, dynamic> json) => BarangayModel(
@@ -33,7 +41,13 @@ class BarangayModel {
         district: json["district"],
         contact: json["contact"],
         address: json["address"],
+        location: json["location"] == null
+            ? null
+            : Location.fromJson(json["location"]),
         image: json["image"],
+        analytics: json["analytics"] == null
+            ? null
+            : Analytics.fromJson(json["analytics"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,6 +57,64 @@ class BarangayModel {
         "district": district,
         "contact": contact,
         "address": address,
+        "location": location?.toJson(),
         "image": image,
+        "analytics": analytics?.toJson(),
+      };
+}
+
+class Analytics {
+  int? general;
+  int? medical;
+  int? fire;
+  int? crime;
+  String? responseTime;
+  int? totalReports;
+
+  Analytics({
+    this.general,
+    this.medical,
+    this.fire,
+    this.crime,
+    this.responseTime,
+    this.totalReports,
+  });
+
+  factory Analytics.fromJson(Map<String, dynamic> json) => Analytics(
+        general: json["General"],
+        medical: json["Medical"],
+        fire: json["Fire"],
+        crime: json["Crime"],
+        responseTime: json["ResponseTime"],
+        totalReports: json["TotalReports"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "General": general,
+        "Medical": medical,
+        "Fire": fire,
+        "Crime": crime,
+        "ResponseTime": responseTime,
+        "TotalReports": totalReports,
+      };
+}
+
+class Location {
+  double? latitude;
+  double? longitude;
+
+  Location({
+    this.latitude,
+    this.longitude,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
+        latitude: json["latitude"]?.toDouble(),
+        longitude: json["longitude"]?.toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }

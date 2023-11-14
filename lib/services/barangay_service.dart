@@ -13,9 +13,9 @@ class BarangayService {
 
     final response = await http.get(
       Uri.parse('$baseUrl${ApiConstants.barangayEndpoint}'),
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
+      // headers: {
+      //   'Authorization': 'Bearer $token',
+      // },
     );
 
     if (response.statusCode == 200) {
