@@ -51,17 +51,21 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-              onTap: () {
-                print('Hello');
+            Builder(
+              builder: (BuildContext context) {
+                return InkWell(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Container(
+                    child: Icon(
+                      Icons.menu,
+                      size: 25,
+                      color: tcBlack,
+                    ),
+                  ),
+                );
               },
-              child: Container(
-                child: Icon(
-                  Icons.menu,
-                  size: 25,
-                  color: tcBlack,
-                ),
-              ),
             ),
             Text(
               getTitleForIndex(_currentIndex),
@@ -84,6 +88,142 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: tcBlack,
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: tcViolet,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'TaguigAlert',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcWhite,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.person_rounded,
+                color: tcBlack,
+              ),
+              title: Text(
+                'Account',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: tcBlack,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.description_rounded,
+                color: tcBlack,
+              ),
+              title: Text(
+                'Report',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: tcBlack,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.home_rounded,
+                color: tcBlack,
+              ),
+              title: Text(
+                'Barangay',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: tcBlack,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.settings_rounded,
+                color: tcBlack,
+              ),
+              title: Text(
+                'Settings',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: tcBlack,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.info_rounded,
+                color: tcBlack,
+              ),
+              title: Text(
+                'About',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: tcBlack,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.logout_rounded,
+                color: tcBlack,
+              ),
+              title: Text(
+                'Logout',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: tcBlack,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
           ],
         ),

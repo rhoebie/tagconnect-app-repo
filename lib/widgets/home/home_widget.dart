@@ -4,13 +4,13 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/constants/endpoint_constant.dart';
-import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/models/news_model.dart';
+import 'package:taguigconnect/models/user_model.dart';
 import 'package:taguigconnect/screens/report-emergency_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:taguigconnect/services/user_service.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -20,19 +20,49 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  late UserModel userData = UserModel(
+      firstname: '',
+      lastname: '',
+      age: 0,
+      birthdate: '',
+      contactnumber: '',
+      address: '',
+      image: '');
+
+  Future<void> fetchUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      // Initialize Service for User
+      final userService = UserService();
+      final userId = prefs.getInt('userId');
+      if (userId != null) {
+        final UserModel fetchUserData = await userService.getUserById(userId);
+        setState(() {
+          userData = fetchUserData;
+        });
+      } else {
+        print('Error Fetching Data');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   Future<List<NewsModel>?> fetchNewsData() async {
     try {
       final url = 'https://taguigconnect.online/api/get-news?page=1';
       final response = await http.get(
         Uri.parse(url),
       );
-      print(url);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic> data = responseData['data'];
 
         List<NewsModel> fetchNewsList =
             data.map((item) => NewsModel.fromJson(item)).toList();
+
+        // Sort the list based on the date
+        fetchNewsList.sort((a, b) => a.date!.compareTo(b.date!));
 
         return fetchNewsList;
       } else {
@@ -49,7 +79,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchNewsData();
+    fetchUserData();
   }
 
   @override
@@ -78,7 +108,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         text: 'Welcome, ',
                       ),
                       TextSpan(
-                        text: 'John',
+                        text: userData.lastname ?? '',
                         style: TextStyle(
                           color: tcViolet,
                         ),
@@ -154,7 +184,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
                 Divider(
                   color: Colors.transparent,
-                  height: 10.h,
+                  height: 5.h,
                 ),
                 Container(
                   width: double.infinity.w,
@@ -202,7 +232,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                       ),
                       Positioned(
-                          right: 10,
+                          right: 15,
                           bottom: 10,
                           child: Container(
                             child: ElevatedButton(
@@ -210,7 +240,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: tcWhite,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 elevation: 2,
                               ),
@@ -246,7 +276,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
                 Divider(
                   color: Colors.transparent,
-                  height: 10.h,
+                  height: 5.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,19 +429,38 @@ class _HomeWidgetState extends State<HomeWidget> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'News and Updates',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    color: tcBlack,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'News and Updates',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Text(
+                        'View More',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                          color: tcViolet,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Divider(
                   color: Colors.transparent,
-                  height: 10.h,
+                  height: 5.h,
                 ),
                 Container(
                   width: double.infinity.w,
@@ -441,30 +490,36 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 child: Container(
                                   width: 180,
                                   child: Card(
-                                    elevation: 2,
+                                    elevation: 3,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         ClipRRect(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(10)),
-                                            child: item.image != null
-                                                ? Container(
-                                                    width: 180.w,
-                                                    height: 100.h,
-                                                    child: Image.network(
-                                                      item.image!,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  )
-                                                : Center(
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(10)),
+                                          child: item.image != null
+                                              ? Container(
+                                                  width: 180.w,
+                                                  height: 100.h,
+                                                  child: Image.network(
+                                                    item.image!,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                )
+                                              : Container(
+                                                  width: 180.w,
+                                                  height: 100.h,
+                                                  color: tcAsh,
+                                                  child: Center(
                                                     child: Icon(
                                                       Icons.question_mark,
                                                       size: 20,
                                                       color: tcBlack,
                                                     ),
-                                                  )),
+                                                  ),
+                                                ),
+                                        ),
                                         Expanded(
                                           child: Container(
                                               padding: EdgeInsets.all(5),
@@ -475,16 +530,62 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    item.title ?? '',
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                      fontFamily: 'Roboto',
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: tcBlack,
-                                                    ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      RichText(
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        text: TextSpan(
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Roboto',
+                                                            fontSize: 12.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: tcBlack,
+                                                          ),
+                                                          children: [
+                                                            TextSpan(
+                                                                text:
+                                                                    'Author: ',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700)),
+                                                            TextSpan(
+                                                              text:
+                                                                  item.author ??
+                                                                      '',
+                                                              style: TextStyle(
+                                                                color: tcBlack,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Title: ${item.title ?? ''}',
+                                                        maxLines: 3,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              'PublicSans',
+                                                          fontSize: 16.sp,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: tcBlack,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   Text(
                                                     formatCustomDateTime(
