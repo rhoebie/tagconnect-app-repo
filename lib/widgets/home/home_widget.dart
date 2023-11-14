@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:taguigconnect/models/news_model.dart';
 import 'package:taguigconnect/screens/report-emergency_screen.dart';
+import 'package:http/http.dart' as http;
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -12,6 +17,52 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  ScrollController _scrollController = ScrollController();
+  List<NewsModel> newsList = [];
+  int currentPage = 1;
+
+  Future<List<NewsModel>?> fetchNewsData(
+      {int page = 1, int perPage = 10}) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'https://taguigconnect.online/api/get-news?page=$page&per_page=$perPage'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final List<dynamic> data = responseData['data'];
+
+        List<NewsModel> newsList =
+            data.map((item) => NewsModel.fromJson(item)).toList();
+
+        return newsList;
+      } else {
+        print('Failed to load data. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<void> loadMore() async {
+    final currentPosition = _scrollController.position.pixels;
+
+    final moreNews = await fetchNewsData(page: currentPage + 1);
+    if (moreNews != null) {
+      print('Loaded more data for page $currentPage');
+      setState(() {
+        newsList.addAll(moreNews);
+        currentPage++;
+      });
+
+      // Restore scroll position
+      _scrollController.jumpTo(currentPosition);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,7 +246,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Call Emergency Service',
+                  'Taguig Emergency Service',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Roboto',
@@ -373,10 +424,202 @@ class _HomeWidgetState extends State<HomeWidget> {
                   color: Colors.transparent,
                   height: 10.h,
                 ),
+                // Container(
+                //   width: double.infinity.w,
+                //   height: 250.h,
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                //     child: FutureBuilder(
+                //       future: fetchNewsData(),
+                //       builder: (context, snapshot) {
+                //         if (snapshot.connectionState ==
+                //             ConnectionState.waiting) {
+                //           return Center(
+                //             child: CircularProgressIndicator(
+                //               color: tcViolet,
+                //             ),
+                //           );
+                //         } else if (snapshot.hasError) {
+                //           return Text('Error: ${snapshot.error}');
+                //         } else if (snapshot.hasData) {
+                //           newsList = snapshot.data!;
+
+                //           return LazyLoadScrollView(
+                //             onEndOfPage: () => loadMore(),
+                //             scrollDirection: Axis.horizontal,
+                //             child: ListView.builder(
+                //               scrollDirection: Axis.horizontal,
+                //               itemCount: 10,
+                //               itemBuilder: (context, index) {
+                //                 final newsData = newsList[index];
+                //                 return InkWell(
+                //                   child: Container(
+                //                     width: 180,
+                //                     child: Card(
+                //                       elevation: 2,
+                //                       child: Column(
+                //                         crossAxisAlignment:
+                //                             CrossAxisAlignment.start,
+                //                         children: [
+                //                           ClipRRect(
+                //                             borderRadius: BorderRadius.vertical(
+                //                                 top: Radius.circular(10)),
+                //                             child: Container(
+                //                               width: 180.w,
+                //                               height: 100.h,
+                //                               child: Image.network(
+                //                                 newsData!.image!,
+                //                                 fit: BoxFit.cover,
+                //                               ),
+                //                             ),
+                //                           ),
+                //                           Text(
+                //                             newsData.title ?? '',
+                //                             textAlign: TextAlign.center,
+                //                             style: TextStyle(
+                //                               fontFamily: 'Roboto',
+                //                               fontSize: 14.sp,
+                //                               fontWeight: FontWeight.w400,
+                //                               color: tcBlack,
+                //                             ),
+                //                           ),
+                //                         ],
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 );
+                //               },
+                //             ),
+                //           );
+                //         } else {
+                //           return Center(
+                //             child: Text('No data available'),
+                //           );
+                //         }
+                //       },
+                //     ),
+                //   ),
+                // ),
                 Container(
                   width: double.infinity.w,
                   height: 250.h,
-                  color: tcAsh,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: FutureBuilder(
+                      future: fetchNewsData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: tcViolet,
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          List<NewsModel> newNewsList = snapshot.data!;
+
+                          return LazyLoadScrollView(
+                            onEndOfPage: () => loadMore(),
+                            scrollDirection: Axis.horizontal,
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: newsList.length + newNewsList.length,
+                              itemBuilder: (context, index) {
+                                if (index < newsList.length) {
+                                  final newsData = newsList[index];
+                                  return InkWell(
+                                    child: Container(
+                                      width: 180,
+                                      child: Card(
+                                        elevation: 2,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(10)),
+                                              child: Container(
+                                                width: 180.w,
+                                                height: 100.h,
+                                                child: Image.network(
+                                                  newsData.image!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              newsData.title ?? '',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'Roboto',
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: tcBlack,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  // Display the new data
+                                  final newIndex = index - newsList.length;
+                                  final newsData = newNewsList[newIndex];
+                                  return InkWell(
+                                    child: Container(
+                                      width: 180,
+                                      child: Card(
+                                        elevation: 2,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(10)),
+                                              child: Container(
+                                                width: 180.w,
+                                                height: 100.h,
+                                                child: Image.network(
+                                                  newsData.image!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              newsData.title ?? '',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'Roboto',
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: tcBlack,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: Text('No data available'),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),
