@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:taguigconnect/widgets/home/feed_widget.dart';
 import 'package:taguigconnect/widgets/home/menu_widget.dart';
 import 'package:taguigconnect/widgets/home/contact_widget.dart';
 import 'package:taguigconnect/widgets/home/explore_widget.dart';
@@ -234,9 +235,9 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _pageController,
           children: [
             HomeWidget(),
+            FeedWidget(),
             ContactWidget(),
             ExploreWidget(),
-            MenuWidget(),
           ],
           onPageChanged: (index) {
             setState(() {
