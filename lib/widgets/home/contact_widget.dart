@@ -1,12 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/contact_model.dart';
-import 'package:taguigconnect/screens/contact-add_screen.dart';
-import 'package:taguigconnect/screens/contact-edit_screen.dart';
+import 'package:taguigconnect/models/barangay_model.dart';
+import 'package:taguigconnect/services/barangay_service.dart';
 
 class ContactWidget extends StatefulWidget {
   const ContactWidget({super.key});
@@ -16,332 +12,175 @@ class ContactWidget extends StatefulWidget {
 }
 
 class _ContactWidgetState extends State<ContactWidget> {
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocus = FocusNode();
-  late List<ContactModel> originalContactData;
-  List<ContactModel> filteredContact = [];
-
-  Future<List<ContactModel>?> fetchContactData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  Future<List<BarangayModel>?> fetchBarangay() async {
     try {
-      final List<String>? cachedContactJsonList =
-          prefs.getStringList('contactData');
-
-      if (cachedContactJsonList != null) {
-        final List<ContactModel> cachedContacts = cachedContactJsonList
-            .map((jsonString) => ContactModel.fromJson(json.decode(jsonString)))
-            .toList();
-
-        return cachedContacts;
-      } else {
-        return null;
-      }
+      final barangayService = BarangayService();
+      final List<BarangayModel> fetchData =
+          await barangayService.getbarangays();
+      return fetchData;
     } catch (e) {
-      print('Error fetching contacts: $e');
-      throw e;
+      print('Error: $e');
     }
-  }
-
-  void _handleSearchFilter(String enteredKeyword) {
-    if (enteredKeyword.isEmpty) {
-      if (mounted) {
-        setState(() {
-          // If the search query is empty, reset the filteredContact to the original data
-          filteredContact = originalContactData;
-        });
-      }
-    } else {
-      final results = originalContactData.where((item) {
-        return item.name!
-                .toLowerCase()
-                .contains(enteredKeyword.toLowerCase()) ||
-            item.number!.toLowerCase().contains(enteredKeyword.toLowerCase());
-      }).toList();
-
-      if (mounted) {
-        setState(() {
-          filteredContact = results;
-        });
-      }
-    }
-  }
-
-  Future<void> refreshAll() async {
-    try {
-      List<ContactModel>? results = await fetchContactData();
-
-      if (mounted) {
-        setState(() {
-          filteredContact = results!;
-        });
-      }
-
-      await Future.delayed(Duration(seconds: 1));
-    } catch (e) {
-      print(e);
-    }
+    return null;
   }
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    fetchContactData().then((data) {
-      if (data != null) {
-        if (mounted) {
-          setState(() {
-            originalContactData = data;
-            filteredContact =
-                data; // Initialize both original and filtered data
-          });
-        }
-      }
-    });
+    fetchBarangay();
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: refreshAll,
-      child: Container(
+    return Scaffold(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        width: double.infinity,
-        color: tcWhite,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   child: Container(
-                    height: 40,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: tcWhite,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
                     child: TextField(
-                      onChanged: _handleSearchFilter,
-                      keyboardType: TextInputType.text,
-                      controller: _searchController,
-                      focusNode: _searchFocus,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: tcBlack,
-                      ),
-                      maxLines: 1,
                       decoration: InputDecoration(
                         hintText: 'Search',
                         hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcBlack,
+                          color: tcGray,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 10),
-                        prefixIcon: Icon(
+                        icon: Icon(
                           Icons.search,
-                          size: 20,
+                          color: tcGray,
                         ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            if (mounted) {
-                              setState(() {
-                                _searchController.clear();
-                              });
-                            }
-                          },
-                          icon: Icon(
-                            Icons.clear,
-                            size: 20,
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcBlack,
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
                 ),
                 VerticalDivider(
                   color: Colors.transparent,
+                  width: 10,
                 ),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: tcAsh,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ContactAddScreen();
-                            },
-                          ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.add_rounded,
-                        color: tcBlack,
-                      ),
+                Card(
+                  elevation: 5,
+                  color: tcViolet,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.white,
                     ),
+                    onPressed: () {},
                   ),
-                ),
+                )
               ],
             ),
             Divider(
               color: Colors.transparent,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredContact.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final items = filteredContact;
-                  return Container(
-                    height: 60,
-                    margin: EdgeInsets.only(bottom: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: ClipOval(
-                                child: items[index].image != null
-                                    ? Image.memory(
-                                        decodeBase64ToUint8List(
-                                            items[index].image!), // here
-                                        width: 40,
-                                        height: 40,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/user.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                            ),
-                            VerticalDivider(
-                              color: Colors.transparent,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  items[index].name ?? '',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontFamily: 'PublicSans',
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: tcBlack,
+            Container(
+              width: double.infinity,
+              height: 200.h,
+              child: FutureBuilder(
+                future: fetchBarangay(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    final barangayData = snapshot.data;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: barangayData?.length,
+                      itemBuilder: (context, index) {
+                        final item = barangayData![index];
+                        return InkWell(
+                          child: Card(
+                            elevation: 2,
+                            child: Container(
+                              width: 120.w,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      color: tcAsh,
+                                      child: item.image != null
+                                          ? Image.network(
+                                              item.image!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Center(
+                                              child: Icon(
+                                                Icons.question_mark,
+                                                color: tcBlack,
+                                              ),
+                                            ),
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  items[index].number ?? '',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontFamily: 'PublicSans',
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: tcBlack,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: tcAsh,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: IconButton(
-                                  onPressed: () {
-                                    if (mounted) {
-                                      setState(() {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ContactEditScreen(
-                                              contact: items[index],
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 5),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            item.name ?? '',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily: 'PublicSans',
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: tcBlack,
                                             ),
                                           ),
-                                        );
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.edit_note,
-                                    color: tcBlack,
+                                          Text(
+                                            item.contact ?? '',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily: 'PublicSans',
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w400,
+                                              color: tcBlack,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            VerticalDivider(
-                              color: Colors.transparent,
-                              width: 10.w,
-                            ),
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: tcRed,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: IconButton(
-                                  onPressed: () {
-                                    if (mounted) {
-                                      setState(() {
-                                        deleteContactById(items[index].id!);
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.delete_rounded,
-                                    color: tcWhite,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: Text('No data available'),
+                    );
+                  }
                 },
               ),
             ),
@@ -350,35 +189,4 @@ class _ContactWidgetState extends State<ContactWidget> {
       ),
     );
   }
-}
-
-Future<void> deleteContactById(int id) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  final contactsData = prefs.getStringList('contactData') ?? [];
-  final updatedContactsData = List<String>.from(contactsData);
-
-  // Find the index of the contact with the specified ID in the list
-  final indexToDelete = updatedContactsData.indexWhere((contactJson) {
-    final contact = ContactModel.fromJson(jsonDecode(contactJson));
-    return contact.id == id;
-  });
-
-  if (indexToDelete != -1) {
-    // Remove the contact at the specified index
-    updatedContactsData.removeAt(indexToDelete);
-
-    // Update the contact data in SharedPreferences
-    await prefs.setStringList('contactData', updatedContactsData);
-
-    // Optionally, you can handle success here
-    print('Contact with ID $id deleted successfully.');
-  } else {
-    print('Contact with ID $id not found.');
-  }
-}
-
-Uint8List decodeBase64ToUint8List(String base64String) {
-  final Uint8List uint8list = base64Decode(base64String);
-  return uint8list;
 }

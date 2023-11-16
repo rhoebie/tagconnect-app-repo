@@ -8,9 +8,6 @@ class BarangayService {
   final String baseUrl = ApiConstants.apiUrl;
 
   Future<List<BarangayModel>> getbarangays() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-
     final response = await http.get(
       Uri.parse('$baseUrl${ApiConstants.barangayEndpoint}'),
       // headers: {

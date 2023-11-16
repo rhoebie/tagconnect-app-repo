@@ -45,10 +45,6 @@ class _FeedWidgetState extends State<FeedWidget> {
               ),
               centerTitle: true,
             ),
-            Container(
-              height: 200,
-              width: 100,
-            )
           ],
         ),
       ),

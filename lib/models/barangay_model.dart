@@ -4,12 +4,10 @@
 
 import 'dart:convert';
 
-List<BarangayModel> barangayModelFromJson(String str) =>
-    List<BarangayModel>.from(
-        json.decode(str).map((x) => BarangayModel.fromJson(x)));
+BarangayModel barangayModelFromJson(String str) =>
+    BarangayModel.fromJson(json.decode(str));
 
-String barangayModelToJson(List<BarangayModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String barangayModelToJson(BarangayModel data) => json.encode(data.toJson());
 
 class BarangayModel {
   int? id;
