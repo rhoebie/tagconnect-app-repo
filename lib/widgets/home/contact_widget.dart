@@ -35,153 +35,162 @@ class _ContactWidgetState extends State<ContactWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: tcWhite,
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: false,
+              floating: true,
+              snap: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: tcWhite,
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: TextStyle(
+                            color: tcGray,
+                          ),
+                          icon: Icon(
+                            Icons.search,
+                            color: tcGray,
+                          ),
+                          border: InputBorder.none,
                         ),
-                      ],
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        hintStyle: TextStyle(
-                          color: tcGray,
-                        ),
-                        icon: Icon(
-                          Icons.search,
-                          color: tcGray,
-                        ),
-                        border: InputBorder.none,
                       ),
                     ),
                   ),
-                ),
-                VerticalDivider(
-                  color: Colors.transparent,
-                  width: 10,
-                ),
-                Card(
-                  elevation: 5,
-                  color: tcViolet,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
+                  VerticalDivider(
+                    color: Colors.transparent,
+                    width: 10,
                   ),
-                )
-              ],
+                  Card(
+                    elevation: 5,
+                    color: tcViolet,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {},
+                    ),
+                  )
+                ],
+              ),
+              centerTitle: true,
             ),
-            Divider(
-              color: Colors.transparent,
-            ),
-            Container(
-              width: double.infinity,
-              height: 200.h,
-              child: FutureBuilder(
-                future: fetchBarangay(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    final barangayData = snapshot.data;
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: barangayData?.length,
-                      itemBuilder: (context, index) {
-                        final item = barangayData![index];
-                        return InkWell(
-                          child: Card(
-                            elevation: 2,
-                            child: Container(
-                              width: 120.w,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      color: tcAsh,
-                                      child: item.image != null
-                                          ? Image.network(
-                                              item.image!,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Center(
-                                              child: Icon(
-                                                Icons.question_mark,
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                ),
+                width: double.infinity,
+                height: 200.h,
+                child: FutureBuilder(
+                  future: fetchBarangay(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      final barangayData = snapshot.data;
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: barangayData?.length,
+                        itemBuilder: (context, index) {
+                          final item = barangayData![index];
+                          return InkWell(
+                            child: Card(
+                              elevation: 2,
+                              child: Container(
+                                width: 120.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        color: tcAsh,
+                                        child: item.image != null
+                                            ? Image.network(
+                                                item.image!,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Center(
+                                                child: Icon(
+                                                  Icons.question_mark,
+                                                  color: tcBlack,
+                                                ),
+                                              ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 5),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              item.name ?? '',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'PublicSans',
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w700,
                                                 color: tcBlack,
                                               ),
                                             ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 5),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            item.name ?? '',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: tcBlack,
+                                            Text(
+                                              item.contact ?? '',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'PublicSans',
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: tcBlack,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            item.contact ?? '',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400,
-                                              color: tcBlack,
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(
-                      child: Text('No data available'),
-                    );
-                  }
-                },
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(
+                        child: Text('No data available'),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ],
