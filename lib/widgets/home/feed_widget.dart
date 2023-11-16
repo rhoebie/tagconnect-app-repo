@@ -45,16 +45,10 @@ class _FeedWidgetState extends State<FeedWidget> {
               ),
               centerTitle: true,
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('Item $index'),
-                  );
-                },
-                childCount: 50,
-              ),
-            ),
+            Container(
+              height: 200,
+              width: 100,
+            )
           ],
         ),
       ),
