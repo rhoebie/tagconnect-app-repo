@@ -30,7 +30,8 @@ class _ContactWidgetState extends State<ContactWidget> {
       setState(() {
         contacts =
             contactsData.map((data) => ContactModel.fromJson(data)).toList();
-        print(contacts);
+        contacts
+            .sort((a, b) => (a.firstname ?? '').compareTo(b.firstname ?? ''));
       });
     }
   }
@@ -260,7 +261,6 @@ class _ContactWidgetState extends State<ContactWidget> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  // Assuming contacts is a List<Contact>
                   return contacts[index].buildContactWidget();
                 },
                 childCount: contacts.length,

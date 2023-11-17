@@ -5,6 +5,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taguigconnect/constants/color_constant.dart';
 
 ContactModel contactModelFromJson(String str) =>
     ContactModel.fromJson(json.decode(str));
@@ -43,9 +45,45 @@ class ContactModel {
       };
 
   Widget buildContactWidget() {
+    String firstLetter =
+        firstname!.isNotEmpty ? firstname![0].toUpperCase() : '?';
+
     return ListTile(
+      leading: image != null
+          ? CircleAvatar(
+              backgroundColor: tcAsh,
+              backgroundImage: MemoryImage(
+                base64Decode(image!),
+              ),
+            )
+          : CircleAvatar(
+              backgroundColor: tcAsh,
+              child: Center(
+                child: Text(
+                  firstLetter,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: tcBlack,
+                  ),
+                ),
+              ),
+            ),
       title: Text(firstname ?? ''),
       subtitle: Text(contact ?? ''),
+      onTap: () {
+        // Print the data of the selected contact
+        printContactData();
+      },
     );
+  }
+
+  void printContactData() {
+    print('Firstname: $firstname');
+    print('Lastname: $lastname');
+    print('Email: $email');
+    print('Contact: $contact');
+    print('Image: $image');
   }
 }

@@ -50,34 +50,58 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
     return base64String;
   }
 
-  void addContact() {
+  Future<void> addContact() async {
     String firstName = _firstNameController.text;
     String lastName = _lastNameController.text;
     String email = _emailController.text;
     String phoneNumber = _contactController.text;
 
-    ContactModel newContact = ContactModel(
+    try {
+      String? base64Image = await convertXFileToBase64(_image);
+
+      ContactModel newContact = ContactModel(
         firstname: firstName,
         lastname: lastName,
         email: email,
-        contact: phoneNumber);
-    print(newContact);
+        contact: phoneNumber,
+        image: base64Image,
+      );
 
-    setState(() {
-      contacts.add(newContact);
-      _firstNameController.clear();
-      _lastNameController.clear();
-      _emailController.clear();
-      _contactController.clear();
-    });
+      setState(() {
+        contacts.add(newContact);
+        _firstNameController.clear();
+        _lastNameController.clear();
+        _emailController.clear();
+        _contactController.clear();
+        _image = null;
+      });
+
+      await saveContacts();
+      print('Done');
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> saveContacts() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     File file = File('${documentsDirectory.path}/contacts.txt');
-    List<Map<String, dynamic>> contactsData =
+
+    // Read existing data
+    List<Map<String, dynamic>> existingContactsData = [];
+    if (file.existsSync()) {
+      String existingJsonData = file.readAsStringSync();
+      existingContactsData = (json.decode(existingJsonData) as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+    }
+
+    // Append new contact data
+    List<Map<String, dynamic>> newContactsData =
         contacts.map((contact) => contact.toJson()).toList();
-    String jsonData = json.encode(contactsData);
+    existingContactsData.addAll(newContactsData);
+
+    // Write combined data back to the file
+    String jsonData = json.encode(existingContactsData);
     file.writeAsStringSync(jsonData);
   }
 
@@ -104,8 +128,11 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
-              addContact();
+            onPressed: () async {
+              if (_firstNameController.text != '' &&
+                  _contactController.text != '') {
+                await addContact();
+              }
             },
             icon: Icon(Icons.check),
           ),
@@ -117,364 +144,363 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: tcAsh,
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(50),
-                  onTap: () => setState(() {
-                    _pickImage();
-                  }),
-                  child: ClipOval(
-                    child: _image != null
-                        ? Image.file(
-                            File(_image!.path),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          )
-                        : Icon(
-                            Icons.camera_rounded,
-                            color: tcBlack,
-                          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: tcAsh,
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(50),
+                    onTap: () => setState(() {
+                      _pickImage();
+                    }),
+                    child: ClipOval(
+                      child: _image != null
+                          ? Image.file(
+                              File(_image!.path),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : Icon(
+                              Icons.camera_rounded,
+                              color: tcBlack,
+                            ),
+                    ),
                   ),
                 ),
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'First Name',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 5,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      controller: _firstNameController,
-                      focusNode: _firstNameFocus,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: tcBlack,
-                      ),
-                      decoration: InputDecoration(
-                        errorMaxLines: 2,
-                        hintText: 'Enter First Name',
-                        hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcGray,
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcBlack,
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcGray,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Name cannot be empty';
-                        }
-                        return null;
-                      },
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Last Name',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 5,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      controller: _lastNameController,
-                      focusNode: _lastNameFocus,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: tcBlack,
-                      ),
-                      decoration: InputDecoration(
-                        errorMaxLines: 2,
-                        hintText: 'Enter Last Name',
-                        hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcGray,
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcBlack,
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcGray,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Name cannot be empty';
-                        }
-                        return null;
-                      },
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Email Address',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 5,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      controller: _emailController,
-                      focusNode: _emailFocus,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: tcBlack,
-                      ),
-                      decoration: InputDecoration(
-                        errorMaxLines: 2,
-                        hintText: 'Enter email',
-                        hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcGray,
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcBlack,
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcGray,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please enter an email address';
-                        }
-
-                        // Use a regular expression to check if the input is in a valid email format
-                        final emailPattern = RegExp(
-                            r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,})$');
-
-                        if (!emailPattern.hasMatch(value)) {
-                          return 'Please enter a valid email address';
-                        }
-
-                        return null; // Return null if the email is valid
-                      },
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Phone Number',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 5,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.phone,
-                      controller: _contactController,
-                      focusNode: _contactFocus,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: tcBlack,
-                      ),
-                      decoration: InputDecoration(
-                        errorMaxLines: 2,
-                        hintText: 'Enter number',
-                        hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcGray,
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcBlack,
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcGray,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      validator: (value) => validatePhoneNumber(value!),
-                    ),
-                  ],
+                Divider(
+                  color: Colors.transparent,
                 ),
-              ),
-            ],
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'First Name',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 5,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: _firstNameController,
+                        focusNode: _firstNameFocus,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: tcBlack,
+                        ),
+                        decoration: InputDecoration(
+                          errorMaxLines: 2,
+                          hintText: 'Enter First Name',
+                          hintStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: tcGray,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcBlack,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'First Name cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                      ),
+                      Text(
+                        'Last Name',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 5,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: _lastNameController,
+                        focusNode: _lastNameFocus,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: tcBlack,
+                        ),
+                        decoration: InputDecoration(
+                          errorMaxLines: 2,
+                          hintText: 'Enter Last Name',
+                          hintStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: tcGray,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcBlack,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Last Name cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                      ),
+                      Text(
+                        'Email Address',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 5,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: _emailController,
+                        focusNode: _emailFocus,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: tcBlack,
+                        ),
+                        decoration: InputDecoration(
+                          errorMaxLines: 2,
+                          hintText: 'Enter email',
+                          hintStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: tcGray,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcBlack,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value != null) {
+                            final emailPattern = RegExp(
+                                r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,})$');
+
+                            if (!emailPattern.hasMatch(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                          }
+
+                          return null;
+                        },
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                      ),
+                      Text(
+                        'Phone Number',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 5,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: _contactController,
+                        focusNode: _contactFocus,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: tcBlack,
+                        ),
+                        decoration: InputDecoration(
+                          errorMaxLines: 2,
+                          hintText: 'Enter number',
+                          hintStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: tcGray,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcBlack,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        validator: (value) => validatePhoneNumber(value!),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
