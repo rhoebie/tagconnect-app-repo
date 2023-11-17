@@ -1,13 +1,15 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RequestService {
-  static Future<bool> checkAllPermission() async {
+  static Future<bool> checkAllPermission(AndroidDeviceInfo androidInfo) async {
     try {
-      bool storagePerm = await galleryPermission();
+      bool galleryPerm = await galleryPermission();
+      bool storagePerm = await storagePermission(androidInfo);
       bool locationPerm = await locationPermission();
       bool cameraPerm = await cameraPermission();
 
-      if (storagePerm && locationPerm && cameraPerm) {
+      if (galleryPerm && locationPerm && cameraPerm && storagePerm) {
         return true;
       }
     } catch (e) {
@@ -15,6 +17,30 @@ class RequestService {
       return false;
     }
     return false;
+  }
+
+  static Future<bool> storagePermission(AndroidDeviceInfo androidInfo) async {
+    if (androidInfo.version.sdkInt >= 30) {
+      // For Android 30 and above (API level 30+), use new permission handling
+      final storageStatus = await Permission.manageExternalStorage.status;
+
+      if (storageStatus.isDenied) {
+        final storageRequest = await Permission.manageExternalStorage.request();
+        return storageRequest.isGranted;
+      } else {
+        return storageStatus.isGranted;
+      }
+    } else {
+      // For Android 29 (API level 29) and below, use the old permission handling
+      final storageStatus = await Permission.storage.status;
+
+      if (storageStatus.isDenied) {
+        final storagePermissionStatus = await Permission.storage.request();
+        return storagePermissionStatus.isGranted;
+      } else {
+        return storageStatus.isGranted;
+      }
+    }
   }
 
   static Future<bool> galleryPermission() async {

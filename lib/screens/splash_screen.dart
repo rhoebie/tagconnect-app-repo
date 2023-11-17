@@ -50,12 +50,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkPermissionAndFirstTimeOpen() async {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstTimeOpen = prefs.getBool('firstOpen') ?? true;
     print(isFirstTimeOpen);
     try {
       if (isFirstTimeOpen) {
-        bool checkPermission = await RequestService.checkAllPermission();
+        bool checkPermission =
+            await RequestService.checkAllPermission(androidInfo);
 
         if (checkPermission) {
           print('Permission Granted');
