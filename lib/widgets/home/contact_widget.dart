@@ -19,6 +19,7 @@ class ContactWidget extends StatefulWidget {
 
 class _ContactWidgetState extends State<ContactWidget> {
   List<ContactModel> contacts = [];
+  List<BarangayModel> barangayData = [];
 
   Future<void> loadContacts() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -36,12 +37,15 @@ class _ContactWidgetState extends State<ContactWidget> {
     }
   }
 
-  Future<List<BarangayModel>?> fetchBarangay() async {
+  Future<void> fetchBarangay() async {
     try {
       final barangayService = BarangayService();
       final List<BarangayModel> fetchData =
           await barangayService.getbarangays();
-      return fetchData;
+
+      setState(() {
+        barangayData = fetchData;
+      });
     } catch (e) {
       print('Error: $e');
     }
@@ -130,109 +134,7 @@ class _ContactWidgetState extends State<ContactWidget> {
             ),
             SliverToBoxAdapter(
               child: Column(
-                children: [
-                  Divider(
-                    color: Colors.transparent,
-                    height: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    width: double.infinity,
-                    height: 200.h,
-                    child: FutureBuilder(
-                      future: fetchBarangay(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else if (snapshot.hasData) {
-                          final barangayData = snapshot.data;
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: barangayData?.length,
-                            itemBuilder: (context, index) {
-                              final item = barangayData![index];
-                              return InkWell(
-                                child: Card(
-                                  elevation: 2,
-                                  child: Container(
-                                    width: 120.w,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Container(
-                                            color: tcAsh,
-                                            child: item.image != null
-                                                ? Image.network(
-                                                    item.image!,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Center(
-                                                    child: Icon(
-                                                      Icons.question_mark,
-                                                      color: tcBlack,
-                                                    ),
-                                                  ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 5),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  item.name ?? '',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: 'PublicSans',
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: tcBlack,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  item.contact ?? '',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: 'PublicSans',
-                                                    fontSize: 12.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: tcBlack,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          return Center(
-                            child: Text('No data available'),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
+                children: [],
               ),
             ),
             SliverToBoxAdapter(
@@ -252,6 +154,55 @@ class _ContactWidgetState extends State<ContactWidget> {
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 30,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: barangayData.length,
+                        itemBuilder: (context, index) {
+                          final item = barangayData[index];
+                          return InkWell(
+                            onTap: () {},
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              decoration: BoxDecoration(
+                                color: tcAsh,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Center(
+                                  child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    item.name ?? '',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: tcBlack,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              )),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],

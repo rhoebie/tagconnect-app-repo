@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
+import 'package:taguigconnect/screens/contact-edit_screen.dart';
 
 class ContactViewScreen extends StatelessWidget {
   final ContactModel contact;
@@ -33,7 +34,17 @@ class ContactViewScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () async {},
+            onPressed: () async {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ContactEditScreen(
+                      contact: contact,
+                    );
+                  },
+                ),
+              );
+            },
             icon: Icon(Icons.edit),
           ),
         ],
@@ -145,7 +156,7 @@ class ContactViewScreen extends StatelessWidget {
                     color: Colors.transparent,
                   ),
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -158,7 +169,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: tcBlack,
                           ),
@@ -168,7 +179,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -181,7 +192,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: tcBlack,
                           ),
@@ -191,7 +202,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -204,7 +215,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: tcBlack,
                           ),
@@ -214,7 +225,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -227,7 +238,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                             color: tcBlack,
                           ),
@@ -237,7 +248,7 @@ class ContactViewScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -264,7 +275,7 @@ class ContactViewScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'PublicSans',
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       color: tcWhite,
                     ),

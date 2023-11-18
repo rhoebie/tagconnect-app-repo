@@ -5,15 +5,14 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
 
 class ContactEditScreen extends StatefulWidget {
-  //final ContactModel? contact; // Accept a ContactModel as a parameter
+  final ContactModel contact;
   const ContactEditScreen({
     super.key,
-    //required this.contact,
+    required this.contact,
   });
 
   @override
@@ -22,9 +21,13 @@ class ContactEditScreen extends StatefulWidget {
 
 class _ContactEditScreenState extends State<ContactEditScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
-  final FocusNode _nameFocus = FocusNode();
+  final FocusNode _firstNameFocus = FocusNode();
+  final FocusNode _lastNameFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
   final FocusNode _contactFocus = FocusNode();
   XFile? _image;
 
@@ -94,57 +97,39 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: tcWhite,
-                ),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Icon(Icons.abc)),
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Container(
-                height: 40.h,
-                child: ElevatedButton(
-                  onPressed: () => setState(() {
-                    _pickImage();
-                  }),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tcViolet,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.browse_gallery_outlined,
-                        size: 20,
-                        color: tcWhite,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'Update Image',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: tcWhite,
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () => setState(() {
+                  _pickImage();
+                }),
+                child: CircleAvatar(
+                  backgroundColor: tcAsh,
+                  radius: 50,
+                  child: widget.contact.image != null
+                      ? CircleAvatar(
+                          radius: 50,
+                          backgroundColor: tcAsh,
+                          backgroundImage: MemoryImage(
+                            base64Decode(widget.contact.image!),
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundColor: tcViolet,
+                          child: Center(
+                            child: Text(
+                              widget.contact.firstname!.isNotEmpty
+                                  ? widget.contact.firstname![0].toUpperCase()
+                                  : '?',
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 40.sp,
+                                fontWeight: FontWeight.w700,
+                                color: tcWhite,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               Divider(
@@ -153,36 +138,55 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
               Form(
                 key: _formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'First Name ',
+                          ),
+                          TextSpan(
+                            text: '(required)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: tcGray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 5,
+                    ),
                     TextFormField(
                       keyboardType: TextInputType.name,
-                      controller: _nameController,
-                      focusNode: _nameFocus,
+                      controller: _firstNameController,
+                      focusNode: _firstNameFocus,
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         color: tcBlack,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
                         errorMaxLines: 2,
-                        hintText: 'Enter Name',
+                        hintText: 'Enter First Name',
                         hintStyle: TextStyle(
                           fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
                           color: tcGray,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 14),
-                        prefixIcon: Icon(
-                          Icons.person,
-                          size: 20,
-                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,
@@ -219,8 +223,8 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ),
                       ),
                       validator: (value) {
-                        if (value == null) {
-                          return 'Name cannot be empty';
+                        if (value == null || value.isEmpty) {
+                          return 'First Name cannot be empty';
                         }
                         return null;
                       },
@@ -228,35 +232,238 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                     Divider(
                       color: Colors.transparent,
                     ),
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Last Name ',
+                          ),
+                          TextSpan(
+                            text: '(optiional)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: tcGray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 5,
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.name,
+                      controller: _lastNameController,
+                      focusNode: _lastNameFocus,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: tcBlack,
+                      ),
+                      decoration: InputDecoration(
+                        errorMaxLines: 2,
+                        hintText: 'Enter Last Name',
+                        hintStyle: TextStyle(
+                          fontFamily: 'PublicSans',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: tcGray,
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcBlack,
+                            width: 1.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcViolet,
+                            width: 2.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcRed,
+                            width: 2.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcGray,
+                            width: 2.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                    ),
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Email Address ',
+                          ),
+                          TextSpan(
+                            text: '(optional)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: tcGray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 5,
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.name,
+                      controller: _emailController,
+                      focusNode: _emailFocus,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: tcBlack,
+                      ),
+                      decoration: InputDecoration(
+                        errorMaxLines: 2,
+                        hintText: 'Enter email',
+                        hintStyle: TextStyle(
+                          fontFamily: 'PublicSans',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: tcGray,
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcBlack,
+                            width: 1.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcViolet,
+                            width: 2.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcRed,
+                            width: 2.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: tcGray,
+                            width: 2.w,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        } else {
+                          final emailPattern = RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,})$');
+
+                          if (!emailPattern.hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                    ),
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcBlack,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Phone Number ',
+                          ),
+                          TextSpan(
+                            text: '(required)',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: tcGray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 5,
+                    ),
                     TextFormField(
                       keyboardType: TextInputType.phone,
                       controller: _contactController,
                       focusNode: _contactFocus,
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         color: tcBlack,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Contact',
-                        labelStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
                         errorMaxLines: 2,
-                        hintText: 'Enter your phonenumber',
+                        hintText: 'Enter number',
                         hintStyle: TextStyle(
                           fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
                           color: tcGray,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 16),
-                        prefixIcon: Icon(
-                          Icons.phone,
-                          size: 20,
-                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,

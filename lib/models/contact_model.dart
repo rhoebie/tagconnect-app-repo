@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/screens/contact_view.dart';
+import 'package:taguigconnect/screens/contact_view_screen.dart';
 
 ContactModel contactModelFromJson(String str) =>
     ContactModel.fromJson(json.decode(str));
@@ -71,8 +71,24 @@ class ContactModel {
                 ),
               ),
             ),
-      title: Text(firstname ?? ''),
-      subtitle: Text(contact ?? ''),
+      title: Text(
+        firstname ?? '',
+        style: TextStyle(
+          fontFamily: 'Roboto',
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
+          color: tcBlack,
+        ),
+      ),
+      subtitle: Text(
+        contact ?? '',
+        style: TextStyle(
+          fontFamily: 'Roboto',
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w400,
+          color: tcGray,
+        ),
+      ),
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(

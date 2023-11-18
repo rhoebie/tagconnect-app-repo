@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
+import 'package:taguigconnect/widgets/home/contact_widget.dart';
 
 class ContactAddScreen extends StatefulWidget {
   const ContactAddScreen({super.key});
@@ -77,8 +78,16 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
       });
 
       await saveContacts();
+
       print('Done');
-      Navigator.of(context).pop();
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return ContactWidget();
+          },
+        ),
+      );
     } catch (e) {
       print(e);
     }
@@ -129,8 +138,8 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              if (_firstNameController.text != '' &&
-                  _contactController.text != '') {
+              if (_formKey.currentState != null &&
+                  _formKey.currentState!.validate()) {
                 await addContact();
               }
             },
@@ -144,31 +153,26 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: tcAsh,
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: () => setState(() {
-                      _pickImage();
-                    }),
-                    child: ClipOval(
-                      child: _image != null
-                          ? Image.file(
-                              File(_image!.path),
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : Icon(
-                              Icons.camera_rounded,
-                              color: tcBlack,
-                            ),
-                    ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(50),
+                  onTap: () => setState(() {
+                    _pickImage();
+                  }),
+                  child: CircleAvatar(
+                    backgroundColor: tcAsh,
+                    radius: 50,
+                    child: _image != null
+                        ? Image.file(
+                            File(_image!.path),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        : Icon(
+                            Icons.photo_camera,
+                            color: tcBlack,
+                            size: 30,
+                          ),
                   ),
                 ),
                 Divider(
@@ -179,14 +183,27 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'First Name',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                      RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: tcBlack,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'First Name ',
+                            ),
+                            TextSpan(
+                              text: '(required)',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: tcGray,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Divider(
@@ -249,7 +266,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                         ),
                         validator: (value) {
-                          if (value == null) {
+                          if (value == null || value.isEmpty) {
                             return 'First Name cannot be empty';
                           }
                           return null;
@@ -258,14 +275,27 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                       Divider(
                         color: Colors.transparent,
                       ),
-                      Text(
-                        'Last Name',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                      RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: tcBlack,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Last Name ',
+                            ),
+                            TextSpan(
+                              text: '(optiional)',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: tcGray,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Divider(
@@ -327,24 +357,31 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Last Name cannot be empty';
-                          }
-                          return null;
-                        },
                       ),
                       Divider(
                         color: Colors.transparent,
                       ),
-                      Text(
-                        'Email Address',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                      RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: tcBlack,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Email Address ',
+                            ),
+                            TextSpan(
+                              text: '(optional)',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: tcGray,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Divider(
@@ -407,7 +444,9 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                         ),
                         validator: (value) {
-                          if (value != null) {
+                          if (value == null || value.isEmpty) {
+                            return null;
+                          } else {
                             final emailPattern = RegExp(
                                 r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,})$');
 
@@ -415,21 +454,33 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                               return 'Please enter a valid email address';
                             }
                           }
-
                           return null;
                         },
                       ),
                       Divider(
                         color: Colors.transparent,
                       ),
-                      Text(
-                        'Phone Number',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                      RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: tcBlack,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Phone Number ',
+                            ),
+                            TextSpan(
+                              text: '(required)',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: tcGray,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Divider(
