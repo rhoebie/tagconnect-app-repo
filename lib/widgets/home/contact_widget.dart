@@ -261,7 +261,8 @@ class _ContactWidgetState extends State<ContactWidget> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return contacts[index].buildContactWidget();
+                  return contacts[index]
+                      .buildContactWidget(context, contacts[index]);
                 },
                 childCount: contacts.length,
               ),

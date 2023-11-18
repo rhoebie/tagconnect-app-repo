@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:taguigconnect/screens/contact_view.dart';
 
 ContactModel contactModelFromJson(String str) =>
     ContactModel.fromJson(json.decode(str));
@@ -44,7 +45,7 @@ class ContactModel {
         "image": image,
       };
 
-  Widget buildContactWidget() {
+  Widget buildContactWidget(BuildContext context, ContactModel contactData) {
     String firstLetter =
         firstname!.isNotEmpty ? firstname![0].toUpperCase() : '?';
 
@@ -57,7 +58,7 @@ class ContactModel {
               ),
             )
           : CircleAvatar(
-              backgroundColor: tcAsh,
+              backgroundColor: tcViolet,
               child: Center(
                 child: Text(
                   firstLetter,
@@ -65,7 +66,7 @@ class ContactModel {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
-                    color: tcBlack,
+                    color: tcWhite,
                   ),
                 ),
               ),
@@ -73,8 +74,15 @@ class ContactModel {
       title: Text(firstname ?? ''),
       subtitle: Text(contact ?? ''),
       onTap: () {
-        // Print the data of the selected contact
-        printContactData();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return ContactViewScreen(
+                contact: contactData,
+              );
+            },
+          ),
+        );
       },
     );
   }

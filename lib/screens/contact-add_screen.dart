@@ -78,6 +78,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
 
       await saveContacts();
       print('Done');
+      Navigator.of(context).pop();
     } catch (e) {
       print(e);
     }
@@ -109,7 +110,6 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tcWhite,
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: BackButton(),
         iconTheme: IconThemeData(color: tcBlack),
@@ -135,9 +135,6 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
               }
             },
             icon: Icon(Icons.check),
-          ),
-          VerticalDivider(
-            width: 10.w,
           ),
         ],
       ),
