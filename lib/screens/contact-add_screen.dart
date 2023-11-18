@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
-import 'package:taguigconnect/widgets/home/contact_widget.dart';
 
 class ContactAddScreen extends StatefulWidget {
-  const ContactAddScreen({super.key});
+  final VoidCallback callbackFunction;
+  const ContactAddScreen({super.key, required this.callbackFunction});
 
   @override
   State<ContactAddScreen> createState() => _ContactAddScreenState();
@@ -63,6 +62,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
       int lastId = 0;
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
       File file = File('${documentsDirectory.path}/contacts.txt');
+      print('${documentsDirectory.path}/contacts.txt');
       if (file.existsSync()) {
         String existingJsonData = file.readAsStringSync();
         if (existingJsonData.isNotEmpty) {
@@ -103,6 +103,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
       file.writeAsStringSync(jsonData);
 
       print('Done');
+      widget.callbackFunction.call();
       Navigator.of(context).pop();
     } catch (e) {
       print(e);
@@ -156,11 +157,14 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                     backgroundColor: tcAsh,
                     radius: 50,
                     child: _image != null
-                        ? Image.file(
-                            File(_image!.path),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
+                        ? ClipRRect(
+                            borderRadius: BorderRadiusDirectional.circular(50),
+                            child: Image.file(
+                              File(_image!.path),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
                           )
                         : Icon(
                             Icons.photo_camera,

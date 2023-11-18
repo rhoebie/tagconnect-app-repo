@@ -139,7 +139,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       text: TextSpan(
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: tcBlack,
                         ),
@@ -162,7 +162,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       text: TextSpan(
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
                           color: tcBlack,
                         ),
@@ -269,7 +269,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
                     color: tcBlack,
                   ),
@@ -310,7 +310,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -345,7 +345,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -380,7 +380,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -415,7 +415,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: tcBlack,
                           ),
@@ -438,7 +438,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -450,7 +450,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
                           color: tcViolet,
                         ),
@@ -579,7 +579,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'PublicSans',
-                                                          fontSize: 16.sp,
+                                                          fontSize: 14.sp,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           color: tcBlack,

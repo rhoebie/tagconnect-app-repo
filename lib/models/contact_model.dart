@@ -49,7 +49,8 @@ class ContactModel {
         "image": image,
       };
 
-  Widget buildContactWidget(BuildContext context, ContactModel contactData) {
+  Widget buildContactWidget(
+      BuildContext context, ContactModel contactData, VoidCallback voidFunct) {
     String firstLetter =
         firstname!.isNotEmpty ? firstname![0].toUpperCase() : '?';
 
@@ -99,6 +100,7 @@ class ContactModel {
             builder: (context) {
               return ContactViewScreen(
                 contact: contactData,
+                callbackFunction: voidFunct,
               );
             },
           ),

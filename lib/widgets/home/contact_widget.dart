@@ -9,6 +9,7 @@ import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/models/contact_model.dart';
 import 'package:taguigconnect/screens/contact-add_screen.dart';
 import 'package:taguigconnect/services/barangay_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactWidget extends StatefulWidget {
   const ContactWidget({super.key});
@@ -19,6 +20,7 @@ class ContactWidget extends StatefulWidget {
 
 class _ContactWidgetState extends State<ContactWidget> {
   List<ContactModel> contacts = [];
+  List<ContactModel> filteredContacts = [];
   List<BarangayModel> barangayData = [];
 
   Future<void> loadContacts() async {
@@ -33,8 +35,25 @@ class _ContactWidgetState extends State<ContactWidget> {
             contactsData.map((data) => ContactModel.fromJson(data)).toList();
         contacts
             .sort((a, b) => (a.firstname ?? '').compareTo(b.firstname ?? ''));
+        filteredContacts = contacts;
       });
     }
+  }
+
+  void filterContacts(String query) {
+    query = query.toLowerCase();
+    setState(() {
+      if (query.isEmpty || query == '') {
+        // Show all contacts when the query is empty or null
+        filteredContacts = List.from(contacts);
+      } else {
+        // Filter based on the search query
+        filteredContacts = contacts
+            .where(
+                (contact) => contact.firstname!.toLowerCase().contains(query))
+            .toList();
+      }
+    });
   }
 
   Future<void> fetchBarangay() async {
@@ -91,6 +110,9 @@ class _ContactWidgetState extends State<ContactWidget> {
                         ],
                       ),
                       child: TextField(
+                        onChanged: (value) {
+                          filterContacts(value);
+                        },
                         decoration: InputDecoration(
                           hintText: 'Search',
                           hintStyle: TextStyle(
@@ -110,9 +132,11 @@ class _ContactWidgetState extends State<ContactWidget> {
                     width: 10,
                   ),
                   Card(
+                    shape: CircleBorder(),
                     elevation: 5,
                     color: tcViolet,
                     child: IconButton(
+                      tooltip: 'Add Contact',
                       icon: Icon(
                         Icons.add,
                         color: Colors.white,
@@ -121,7 +145,9 @@ class _ContactWidgetState extends State<ContactWidget> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return ContactAddScreen();
+                              return ContactAddScreen(
+                                callbackFunction: loadContacts,
+                              );
                             },
                           ),
                         );
@@ -131,11 +157,6 @@ class _ContactWidgetState extends State<ContactWidget> {
                 ],
               ),
               centerTitle: true,
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [],
-              ),
             ),
             SliverToBoxAdapter(
               child: Padding(
@@ -169,7 +190,13 @@ class _ContactWidgetState extends State<ContactWidget> {
                         itemBuilder: (context, index) {
                           final item = barangayData[index];
                           return InkWell(
-                            onTap: () {},
+                            onTap: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: item.contact,
+                              );
+                              await launchUrl(launchUri);
+                            },
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 2.5),
@@ -212,10 +239,10 @@ class _ContactWidgetState extends State<ContactWidget> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return contacts[index]
-                      .buildContactWidget(context, contacts[index]);
+                  return filteredContacts[index].buildContactWidget(
+                      context, filteredContacts[index], loadContacts);
                 },
-                childCount: contacts.length,
+                childCount: filteredContacts.length,
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -11,9 +12,11 @@ import 'package:taguigconnect/models/contact_model.dart';
 
 class ContactEditScreen extends StatefulWidget {
   final ContactModel contact;
+  final VoidCallback callbackFunction;
   const ContactEditScreen({
     super.key,
     required this.contact,
+    required this.callbackFunction,
   });
 
   @override
@@ -58,18 +61,20 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
     return uint8list;
   }
 
-  Future<void> updateContact(int contactId) async {
+  Future<void> updateContact(ContactModel contactModel) async {
     try {
       String firstName = _firstNameController.text;
       String lastName = _lastNameController.text;
       String email = _emailController.text;
       String phoneNumber = _contactController.text;
 
-      String? base64Image = await convertXFileToBase64(_image);
+      String? base64Image = _image != null
+          ? await convertXFileToBase64(_image)
+          : contactModel.image;
 
       // Create a new ContactModel instance with the updated data
       ContactModel updatedContact = ContactModel(
-        id: contactId,
+        id: contactModel.id,
         firstname: firstName,
         lastname: lastName,
         email: email,
@@ -90,15 +95,38 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
         }
       }
 
-      // Update the contact data in the existing data
-      existingContactsData.removeWhere((contact) => contact['id'] == contactId);
-      existingContactsData.add(updatedContact.toJson());
+      // Find the index of the contact with the specified contactId
+      int contactIndex = existingContactsData
+          .indexWhere((contact) => contact['id'] == contactModel.id);
+
+      if (contactIndex != -1) {
+        // Update only the fields that are not null in the updatedContact
+        if (updatedContact.firstname != null) {
+          existingContactsData[contactIndex]['firstname'] =
+              updatedContact.firstname;
+        }
+        if (updatedContact.lastname != null) {
+          existingContactsData[contactIndex]['lastname'] =
+              updatedContact.lastname;
+        }
+        if (updatedContact.email != null) {
+          existingContactsData[contactIndex]['email'] = updatedContact.email;
+        }
+        if (updatedContact.contact != null) {
+          existingContactsData[contactIndex]['contact'] =
+              updatedContact.contact;
+        }
+        if (updatedContact.image != null) {
+          existingContactsData[contactIndex]['image'] = updatedContact.image;
+        }
+      }
 
       // Write combined data back to the file
       String jsonData = json.encode(existingContactsData);
       file.writeAsStringSync(jsonData);
 
       print('Contact updated');
+      widget.callbackFunction.call();
       Navigator.of(context).pop();
     } catch (e) {
       print('Error updating contact: $e');
@@ -145,13 +173,10 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
             onPressed: () async {
               if (_formKey.currentState != null &&
                   _formKey.currentState!.validate()) {
-                await updateContact(widget.contact.id);
+                await updateContact(widget.contact);
               }
             },
             icon: Icon(Icons.check),
-          ),
-          VerticalDivider(
-            width: 10.w,
           ),
         ],
       ),
@@ -165,35 +190,44 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                 onTap: () => setState(() {
                   _pickImage();
                 }),
-                child: CircleAvatar(
-                  backgroundColor: tcAsh,
-                  radius: 50,
-                  child: widget.contact.image != null
-                      ? CircleAvatar(
-                          radius: 50,
-                          backgroundColor: tcAsh,
-                          backgroundImage: MemoryImage(
-                            base64Decode(widget.contact.image!),
+                child: _image != null
+                    ? CircleAvatar(
+                        radius: 50,
+                        child: ClipRRect(
+                          borderRadius: BorderRadiusDirectional.circular(50),
+                          child: Image.file(
+                            File(_image!.path),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
                           ),
-                        )
-                      : CircleAvatar(
-                          radius: 50,
-                          backgroundColor: tcViolet,
-                          child: Center(
-                            child: Text(
-                              widget.contact.firstname!.isNotEmpty
-                                  ? widget.contact.firstname![0].toUpperCase()
-                                  : '?',
-                              style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 40.sp,
-                                fontWeight: FontWeight.w700,
-                                color: tcWhite,
+                        ),
+                      )
+                    : widget.contact.image != null
+                        ? CircleAvatar(
+                            radius: 50,
+                            backgroundColor: tcAsh,
+                            backgroundImage: MemoryImage(
+                              base64Decode(widget.contact.image!),
+                            ),
+                          )
+                        : CircleAvatar(
+                            radius: 50,
+                            backgroundColor: tcViolet,
+                            child: Center(
+                              child: Text(
+                                widget.contact.firstname!.isNotEmpty
+                                    ? widget.contact.firstname![0].toUpperCase()
+                                    : '?',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 40.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: tcWhite,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                ),
               ),
               Divider(
                 color: Colors.transparent,

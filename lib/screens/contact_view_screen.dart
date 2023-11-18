@@ -7,10 +7,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
 import 'package:taguigconnect/screens/contact-edit_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactViewScreen extends StatelessWidget {
   final ContactModel contact;
-  const ContactViewScreen({super.key, required this.contact});
+  final VoidCallback callbackFunction;
+  const ContactViewScreen(
+      {super.key, required this.contact, required this.callbackFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,8 @@ class ContactViewScreen extends StatelessWidget {
               file.writeAsStringSync(jsonData);
 
               print('Contact deleted successfully');
+              callbackFunction.call();
+              Navigator.of(context).pop();
             } else {
               print('Contact not found in existing data');
             }
@@ -67,9 +72,10 @@ class ContactViewScreen extends StatelessWidget {
             color: tcBlack,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w400,
           ),
         ),
+        centerTitle: false,
         actions: [
           IconButton(
             onPressed: () async {
@@ -78,12 +84,38 @@ class ContactViewScreen extends StatelessWidget {
                   builder: (context) {
                     return ContactEditScreen(
                       contact: contact,
+                      callbackFunction: callbackFunction,
                     );
                   },
                 ),
               );
             },
             icon: Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('System'),
+                  content: Text(
+                      'Are you sure you want to delete ${contact.firstname ?? ''} in your contacts?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('No'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await deleteContact(contact.id);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: Icon(Icons.delete),
           ),
         ],
       ),
@@ -121,75 +153,174 @@ class ContactViewScreen extends StatelessWidget {
                   Divider(
                     color: Colors.transparent,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: tcAsh,
-                            radius: 30,
-                            child: Icon(
-                              Icons.message,
-                              color: tcViolet,
+                  contact.email != ''
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  onTap: () async {
+                                    final Uri launchUri = Uri(
+                                      scheme: 'sms',
+                                      path: contact.contact,
+                                    );
+                                    await launchUrl(launchUri);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: tcAsh,
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.message,
+                                      color: tcViolet,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Message',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcBlack,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            'Message',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                            Column(
+                              children: [
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  onTap: () async {
+                                    final Uri launchUri = Uri(
+                                      scheme: 'tel',
+                                      path: contact.contact,
+                                    );
+                                    await launchUrl(launchUri);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: tcAsh,
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: tcViolet,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Call',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcBlack,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: tcAsh,
-                            radius: 30,
-                            child: Icon(
-                              Icons.phone,
-                              color: tcViolet,
+                            Column(
+                              children: [
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  onTap: () async {
+                                    final Uri launchUri = Uri(
+                                      scheme: 'mailto',
+                                      path: contact.email,
+                                    );
+                                    await launchUrl(launchUri);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: tcAsh,
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.email,
+                                      color: tcViolet,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Email',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcBlack,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            'Call',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  onTap: () async {
+                                    final Uri launchUri = Uri(
+                                      scheme: 'sms',
+                                      path: contact.contact,
+                                    );
+                                    await launchUrl(launchUri);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: tcAsh,
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.message,
+                                      color: tcViolet,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Message',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcBlack,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: tcAsh,
-                            radius: 30,
-                            child: Icon(
-                              Icons.email,
-                              color: tcViolet,
+                            Column(
+                              children: [
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  onTap: () async {
+                                    final Uri launchUri = Uri(
+                                      scheme: 'tel',
+                                      path: contact.contact,
+                                    );
+                                    await launchUrl(launchUri);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: tcAsh,
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: tcViolet,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Call',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcBlack,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            'Email',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: tcBlack,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                          ],
+                        ),
                   Divider(
                     color: Colors.transparent,
                   ),
@@ -295,32 +426,6 @@ class ContactViewScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              Container(
-                width: double.infinity,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await deleteContact(contact.id);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tcRed,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: Text(
-                    'Delete',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: tcWhite,
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
