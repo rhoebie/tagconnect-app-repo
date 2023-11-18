@@ -15,6 +15,7 @@ ContactModel contactModelFromJson(String str) =>
 String contactModelToJson(ContactModel data) => json.encode(data.toJson());
 
 class ContactModel {
+  int id;
   String? firstname;
   String? lastname;
   String? email;
@@ -22,6 +23,7 @@ class ContactModel {
   String? image;
 
   ContactModel({
+    required this.id,
     this.firstname,
     this.lastname,
     this.email,
@@ -30,6 +32,7 @@ class ContactModel {
   });
 
   factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
+        id: json["id"],
         firstname: json["firstname"],
         lastname: json["lastname"],
         email: json["email"],
@@ -38,6 +41,7 @@ class ContactModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "firstname": firstname,
         "lastname": lastname,
         "email": email,

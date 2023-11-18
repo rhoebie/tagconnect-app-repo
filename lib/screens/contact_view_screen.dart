@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
 import 'package:taguigconnect/screens/contact-edit_screen.dart';
@@ -12,9 +14,45 @@ class ContactViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> deleteContact(int contactId) async {
+      try {
+        Directory documentsDirectory = await getApplicationDocumentsDirectory();
+        File file = File('${documentsDirectory.path}/contacts.txt');
+
+        if (file.existsSync()) {
+          String existingJsonData = file.readAsStringSync();
+          if (existingJsonData.isNotEmpty) {
+            List<Map<String, dynamic>> existingContactsData =
+                (json.decode(existingJsonData) as List<dynamic>)
+                    .cast<Map<String, dynamic>>();
+
+            // Find the contact in existing data by ID
+            int existingIndex = existingContactsData
+                .indexWhere((data) => data['id'] == contactId);
+
+            if (existingIndex != -1) {
+              // Remove the contact from the existing data
+              existingContactsData.removeAt(existingIndex);
+
+              // Write the updated data back to the file
+              String jsonData = json.encode(existingContactsData);
+              file.writeAsStringSync(jsonData);
+
+              print('Contact deleted successfully');
+            } else {
+              print('Contact not found in existing data');
+            }
+          }
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+
     String firstLetter = contact.firstname!.isNotEmpty
         ? contact.firstname![0].toUpperCase()
         : '?';
+
     return Scaffold(
       backgroundColor: tcWhite,
       appBar: AppBar(
@@ -262,7 +300,9 @@ class ContactViewScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    await deleteContact(contact.id);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: tcRed,
                     shape: RoundedRectangleBorder(

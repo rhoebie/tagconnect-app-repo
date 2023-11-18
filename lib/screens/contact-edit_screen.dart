@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/contact_model.dart';
 
@@ -20,6 +21,7 @@ class ContactEditScreen extends StatefulWidget {
 }
 
 class _ContactEditScreenState extends State<ContactEditScreen> {
+  late ContactModel contactData;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -56,9 +58,65 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
     return uint8list;
   }
 
+  Future<void> updateContact(int contactId) async {
+    try {
+      String firstName = _firstNameController.text;
+      String lastName = _lastNameController.text;
+      String email = _emailController.text;
+      String phoneNumber = _contactController.text;
+
+      String? base64Image = await convertXFileToBase64(_image);
+
+      // Create a new ContactModel instance with the updated data
+      ContactModel updatedContact = ContactModel(
+        id: contactId,
+        firstname: firstName,
+        lastname: lastName,
+        email: email,
+        contact: phoneNumber,
+        image: base64Image,
+      );
+
+      // Read existing data
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      File file = File('${documentsDirectory.path}/contacts.txt');
+      List<Map<String, dynamic>> existingContactsData = [];
+      if (file.existsSync()) {
+        String existingJsonData = file.readAsStringSync();
+        if (existingJsonData.isNotEmpty) {
+          existingContactsData =
+              (json.decode(existingJsonData) as List<dynamic>)
+                  .cast<Map<String, dynamic>>();
+        }
+      }
+
+      // Update the contact data in the existing data
+      existingContactsData.removeWhere((contact) => contact['id'] == contactId);
+      existingContactsData.add(updatedContact.toJson());
+
+      // Write combined data back to the file
+      String jsonData = json.encode(existingContactsData);
+      file.writeAsStringSync(jsonData);
+
+      print('Contact updated');
+      Navigator.of(context).pop();
+    } catch (e) {
+      print('Error updating contact: $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    contactData = widget.contact;
+    _firstNameController.text =
+        widget.contact.firstname != null ? widget.contact.firstname! : '';
+    _lastNameController.text =
+        widget.contact.lastname != null ? widget.contact.lastname! : '';
+    _emailController.text =
+        widget.contact.email != null ? widget.contact.email! : '';
+    _contactController.text =
+        widget.contact.contact != null ? widget.contact.contact! : '';
   }
 
   @override
@@ -84,7 +142,12 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () async {},
+            onPressed: () async {
+              if (_formKey.currentState != null &&
+                  _formKey.currentState!.validate()) {
+                await updateContact(widget.contact.id);
+              }
+            },
             icon: Icon(Icons.check),
           ),
           VerticalDivider(

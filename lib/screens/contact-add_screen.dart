@@ -19,7 +19,6 @@ class ContactAddScreen extends StatefulWidget {
 }
 
 class _ContactAddScreenState extends State<ContactAddScreen> {
-  List<ContactModel> contacts = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -51,16 +50,33 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
     return base64String;
   }
 
-  Future<void> addContact() async {
-    String firstName = _firstNameController.text;
-    String lastName = _lastNameController.text;
-    String email = _emailController.text;
-    String phoneNumber = _contactController.text;
-
+  Future<void> addAndSaveContact() async {
     try {
+      String firstName = _firstNameController.text;
+      String lastName = _lastNameController.text;
+      String email = _emailController.text;
+      String phoneNumber = _contactController.text;
+
       String? base64Image = await convertXFileToBase64(_image);
 
+      // Read the last ID from existing contacts
+      int lastId = 0;
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      File file = File('${documentsDirectory.path}/contacts.txt');
+      if (file.existsSync()) {
+        String existingJsonData = file.readAsStringSync();
+        if (existingJsonData.isNotEmpty) {
+          List<Map<String, dynamic>> existingContactsData =
+              (json.decode(existingJsonData) as List<dynamic>)
+                  .cast<Map<String, dynamic>>();
+          if (existingContactsData.isNotEmpty) {
+            lastId = existingContactsData.last['id'] ?? 0;
+          }
+        }
+      }
+
       ContactModel newContact = ContactModel(
+        id: lastId + 1,
         firstname: firstName,
         lastname: lastName,
         email: email,
@@ -68,51 +84,29 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
         image: base64Image,
       );
 
-      setState(() {
-        contacts.add(newContact);
-        _firstNameController.clear();
-        _lastNameController.clear();
-        _emailController.clear();
-        _contactController.clear();
-        _image = null;
-      });
+      // Read existing data
+      List<Map<String, dynamic>> existingContactsData = [];
+      if (file.existsSync()) {
+        String existingJsonData = file.readAsStringSync();
+        if (existingJsonData.isNotEmpty) {
+          existingContactsData =
+              (json.decode(existingJsonData) as List<dynamic>)
+                  .cast<Map<String, dynamic>>();
+        }
+      }
 
-      await saveContacts();
+      // Append new contact data
+      existingContactsData.add(newContact.toJson());
+
+      // Write combined data back to the file
+      String jsonData = json.encode(existingContactsData);
+      file.writeAsStringSync(jsonData);
 
       print('Done');
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) {
-            return ContactWidget();
-          },
-        ),
-      );
+      Navigator.of(context).pop();
     } catch (e) {
       print(e);
     }
-  }
-
-  Future<void> saveContacts() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    File file = File('${documentsDirectory.path}/contacts.txt');
-
-    // Read existing data
-    List<Map<String, dynamic>> existingContactsData = [];
-    if (file.existsSync()) {
-      String existingJsonData = file.readAsStringSync();
-      existingContactsData = (json.decode(existingJsonData) as List<dynamic>)
-          .cast<Map<String, dynamic>>();
-    }
-
-    // Append new contact data
-    List<Map<String, dynamic>> newContactsData =
-        contacts.map((contact) => contact.toJson()).toList();
-    existingContactsData.addAll(newContactsData);
-
-    // Write combined data back to the file
-    String jsonData = json.encode(existingContactsData);
-    file.writeAsStringSync(jsonData);
   }
 
   @override
@@ -140,7 +134,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
             onPressed: () async {
               if (_formKey.currentState != null &&
                   _formKey.currentState!.validate()) {
-                await addContact();
+                await addAndSaveContact();
               }
             },
             icon: Icon(Icons.check),
