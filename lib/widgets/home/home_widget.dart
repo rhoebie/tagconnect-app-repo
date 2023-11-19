@@ -232,30 +232,31 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                       ),
                       Positioned(
-                          right: 15,
-                          bottom: 10,
-                          child: Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: tcWhite,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                elevation: 2,
+                        right: 15,
+                        bottom: 10,
+                        child: Container(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: tcWhite,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Text(
-                                'One tap report',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: tcViolet,
-                                ),
+                              elevation: 2,
+                            ),
+                            child: Text(
+                              'One tap report',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w700,
+                                color: tcViolet,
                               ),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
