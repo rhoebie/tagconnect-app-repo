@@ -27,16 +27,36 @@ class _FeedWidgetState extends State<FeedWidget> {
   late List<FeedModel> initialReportData; // Store the initial data
   List<FeedModel> featuredReport = []; // Initial data for PageView
   List<FeedModel> reportData = [];
+  List<FeedModel> filteredReportData = [];
   List<BarangayModel> barangayData = [];
   int _currentPage = 0;
   int currentPage = 1;
   int totalPage = 1;
-
+  bool isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
+
+  void filterReport(String query) {
+    query = query.toLowerCase();
+    setState(() {
+      if (query.isEmpty || query == '') {
+        // Show all contacts when the query is empty or null
+        filteredReportData = List.from(reportData);
+      } else {
+        // Filter based on the search query
+        filteredReportData = reportData
+            .where(
+                (report) => report.emergencyType!.toLowerCase().contains(query))
+            .toList();
+      }
+    });
+  }
 
   Future<void> fetchReportData(String barangayName, {int page = 1}) async {
     if (page > totalPage) {
       // No more data to fetch
+      setState(() {
+        isLoadingMore = false;
+      });
       print('no more page');
       return;
     }
@@ -69,11 +89,14 @@ class _FeedWidgetState extends State<FeedWidget> {
         setState(() {
           if (page == 1) {
             reportData = reports;
+            filteredReportData = reports;
           } else {
             reportData.addAll(reports); // Append new data
+            filteredReportData.addAll(reports); // Append new data
           }
           totalPage = responseData['meta']['total_page'];
           currentPage = page;
+          isLoadingMore = false;
         });
       } else {
         // If the server did not return a 200 OK response,
@@ -115,6 +138,9 @@ class _FeedWidgetState extends State<FeedWidget> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         // Reached the end of the list, load more data
+        setState(() {
+          isLoadingMore = true;
+        });
         fetchReportData('all', page: currentPage + 1);
       }
     });
@@ -150,6 +176,55 @@ class _FeedWidgetState extends State<FeedWidget> {
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
+            SliverAppBar(
+              pinned: false,
+              floating: true,
+              snap: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: tcWhite,
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: TextField(
+                          onChanged: (value) {
+                            filterReport(value);
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            hintStyle: TextStyle(
+                              color: tcGray,
+                            ),
+                            icon: Icon(
+                              Icons.search,
+                              color: tcGray,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             SliverToBoxAdapter(
               child: Container(
                 margin: EdgeInsets.only(top: 10),
@@ -390,7 +465,7 @@ class _FeedWidgetState extends State<FeedWidget> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final item = reportData[index];
+                    final item = filteredReportData[index];
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -501,10 +576,34 @@ class _FeedWidgetState extends State<FeedWidget> {
                       ),
                     );
                   },
-                  childCount: reportData.length,
+                  childCount: filteredReportData.length,
                 ),
               ),
             ),
+            SliverVisibility(
+              visible: isLoadingMore,
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  height: 50,
+                  margin: EdgeInsetsDirectional.symmetric(vertical: 15),
+                  child: Center(
+                    child: isLoadingMore
+                        ? CircularProgressIndicator()
+                        : Container(
+                            child: Text(
+                              'End of List',
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: tcBlack,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

@@ -53,6 +53,17 @@ class NewsModel {
 
   Widget buildContactWidget(BuildContext context, NewsModel newsData) {
     return ListTile(
+      leading: image != null
+          ? CircleAvatar(
+              backgroundColor: tcAsh,
+              backgroundImage: NetworkImage(
+                image!,
+              ),
+            )
+          : CircleAvatar(
+              backgroundColor: tcAsh,
+              child: Center(child: Icon(Icons.question_mark)),
+            ),
       title: Text(
         title ?? '',
         style: TextStyle(

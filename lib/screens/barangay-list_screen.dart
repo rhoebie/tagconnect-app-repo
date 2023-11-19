@@ -7,9 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/calculate_constant.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/constants/endpoint_constant.dart';
-import 'package:taguigconnect/models/barangay-response_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:taguigconnect/models/barangay_model.dart';
+import 'package:taguigconnect/services/barangay_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BarangayListScreen extends StatefulWidget {
@@ -24,12 +24,11 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
   double? userLongitude;
   String? imageUrl;
 
-  Future<List<String>?> calculateDistances() async {
+  Future<List<String>> calculateDistances() async {
     List<String> distances = [];
 
     try {
-      final AverageReportModel? averageReportModel = await fetchBarangay();
-
+      final List<BarangayModel> barangays = await fetchBarangay();
       final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
       final Position position = await geolocator.getCurrentPosition(
         locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
@@ -38,57 +37,39 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
       userLatitude = position.latitude;
       userLongitude = position.longitude;
 
-      if (averageReportModel != null && averageReportModel.average != null) {
-        // Access the list of Average objects
-        List<Average>? averageList = averageReportModel.average;
+      for (BarangayModel barangay in barangays) {
+        if (barangay.location != null) {
+          Location barangayLocation = barangay.location!;
 
-        if (averageList != null && averageList.isNotEmpty) {
-          // Access individual Average objects
-          for (Average average in averageList) {
-            if (average.barangay != null) {
-              final distanceReport = HaversineCalculator.calculateDistance(
-                  userLatitude!,
-                  userLongitude!,
-                  average.barangay!.location!.latitude!,
-                  average.barangay!.location!.longitude!);
+          final distanceReport = HaversineCalculator.calculateDistance(
+            userLatitude!,
+            userLongitude!,
+            barangayLocation.latitude!,
+            barangayLocation.longitude!,
+          );
 
-              distances.add(distanceReport);
-            }
-          }
+          distances.add(distanceReport);
         }
       }
     } catch (e) {
       print('Error: $e');
-      return null;
+      return [];
     }
 
     return distances;
   }
 
-  Future<AverageReportModel?> fetchBarangay() async {
-    const apiUrl = 'https://taguigconnect.online/api/average-response';
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<List<BarangayModel>> fetchBarangay() async {
     try {
-      final token = prefs.getString('token');
-      final response = await http.get(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
+      final barangayService = BarangayService();
+      final List<BarangayModel> fetchData =
+          await barangayService.getbarangays();
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        return AverageReportModel.fromJson(data);
-      } else {
-        print('Failed to load data. Status code: ${response.statusCode}');
-        return null;
-      }
+      return fetchData;
     } catch (e) {
       print('Error: $e');
-      return null;
     }
+    return [];
   }
 
   @override
@@ -145,9 +126,11 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else if (snapshot.hasData) {
-                      final data1 = snapshot.data![0] as AverageReportModel;
+                      final List<BarangayModel> data1 =
+                          snapshot.data![0] as List<BarangayModel>;
                       final List<String> data2 =
                           snapshot.data![1] as List<String>;
+
                       return GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -155,15 +138,10 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 10,
                         ),
-                        itemCount: data1.average!.length,
+                        itemCount: data1.length,
                         itemBuilder: (context, index) {
-                          final item = data1.average![index];
+                          final item = data1[index];
                           final distance = data2[index];
-                          item.barangay!.image == null
-                              ? imageUrl = null
-                              : imageUrl =
-                                  ApiConstants.baseUrl + item.barangay!.image!;
-
                           return InkWell(
                             onTap: () {
                               showModalBottomSheet(
@@ -171,91 +149,87 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                 isScrollControlled: true,
                                 builder: (context) {
                                   return BarangayDetailWidget(
-                                      barangayModel: item,
-                                      userLatitude: userLatitude,
-                                      userLongitude: userLongitude);
+                                    barangayModel: item,
+                                    userLatitude: userLatitude,
+                                    userLongitude: userLongitude,
+                                  );
                                 },
                               );
                             },
-                            child: Container(
-                              width: 200.w,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(10)),
-                                      child: Container(
-                                        color: tcAsh,
-                                        height: 150.h,
-                                        width: double.infinity,
-                                        child: imageUrl == null
-                                            ? Center(
-                                                child: Icon(
-                                                  Icons.question_mark,
-                                                  size: 50,
-                                                  color: tcBlack,
+                            child: Card(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(5)),
+                                        child: Container(
+                                          color: tcAsh,
+                                          height: 130.h,
+                                          width: double.infinity,
+                                          child: item.image != null
+                                              ? Image.network(
+                                                  item.image!,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Center(
+                                                  child: Icon(
+                                                    Icons.question_mark,
+                                                    size: 50,
+                                                    color: tcBlack,
+                                                  ),
                                                 ),
-                                              )
-                                            : Image.network(
-                                                imageUrl!,
-                                                fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.name!,
+                                              style: TextStyle(
+                                                color: tcBlack,
+                                                fontFamily: 'PublicSans',
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w700,
                                               ),
+                                            ),
+                                            AutoSizeText(
+                                              'Address: ${item.address!}',
+                                              maxLines: 2,
+                                              overflow: TextOverflow
+                                                  .ellipsis, // Handle overflow with ellipsis
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                color: tcBlack,
+                                                fontFamily: 'PublicSans',
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Distance: $distance',
+                                              style: TextStyle(
+                                                color: tcBlack,
+                                                fontFamily: 'PublicSans',
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            item.barangay!.name!,
-                                            style: TextStyle(
-                                              color: tcBlack,
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          AutoSizeText(
-                                            'Address: ${item.barangay!.address!}',
-                                            maxLines: 3,
-                                            overflow: TextOverflow
-                                                .ellipsis, // Handle overflow with ellipsis
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              color: tcBlack,
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Distance: $distance',
-                                            style: TextStyle(
-                                              color: tcBlack,
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -278,7 +252,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
 }
 
 class BarangayDetailWidget extends StatelessWidget {
-  final Average barangayModel;
+  final BarangayModel barangayModel;
   final double? userLatitude;
   final double? userLongitude;
   const BarangayDetailWidget(
@@ -289,14 +263,6 @@ class BarangayDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? imageUrl;
-
-    if (barangayModel.barangay!.image == null) {
-      imageUrl = "";
-    } else {
-      imageUrl = ApiConstants.baseUrl + barangayModel.barangay!.image!;
-    }
-
     return Container(
       padding: EdgeInsets.only(bottom: 10),
       height: 600.h,
@@ -309,7 +275,7 @@ class BarangayDetailWidget extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 200,
-                child: imageUrl.isEmpty
+                child: barangayModel.image == null
                     ? Center(
                         child: Icon(
                           Icons.question_mark,
@@ -318,7 +284,7 @@ class BarangayDetailWidget extends StatelessWidget {
                         ),
                       )
                     : Image.network(
-                        imageUrl,
+                        barangayModel.image!,
                         fit: BoxFit.cover,
                       ),
               ),
@@ -332,7 +298,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          barangayModel.barangay!.name!,
+                          barangayModel.name!,
                           style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 20.sp,
@@ -354,7 +320,7 @@ class BarangayDetailWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              barangayModel.barangay!.district.toString(),
+                              barangayModel.district.toString(),
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
                                 fontSize: 16.sp,
@@ -379,7 +345,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      barangayModel.barangay!.contact!,
+                      barangayModel.contact!,
                       style: TextStyle(
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
@@ -400,7 +366,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      barangayModel.barangay!.address!,
+                      barangayModel.address!,
                       style: TextStyle(
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
@@ -421,7 +387,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      barangayModel.responseTime!,
+                      barangayModel.analytics!.responseTime!,
                       style: TextStyle(
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
@@ -442,7 +408,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      barangayModel.resolvedReports.toString(),
+                      barangayModel.analytics!.totalReports!.toString(),
                       style: TextStyle(
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
@@ -463,7 +429,7 @@ class BarangayDetailWidget extends StatelessWidget {
               onPressed: () async {
                 if (userLatitude != null && userLongitude != null) {
                   final Uri launchUri = Uri.parse(
-                      'https://www.google.com/maps/dir/$userLatitude, $userLongitude/${barangayModel.barangay!.location!.latitude!},${barangayModel.barangay!.location!.longitude!}');
+                      'https://www.google.com/maps/dir/$userLatitude, $userLongitude/${barangayModel.location!.latitude!},${barangayModel.location!.longitude!}');
                   await launchUrl(launchUri);
                 }
               },

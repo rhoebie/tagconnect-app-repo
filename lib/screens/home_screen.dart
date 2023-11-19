@@ -5,6 +5,7 @@ import 'package:taguigconnect/widgets/home/feed_widget.dart';
 import 'package:taguigconnect/widgets/home/contact_widget.dart';
 import 'package:taguigconnect/widgets/home/explore_widget.dart';
 import 'package:taguigconnect/widgets/home/home_widget.dart';
+import 'package:taguigconnect/widgets/home/menu_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,189 +41,29 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: tcWhite,
         automaticallyImplyLeading: false,
-        centerTitle: true,
+        centerTitle: false,
         toolbarHeight: 40,
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Builder(
-              builder: (BuildContext context) {
-                return InkWell(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: Container(
-                    child: Icon(
-                      Icons.menu,
-                      size: 25,
-                      color: tcBlack,
-                    ),
-                  ),
-                );
-              },
-            ),
-            Text(
-              getTitleForIndex(_currentIndex),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w900,
-                color: tcBlack,
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                print('Hello');
-              },
-              child: Container(
-                child: Icon(
-                  Icons.notifications_rounded,
-                  size: 25,
-                  color: tcBlack,
-                ),
-              ),
-            ),
-          ],
+        title: Text(
+          getTitleForIndex(_currentIndex),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w900,
+            color: tcBlack,
+          ),
         ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: tcViolet,
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      'TaguigAlert',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcWhite,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.notifications_rounded,
+              size: 25,
+              color: tcBlack,
             ),
-            ListTile(
-              leading: Icon(
-                Icons.person_rounded,
-                color: tcBlack,
-              ),
-              title: Text(
-                'Account',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tcBlack,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.description_rounded,
-                color: tcBlack,
-              ),
-              title: Text(
-                'Report',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tcBlack,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.home_rounded,
-                color: tcBlack,
-              ),
-              title: Text(
-                'Barangay',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tcBlack,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.settings_rounded,
-                color: tcBlack,
-              ),
-              title: Text(
-                'Settings',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tcBlack,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info_rounded,
-                color: tcBlack,
-              ),
-              title: Text(
-                'About',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tcBlack,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.logout_rounded,
-                color: tcBlack,
-              ),
-              title: Text(
-                'Logout',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tcBlack,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
+          )
+        ],
       ),
       body: SafeArea(
         child: Container(
@@ -232,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
             HomeWidget(),
             FeedWidget(),
             ContactWidget(),
-            ExploreWidget(),
+            MenuWidget(),
           ],
           onPageChanged: (index) {
             setState(() {
@@ -267,8 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Contacts',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore_rounded),
-            label: 'Explore',
+            icon: Icon(Icons.menu_rounded),
+            label: 'Menu',
           ),
         ],
       ),
@@ -285,7 +126,7 @@ String getTitleForIndex(int index) {
     case 2:
       return 'CONTACTS';
     case 3:
-      return 'EXPLORE';
+      return 'MENU';
     default:
       return 'HOME'; // Default title
   }

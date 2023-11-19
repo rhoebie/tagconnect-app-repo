@@ -15,20 +15,40 @@ class NewsList extends StatefulWidget {
 }
 
 class _NewsListState extends State<NewsList> {
-  List<NewsModel> newsData = [];
   final ScrollController _scrollController = ScrollController();
+  List<NewsModel> newsData = [];
+  List<NewsModel> filteredNewsData = [];
   int currentPage = 1;
   int totalPage = 1;
+  bool isLoadingMore = false;
+
+  void filterNews(String query) {
+    query = query.toLowerCase();
+    setState(() {
+      if (query.isEmpty || query == '') {
+        // Show all contacts when the query is empty or null
+        filteredNewsData = List.from(newsData);
+      } else {
+        // Filter based on the search query
+        filteredNewsData = newsData
+            .where((news) => news.title!.toLowerCase().contains(query))
+            .toList();
+      }
+    });
+  }
 
   Future<void> fetchNewsData({int page = 1}) async {
     if (page > totalPage) {
       // No more data to fetch
+      setState(() {
+        isLoadingMore = false;
+      });
       print('no more page');
       return;
     }
 
     try {
-      final url = 'https://taguigconnect.online/api/get-news?$page';
+      final url = 'https://taguigconnect.online/api/get-news?page=$page';
       final response = await http.get(
         Uri.parse(url),
       );
@@ -44,11 +64,14 @@ class _NewsListState extends State<NewsList> {
         setState(() {
           if (page == 1) {
             newsData = fetchNewsList;
+            filteredNewsData = newsData;
           } else {
             newsData.addAll(fetchNewsList);
+            filteredNewsData.addAll(fetchNewsList);
           }
           totalPage = responseData['meta']['total_page'];
           currentPage = page;
+          isLoadingMore = false;
         });
       } else {
         print('Failed to load data. Status code: ${response.statusCode}');
@@ -67,6 +90,9 @@ class _NewsListState extends State<NewsList> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         // Reached the end of the list, load more data
+        setState(() {
+          isLoadingMore = true;
+        });
         fetchNewsData(page: currentPage + 1);
       }
     });
@@ -107,16 +133,86 @@ class _NewsListState extends State<NewsList> {
         child: Container(
           child: CustomScrollView(
             controller: _scrollController,
-            slivers: <Widget>[
+            slivers: [
+              SliverAppBar(
+                pinned: false,
+                floating: true,
+                snap: true,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                flexibleSpace: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: tcWhite,
+                            borderRadius: BorderRadius.circular(25),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            onChanged: (value) {
+                              filterNews(value);
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              hintStyle: TextStyle(
+                                color: tcGray,
+                              ),
+                              icon: Icon(
+                                Icons.search,
+                                color: tcGray,
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return newsData[index]
-                        .buildContactWidget(context, newsData[index]);
+                    return filteredNewsData[index]
+                        .buildContactWidget(context, filteredNewsData[index]);
                   },
-                  childCount: newsData.length,
+                  childCount: filteredNewsData.length,
                 ),
               ),
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 50,
+                  margin: EdgeInsetsDirectional.symmetric(vertical: 15),
+                  child: Center(
+                    child: isLoadingMore
+                        ? CircularProgressIndicator()
+                        : Container(
+                            child: Text(
+                              'End of List',
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: tcBlack,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
