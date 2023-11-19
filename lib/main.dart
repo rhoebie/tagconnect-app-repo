@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
     );
     return ScreenUtilInit(
-      designSize: Size(360, 800),
+      designSize: const Size(360, 800),
       builder: (context, child) {
         final customTheme = ThemeData.from(
           colorScheme: const ColorScheme(

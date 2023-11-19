@@ -35,6 +35,7 @@ class ReportDetail extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -88,9 +89,6 @@ class ReportDetail extends StatelessWidget {
                   )
                 ],
               ),
-              Divider(
-                color: Colors.transparent,
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -115,9 +113,6 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              Divider(
-                color: Colors.transparent,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,9 +139,6 @@ class ReportDetail extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(
-                color: Colors.transparent,
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -171,9 +163,6 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              Divider(
-                color: Colors.transparent,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,9 +189,6 @@ class ReportDetail extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(
-                color: Colors.transparent,
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -227,9 +213,6 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              Divider(
-                color: Colors.transparent,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,9 +255,6 @@ class ReportDetail extends StatelessWidget {
                   )
                 ],
               ),
-              Divider(
-                color: Colors.transparent,
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -290,7 +270,7 @@ class ReportDetail extends StatelessWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 150,
+                    height: 200,
                     child: feedModel.image != '' || feedModel.image != null
                         ? Image.network(
                             feedModel.image!,

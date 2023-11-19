@@ -8,9 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/news_model.dart';
 import 'package:taguigconnect/models/user_model.dart';
+import 'package:taguigconnect/screens/news-details_screen.dart';
+import 'package:taguigconnect/screens/news-list_screen.dart';
 import 'package:taguigconnect/screens/report-emergency_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:taguigconnect/services/user_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -21,13 +24,14 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   late UserModel userData = UserModel(
-      firstname: '',
-      lastname: '',
-      age: 0,
-      birthdate: '',
-      contactnumber: '',
-      address: '',
-      image: '');
+    firstname: '',
+    lastname: '',
+    age: 0,
+    birthdate: '',
+    contactnumber: '',
+    address: '',
+    image: '',
+  );
 
   Future<void> fetchUserData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -188,7 +192,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
                 Container(
                   width: double.infinity.w,
-                  height: 130.h,
+                  height: 120.h,
                   decoration: BoxDecoration(
                     color: tcViolet,
                     borderRadius: BorderRadius.circular(10),
@@ -211,21 +215,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'PublicSans',
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: tcWhite,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 10,
-                        top: 35,
-                        child: Text(
-                          'Need urgent emergency?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'PublicSans',
-                            fontSize: 16.sp,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
                             color: tcWhite,
                           ),
@@ -289,7 +279,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                           width: 60.w,
                           height: 60.w,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '911',
+                              );
+                              await launchUrl(launchUri);
+                            },
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: EdgeInsets.all(16),
@@ -324,7 +320,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                           width: 60.w.w,
                           height: 60.w.h,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '143',
+                              );
+                              await launchUrl(launchUri);
+                            },
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: EdgeInsets.all(16),
@@ -359,7 +361,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                           width: 60.w,
                           height: 60.w,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '160',
+                              );
+                              await launchUrl(launchUri);
+                            },
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: EdgeInsets.all(16),
@@ -394,7 +402,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                           width: 60.w,
                           height: 60.w,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '117',
+                              );
+                              await launchUrl(launchUri);
+                            },
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: EdgeInsets.all(16),
@@ -445,7 +459,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return NewsList();
+                            },
+                          ),
+                        );
+                      },
                       child: Text(
                         'View More',
                         textAlign: TextAlign.center,
@@ -488,6 +510,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                             itemBuilder: (context, index) {
                               final item = newsData[index];
                               return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return NewsDetails(
+                                          newsModel: item,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
                                 child: Container(
                                   width: 180,
                                   child: Card(

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
@@ -10,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/models/feed_model.dart';
 import 'package:taguigconnect/screens/report-details_screen.dart';
-import 'package:taguigconnect/screens/report-list_screen.dart';
 import 'package:taguigconnect/services/barangay_service.dart';
 
 class FeedWidget extends StatefulWidget {
@@ -21,7 +19,7 @@ class FeedWidget extends StatefulWidget {
 }
 
 class _FeedWidgetState extends State<FeedWidget> {
-  int selectedBarangayIndex = 0; // Default selection is "All"
+  int selectedBarangayIndex = 0;
   late PageController _pageController;
   late Timer _timer;
   final scrollController = ScrollController();
@@ -261,7 +259,17 @@ class _FeedWidgetState extends State<FeedWidget> {
                                   ),
                                   Container(
                                     child: ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return ReportDetail(
+                                                feedModel: item,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: tcViolet,
                                         shape: RoundedRectangleBorder(
@@ -431,7 +439,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Anonymous',
+                                            item.emergencyType ?? '',
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                               fontFamily: 'Roboto',
