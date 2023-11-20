@@ -26,6 +26,7 @@ class ReportService {
       // Map the list of report data to ReportModels
       return responseData.map((item) => ReportModel.fromJson(item)).toList();
     } else {
+      print(response.statusCode);
       throw Exception('Failed to load reports');
     }
   }

@@ -149,10 +149,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                         children: [
                           TextSpan(
-                            text: 'Your total reports: ',
+                            text: 'Today\'s date: ',
                           ),
                           TextSpan(
-                            text: '0',
+                            text:
+                                DateFormat('yyyy-MM-dd').format(DateTime.now()),
                             style: TextStyle(
                               color: tcBlack,
                               fontWeight: FontWeight.w400,

@@ -12,7 +12,7 @@ class ApiConstants {
   static String changePassword = '/change-password';
 
   // Data of the user
-  static String countReportEndpoint = '/user-reports';
+  static String countReportEndpoint = '/get-user-reports';
   static String userEndpoint = '/users';
   static String hotlineEndpoint = '/hotlines';
   static String incidentEndpoint = '/incidents';

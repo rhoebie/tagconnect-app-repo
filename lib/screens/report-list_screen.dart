@@ -40,6 +40,8 @@ class _ReportListScreenState extends State<ReportListScreen> {
       backgroundColor: tcWhite,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: CloseButton(),
         iconTheme: const IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
         elevation: 0,
@@ -206,12 +208,14 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (context) {
-                                        return ReportDetails(reportModel: item);
-                                      },
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return ReportDetail(
+                                            reportModel: item,
+                                          );
+                                        },
+                                      ),
                                     );
                                   },
                                   borderRadius: BorderRadius.all(
@@ -311,418 +315,300 @@ class _ReportListScreenState extends State<ReportListScreen> {
   }
 }
 
-class ReportDetails extends StatelessWidget {
+class ReportDetail extends StatelessWidget {
   final ReportModel reportModel;
-  const ReportDetails({super.key, required this.reportModel});
+  const ReportDetail({super.key, required this.reportModel});
 
   @override
   Widget build(BuildContext context) {
-    String? imageUrl;
-
-    if (reportModel.image == null) {
-      imageUrl = "";
-    } else {
-      imageUrl = ApiConstants.baseUrl + reportModel.image!;
-    }
-
-    return Container(
-      height: 700.h,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
+    return Scaffold(
+      backgroundColor: tcWhite,
+      appBar: AppBar(
+        leading: CloseButton(),
+        iconTheme: IconThemeData(color: tcBlack),
+        backgroundColor: tcWhite,
+        elevation: 0,
+        title: Text(
+          reportModel.emergencyType?.toUpperCase() ?? '',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: tcBlack,
+            fontFamily: 'Roboto',
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: double.infinity,
-                height: 200,
-                child: Stack(
-                  children: [
-                    map.FlutterMap(
-                      options: map.MapOptions(
-                          interactionOptions: map.InteractionOptions(
-                            flags: map.InteractiveFlag.none,
-                          ),
-                          //14.515170042710624, 121.05204474060577
-                          initialCenter: LatLng(reportModel.location!.latitude!,
-                              reportModel.location!.longitude!),
-                          initialZoom: 17.0),
-                      children: [
-                        map.TileLayer(
-                          urlTemplate:
-                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: tcViolet,
+                    foregroundColor: tcWhite,
+                    child: Icon(Icons.person_rounded),
+                  ),
+                  VerticalDivider(
+                    color: Colors.transparent,
+                    width: 5,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        reportModel.userId ?? '',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: tcBlack,
+                          fontFamily: 'Roboto',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
                         ),
-                        map.MarkerLayer(
-                          markers: [
-                            map.Marker(
-                              width: 80.w,
-                              height: 80.h,
-                              point: LatLng(reportModel.location!.latitude!,
-                                  reportModel.location!.longitude!),
-                              child: Icon(
-                                Icons.location_on,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
+                      ),
+                      Text(
+                        'Date: ${formatCustomDateTime(reportModel.createdAt.toString())}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'PublicSans',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.normal,
+                          color: tcBlack,
                         ),
-                      ],
+                      ),
+                      Text(
+                        'Resolve Time: ${calculateTimeInterval(reportModel.createdAt!, reportModel.updatedAt!)}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'PublicSans',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.normal,
+                          color: tcBlack,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Report ID',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
                     ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    reportModel.id.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: tcBlack,
+                    ),
+                  ),
+                ],
               ),
-              Divider(
-                color: Colors.transparent,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Barangay ID',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
+                    ),
+                  ),
+                  Text(
+                    reportModel.barangayId.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: tcBlack,
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Details',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'Roboto',
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'For Whom?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
+                    ),
+                  ),
+                  Text(
+                    reportModel.forWhom ?? '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: tcBlack,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Any Casualties?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
+                    ),
+                  ),
+                  Text(
+                    reportModel.casualties == 1 ? 'Yes' : 'No',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: tcBlack,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Description',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
+                    ),
+                  ),
+                  Text(
+                    reportModel.description ?? '',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: tcBlack,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Location',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
+                    ),
+                  ),
+                  Container(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final Uri launchUri = Uri.parse(
+                            'https://maps.google.com/?q=${reportModel.location!.latitude!},${reportModel.location!.longitude!}');
+                        await launchUrl(launchUri);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: tcViolet,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 2,
+                      ),
+                      child: Text(
+                        'View',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcWhite,
+                        ),
                       ),
                     ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 10,
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Image',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 120,
-                          height: 120,
-                          child: imageUrl.isEmpty
-                              ? Center(
-                                  child: Container(
-                                    width: 120,
-                                    height: 120,
-                                    color: tcAsh,
-                                    child: Icon(
-                                      Icons.question_mark,
-                                      size: 50,
-                                      color: tcBlack,
-                                    ),
-                                  ),
-                                )
-                              : Image.network(
-                                  imageUrl,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                        VerticalDivider(
-                          color: Colors.transparent,
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Report ID',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    reportModel.id.toString(),
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'PublicSans',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                color: Colors.transparent,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Barangay ID',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    reportModel.barangayId ?? '',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'PublicSans',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                color: Colors.transparent,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Emergency Type',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    reportModel.emergencyType ?? '',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'PublicSans',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                color: Colors.transparent,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Casualties',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    reportModel.casualties == 'True'
-                                        ? 'Yes'
-                                        : 'No',
-                                    style: TextStyle(
-                                      color: tcBlack,
-                                      fontFamily: 'PublicSans',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    child: reportModel.image != null
+                        ? Image.network(
+                            reportModel.image!,
+                            fit: BoxFit.cover,
+                          )
+                        : Center(
+                            child: Icon(Icons.question_mark),
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'For Whom',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          reportModel.forWhom ?? '',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'PublicSans',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Description',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Container(
-                          width: 150,
-                          child: AutoSizeText(
-                            reportModel.description ?? '',
-                            maxLines: 3,
-                            overflow: TextOverflow
-                                .ellipsis, // Handle overflow with ellipsis
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontFamily: 'PublicSans',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: tcBlack,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Status',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          reportModel.isDone ?? '',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'PublicSans',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Created At',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          formatCustomDateTime(
-                              reportModel.createdAt.toString()),
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'PublicSans',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Resolve Time',
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          calculateTimeInterval(reportModel.createdAt!,
-                                  reportModel.updatedAt!)
-                              .toString(),
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'PublicSans',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            width: double.infinity,
-            height: 50.h,
-            child: ElevatedButton(
-              onPressed: () async {
-                final Uri launchUri = Uri.parse(
-                    'https://maps.google.com/?q=${reportModel.location!.latitude!},${reportModel.location!.longitude!}');
-                await launchUrl(launchUri);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: tcViolet,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 2,
-              ),
-              child: Text(
-                'View',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'PublicSans',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: tcWhite,
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
+}
+
+String formatCustomDateTime(String input) {
+  final inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  final dateTime = inputFormat.parse(input);
+
+  // Updated output format
+  final outputFormat = DateFormat("E, d MMM y hh:mma");
+  final formattedDate = outputFormat.format(dateTime);
+
+  return formattedDate;
 }
 
 String calculateTimeInterval(DateTime dateTime1, DateTime dateTime2) {
@@ -743,17 +629,6 @@ String calculateTimeInterval(DateTime dateTime1, DateTime dateTime2) {
     result += '${minutes % 60} mins';
   }
   return result.trim();
-}
-
-String formatCustomDateTime(String input) {
-  final inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-  final dateTime = inputFormat.parse(input);
-
-  // Updated output format
-  final outputFormat = DateFormat("E, d MMM y hh:mma");
-  final formattedDate = outputFormat.format(dateTime);
-
-  return formattedDate;
 }
 
 List<ReportModel> filterDataByStatus(

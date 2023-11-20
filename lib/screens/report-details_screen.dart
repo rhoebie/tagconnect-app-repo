@@ -62,7 +62,7 @@ class ReportDetail extends StatelessWidget {
                           color: tcBlack,
                           fontFamily: 'Roboto',
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(

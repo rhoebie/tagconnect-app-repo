@@ -8,7 +8,6 @@ String createReportModelToJson(List<CreateReportModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CreateReportModel {
-  String barangayId;
   String emergencyType;
   String forWhom;
   String description;
@@ -17,7 +16,6 @@ class CreateReportModel {
   String? image;
 
   CreateReportModel({
-    required this.barangayId,
     required this.emergencyType,
     required this.forWhom,
     required this.description,
@@ -27,7 +25,6 @@ class CreateReportModel {
   });
 
   Map<String, dynamic> toJson() => {
-        "barangay_id": barangayId,
         "emergency_type": emergencyType,
         "for_whom": forWhom,
         "description": description,

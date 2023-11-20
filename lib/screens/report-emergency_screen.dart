@@ -118,41 +118,16 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
   }
 
   Future<void> fetchLocationData() async {
-    final barangayConstant = BarangayConstant();
-    LocationChecker locationChecker;
-    LocationService locationService;
-    locationChecker = LocationChecker(
-      barangayConstant.cityTaguig,
-      barangayConstant.taguigBarangays,
-    );
-
-    locationService = LocationService(locationChecker);
-
     try {
       final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
       final Position position = await geolocator.getCurrentPosition(
         locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
       );
-
-      userLatitude = position.latitude;
-      userLongitude = position.longitude;
-      print('Latitude: $userLatitude, Longitude: $userLongitude');
-
-      final locationIdk =
-          await locationService.getUserLocation(userLatitude!, userLongitude!);
       setState(() {
-        var type = locationIdk['type'];
-        var value = locationIdk['value'];
-        if (type == 'exact') {
-          print('Exact Value: $value');
-          locationData = value;
-        } else if (type == 'near') {
-          print('Near Value: $value');
-          locationData = value;
-        } else {
-          print("Other Location: $type");
-        }
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
       });
+      print('Latitude: $userLatitude, Longitude: $userLongitude');
     } catch (e) {
       print('Error fetching location: $e');
     }
@@ -166,10 +141,8 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       await fetchLocationData();
       final locationUser =
           userLoc(latitude: userLatitude!, longitude: userLongitude!);
-      final barangayName = locationData!;
 
       final reportMod = CreateReportModel(
-          barangayId: barangayName,
           emergencyType: emergencyType,
           forWhom: forWhom,
           description: description,

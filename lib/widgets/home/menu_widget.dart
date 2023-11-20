@@ -16,8 +16,8 @@ import 'package:taguigconnect/screens/barangay-list_screen.dart';
 import 'package:taguigconnect/screens/change-password_screen.dart';
 import 'package:taguigconnect/screens/login_screen.dart';
 import 'package:taguigconnect/screens/news-list_screen.dart';
+import 'package:taguigconnect/screens/report-list_screen.dart';
 import 'package:taguigconnect/services/barangay_service.dart';
-import 'package:taguigconnect/services/report_service.dart';
 import 'package:taguigconnect/services/user_service.dart';
 
 class MenuWidget extends StatefulWidget {
@@ -92,17 +92,17 @@ class _MenuWidgetState extends State<MenuWidget> {
     }
   }
 
-  Future<int> fetchReportData() async {
-    try {
-      final reportService = ReportService();
-      final List<ReportModel> reportData = await reportService.getReports();
+  // Future<int> fetchReportData() async {
+  //   try {
+  //     final reportService = ReportService();
+  //     final List<ReportModel> reportData = await reportService.getReports();
 
-      return reportData.length;
-    } catch (e) {
-      print('Error fetching reportData: $e');
-      throw e;
-    }
-  }
+  //     return reportData.length;
+  //   } catch (e) {
+  //     print('Error fetching reportData: $e');
+  //     throw e;
+  //   }
+  // }
 
   Future<int> fetchBarangayData() async {
     try {
@@ -264,7 +264,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 'Taguig Alert',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
                   color: tcBlack,
                 ),
@@ -299,7 +299,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return AccountScreen();
+                        return ReportListScreen();
                       },
                     ),
                   );
@@ -351,7 +351,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 'Account',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
                   color: tcBlack,
                 ),
@@ -413,7 +413,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 'System',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
                   color: tcBlack,
                 ),
