@@ -1100,7 +1100,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
     required String password,
     required String passwordConfirmation,
     required String image,
-    required String token,
+    String? token,
   }) async {
     bool isConnected = await NetworkService.isConnected();
     final userService = UserService();
@@ -1645,7 +1645,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   passwordConfirmation:
                                       _confirmPassController.text,
                                   image: byte64Image ?? '',
-                                  token: fcmToken!);
+                                  token: '');
 
                               setState(() {
                                 isLoading = false;

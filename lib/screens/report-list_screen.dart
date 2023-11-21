@@ -587,7 +587,10 @@ class ReportDetail extends StatelessWidget {
                             fit: BoxFit.cover,
                           )
                         : Center(
-                            child: Icon(Icons.question_mark),
+                            child: Icon(
+                              Icons.question_mark,
+                              color: tcBlack,
+                            ),
                           ),
                   ),
                 ],

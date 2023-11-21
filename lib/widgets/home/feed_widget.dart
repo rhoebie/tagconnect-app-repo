@@ -208,7 +208,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                             filterReport(value);
                           },
                           decoration: InputDecoration(
-                            hintText: 'Search',
+                            hintText: 'Emergency Type',
                             hintStyle: TextStyle(
                               color: tcGray,
                             ),

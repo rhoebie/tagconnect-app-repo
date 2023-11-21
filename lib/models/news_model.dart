@@ -62,7 +62,12 @@ class NewsModel {
             )
           : CircleAvatar(
               backgroundColor: tcAsh,
-              child: Center(child: Icon(Icons.question_mark)),
+              child: Center(
+                child: Icon(
+                  Icons.question_mark,
+                  color: tcBlack,
+                ),
+              ),
             ),
       title: Text(
         title ?? '',

@@ -46,7 +46,7 @@ class UserService {
       String password,
       String passwordConfirmation,
       String image,
-      String fCMToken) async {
+      String? fCMToken) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

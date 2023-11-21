@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taguigconnect/configs/request_service.dart';
 import 'package:taguigconnect/constants/calculate_constant.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:http/http.dart' as http;
@@ -26,34 +27,39 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
 
   Future<List<String>> calculateDistances() async {
     List<String> distances = [];
+    bool locationPermission = await RequestService.locationPermission();
 
-    try {
-      final List<BarangayModel> barangays = await fetchBarangay();
-      final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
-      final Position position = await geolocator.getCurrentPosition(
-        locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
-      );
+    if (locationPermission) {
+      try {
+        final List<BarangayModel> barangays = await fetchBarangay();
+        final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
+        final Position position = await geolocator.getCurrentPosition(
+          locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
+        );
 
-      userLatitude = position.latitude;
-      userLongitude = position.longitude;
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
 
-      for (BarangayModel barangay in barangays) {
-        if (barangay.location != null) {
-          Location barangayLocation = barangay.location!;
+        for (BarangayModel barangay in barangays) {
+          if (barangay.location != null) {
+            Location barangayLocation = barangay.location!;
 
-          final distanceReport = HaversineCalculator.calculateDistance(
-            userLatitude!,
-            userLongitude!,
-            barangayLocation.latitude!,
-            barangayLocation.longitude!,
-          );
+            final distanceReport = HaversineCalculator.calculateDistance(
+              userLatitude!,
+              userLongitude!,
+              barangayLocation.latitude!,
+              barangayLocation.longitude!,
+            );
 
-          distances.add(distanceReport);
+            distances.add(distanceReport);
+          }
         }
+      } catch (e) {
+        print('Error: $e');
+        return [];
       }
-    } catch (e) {
-      print('Error: $e');
-      return [];
+    } else {
+      Navigator.pop(context);
     }
 
     return distances;
@@ -303,7 +309,7 @@ class BarangayDetailWidget extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: tcRed,
                           ),
                         ),
                         Row(
@@ -314,7 +320,7 @@ class BarangayDetailWidget extends StatelessWidget {
                               'District: ',
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
                                 color: tcBlack,
                               ),
@@ -323,7 +329,7 @@ class BarangayDetailWidget extends StatelessWidget {
                               barangayModel.district.toString(),
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: tcBlack,
                               ),
@@ -339,7 +345,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       'Contact',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -348,7 +354,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       barangayModel.contact!,
                       style: TextStyle(
                         fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: tcBlack,
                       ),
@@ -360,7 +366,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       'Address',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -369,7 +375,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       barangayModel.address!,
                       style: TextStyle(
                         fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: tcBlack,
                       ),
@@ -381,7 +387,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       'Response Time',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -390,7 +396,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       barangayModel.analytics!.responseTime!,
                       style: TextStyle(
                         fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: tcBlack,
                       ),
@@ -402,7 +408,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       'Total Resolve Reports',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -411,7 +417,7 @@ class BarangayDetailWidget extends StatelessWidget {
                       barangayModel.analytics!.totalReports!.toString(),
                       style: TextStyle(
                         fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: tcBlack,
                       ),

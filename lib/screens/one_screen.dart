@@ -22,14 +22,26 @@ class WelcomeOneScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                'TCONNECT',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: tcViolet,
-                  fontFamily: 'Roboto',
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w900,
+              RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w900,
+                    color: tcViolet,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'TAGUIG',
+                    ),
+                    TextSpan(
+                      text: 'ALERT',
+                      style: TextStyle(
+                        color: tcRed,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Icon(
@@ -61,7 +73,7 @@ class WelcomeOneScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'PublicSans',
-                      fontSize: 26.sp,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w400,
                       color: tcBlack,
                     ),
@@ -74,9 +86,6 @@ class WelcomeOneScreen extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () async {
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          await prefs.setBool('firstOpen', false);
                           Navigator.push(
                             context,
                             SlideLeftAnimation(

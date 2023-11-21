@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/animations/fade_animation.dart';
 import 'package:taguigconnect/configs/network_config.dart';
@@ -51,16 +53,39 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkPermissionAndFirstTimeOpen() async {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstTimeOpen = prefs.getBool('firstOpen') ?? true;
-    print(isFirstTimeOpen);
+
     try {
+      // Check if the firstOpenApplication.txt file exists
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      File file = File('${documentsDirectory.path}/firstOpenApplication.txt');
+
+      bool hasStoragePermission =
+          await RequestService.storagePermission(androidInfo);
+
+      if (!hasStoragePermission) {
+        // If storage permission is not granted, request it
+        bool storagePermissionGranted =
+            await RequestService.storagePermission(androidInfo);
+
+        if (!storagePermissionGranted) {
+          // Handle if storage permission is not granted
+          print('Storage permission not granted');
+          return;
+        }
+      }
+
+      bool isFirstTimeOpen = !file.existsSync();
+
       if (isFirstTimeOpen) {
         bool checkPermission =
             await RequestService.checkAllPermission(androidInfo);
 
         if (checkPermission) {
           print('Permission Granted');
+
+          // Create the firstOpenApplication.txt file
+          file.writeAsStringSync('First Open');
+
           Future.delayed(
             const Duration(seconds: 2),
             () {
@@ -69,13 +94,8 @@ class _SplashScreenState extends State<SplashScreen> {
             },
           );
         } else {
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              Navigator.of(context)
-                  .pushReplacement(FadeAnimation(const WelcomeOneScreen()));
-            },
-          );
+          // Handle if permissions are not granted
+          print('Permission not granted');
         }
       } else {
         print('Already Opened');
@@ -88,9 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       }
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      print(e);
     }
   }
 
