@@ -1,16 +1,12 @@
-import 'dart:convert';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/configs/request_service.dart';
 import 'package:taguigconnect/constants/calculate_constant.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:http/http.dart' as http;
 import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/services/barangay_service.dart';
+import 'package:taguigconnect/widgets/barangay/barangay-details_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BarangayListScreen extends StatefulWidget {
@@ -121,7 +117,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
             children: [
               Expanded(
                 child: FutureBuilder(
-                  future: Future.wait([fetchBarangay(), calculateDistances()]),
+                  future: fetchBarangay(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -132,10 +128,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else if (snapshot.hasData) {
-                      final List<BarangayModel> data1 =
-                          snapshot.data![0] as List<BarangayModel>;
-                      final List<String> data2 =
-                          snapshot.data![1] as List<String>;
+                      final data1 = snapshot.data!;
 
                       return GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -147,19 +140,18 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                         itemCount: data1.length,
                         itemBuilder: (context, index) {
                           final item = data1[index];
-                          final distance = data2[index];
                           return InkWell(
                             onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return BarangayDetailWidget(
-                                    barangayModel: item,
-                                    userLatitude: userLatitude,
-                                    userLongitude: userLongitude,
-                                  );
-                                },
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return BarangayDetailsWidget(
+                                      barangayModel: item,
+                                      userLatitude: userLatitude,
+                                      userLongitude: userLongitude,
+                                    );
+                                  },
+                                ),
                               );
                             },
                             child: Card(
@@ -173,7 +165,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                             top: Radius.circular(5)),
                                         child: Container(
                                           color: tcAsh,
-                                          height: 130.h,
+                                          height: 150.h,
                                           width: double.infinity,
                                           child: item.image != null
                                               ? Image.network(
@@ -195,7 +187,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                         padding: EdgeInsets.all(10),
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
@@ -208,12 +200,8 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
-                                            AutoSizeText(
-                                              'Address: ${item.address!}',
-                                              maxLines: 2,
-                                              overflow: TextOverflow
-                                                  .ellipsis, // Handle overflow with ellipsis
-                                              textAlign: TextAlign.start,
+                                            Text(
+                                              'District: ${item.district ?? ''}',
                                               style: TextStyle(
                                                 color: tcBlack,
                                                 fontFamily: 'PublicSans',
@@ -222,7 +210,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'Distance: $distance',
+                                              'Contat: ${item.contact!}',
                                               style: TextStyle(
                                                 color: tcBlack,
                                                 fontFamily: 'PublicSans',

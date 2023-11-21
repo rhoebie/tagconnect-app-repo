@@ -13,15 +13,15 @@ import 'package:taguigconnect/constants/endpoint_constant.dart';
 import 'package:taguigconnect/models/user_model.dart';
 import 'package:taguigconnect/services/user_service.dart';
 
-class AccountEditScreen extends StatefulWidget {
+class AccountEditWidget extends StatefulWidget {
   final UserModel userModel;
-  const AccountEditScreen({super.key, required this.userModel});
+  const AccountEditWidget({super.key, required this.userModel});
 
   @override
-  State<AccountEditScreen> createState() => _AccountEditScreenState();
+  State<AccountEditWidget> createState() => _AccountEditWidgetState();
 }
 
-class _AccountEditScreenState extends State<AccountEditScreen> {
+class _AccountEditWidgetState extends State<AccountEditWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _middleNameController = TextEditingController();

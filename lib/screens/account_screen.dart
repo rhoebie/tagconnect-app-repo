@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/constants/endpoint_constant.dart';
 import 'package:taguigconnect/models/user_model.dart';
-import 'package:taguigconnect/screens/account-edit_screen.dart';
+import 'package:taguigconnect/widgets/account/account-edit_screen.dart';
 import 'package:taguigconnect/services/user_service.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -66,7 +66,7 @@ class _AccountScreenState extends State<AccountScreen> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return AccountEditScreen(userModel: userModel);
+                    return AccountEditWidget(userModel: userModel);
                   },
                 ),
               );
@@ -78,7 +78,7 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: FutureBuilder(
             future: fetchUserData(),
             builder: (context, snapshot) {
@@ -99,136 +99,112 @@ class _AccountScreenState extends State<AccountScreen> {
                     ? imageUrl = ApiConstants.baseUrl + items.image!
                     : imageUrl = null;
 
-                return ListView(
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: tcAsh,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
+                        CircleAvatar(
+                          radius: 50,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              child: (imageUrl?.isEmpty ?? true)
-                                  ? Center(
-                                      child: Icon(
-                                        Icons.question_mark,
-                                        size: 50,
-                                        color: tcBlack,
-                                      ),
-                                    )
-                                  : Image.network(
-                                      imageUrl!,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
+                            child: (imageUrl?.isEmpty ?? true)
+                                ? Center(
+                                    child: Icon(
+                                      Icons.question_mark,
+                                      size: 50,
+                                      color: tcBlack,
                                     ),
-                            ),
+                                  )
+                                : Image.network(
+                                    imageUrl!,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
-                        Divider(
+                        VerticalDivider(
                           color: Colors.transparent,
                         ),
-                        Text(
-                          '${items.lastname}, ${items.firstname} ${items.middlename}',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: tcBlack,
-                            fontFamily: 'Roboto',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Container(
-                      height: 70.h,
-                      decoration: BoxDecoration(
-                        color: tcAsh,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Account ID',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: tcBlack,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Divider(
-                                color: Colors.transparent,
-                                height: 10,
-                              ),
-                              Text(
-                                items.id.toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: tcBlack,
-                                  fontFamily: 'PublicSans',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Role Type',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: tcBlack,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Divider(
-                                color: Colors.transparent,
-                                height: 10,
-                              ),
-                              Text(
-                                items.roleId ?? '',
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 210,
+                              child: AutoSizeText(
+                                '${items.lastname}, ${items.firstname} ${items.middlename}',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   color: tcBlack,
                                   fontFamily: 'PublicSans',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(),
-                        ],
-                      ),
+                            ),
+                            Divider(
+                              color: Colors.transparent,
+                              height: 5,
+                            ),
+                            RichText(
+                              textAlign: TextAlign.start,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: tcBlack,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'Account ID: ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: items.id.toString(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: Colors.transparent,
+                              height: 5,
+                            ),
+                            RichText(
+                              textAlign: TextAlign.start,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: tcBlack,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'Role: ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: items.roleId,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                     Divider(
                       color: Colors.transparent,
@@ -238,7 +214,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       'Personal Information',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -258,7 +234,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: tcBlack,
                                 ),
@@ -288,7 +264,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: tcBlack,
                                 ),
@@ -317,7 +293,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: tcBlack,
                                 ),
@@ -326,9 +302,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                 width: 150,
                                 child: AutoSizeText(
                                   items.address ?? '',
-                                  maxLines: 3,
-                                  overflow: TextOverflow
-                                      .ellipsis, // Handle overflow with ellipsis
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontFamily: 'PublicSans',
@@ -351,7 +326,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       'Contact Information',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
                         color: tcBlack,
                       ),
@@ -371,7 +346,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: tcBlack,
                                 ),
@@ -400,7 +375,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: tcBlack,
                                 ),
@@ -429,7 +404,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: tcBlack,
                                 ),

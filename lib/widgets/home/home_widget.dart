@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:animations/animations.dart';
@@ -6,14 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:taguigconnect/models/feed_model.dart';
 import 'package:taguigconnect/models/news_model.dart';
 import 'package:taguigconnect/models/user_model.dart';
 import 'package:taguigconnect/screens/news-details_screen.dart';
 import 'package:taguigconnect/screens/news-list_screen.dart';
+import 'package:taguigconnect/screens/report-details_screen.dart';
 import 'package:taguigconnect/screens/report-emergency_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:taguigconnect/services/user_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -23,6 +25,11 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  final List<Color> bgColor = [tcOrange, tcGreen, tcRed, tcBlue];
+  List<FeedModel> reportData = [];
+  late PageController _pageController;
+  int _currentPage = 0;
+  late Timer _timer;
   late UserModel userData = UserModel(
     firstname: '',
     lastname: '',
@@ -49,6 +56,43 @@ class _HomeWidgetState extends State<HomeWidget> {
       }
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  Future<void> fetchReportData() async {
+    final url =
+        Uri.parse('https://taguigconnect.online/api/get-reports?page=1');
+
+    // Create a map with the request body
+    final Map<String, dynamic> requestBody = {'barangayName': 'all'};
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // If the server returns a 200 OK response, parse the JSON
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final List<dynamic> data = responseData['data'];
+        List<FeedModel> reports =
+            data.map((item) => FeedModel.fromJson(item)).toList();
+
+        setState(() {
+          reportData = reports;
+        });
+      } else {
+        // If the server did not return a 200 OK response,
+        // throw an exception.
+        throw Exception('Failed to load reports');
+      }
+    } catch (error) {
+      // Handle network-related errors
+      throw Exception('Network error: $error');
     }
   }
 
@@ -84,13 +128,36 @@ class _HomeWidgetState extends State<HomeWidget> {
     // TODO: implement initState
     super.initState();
     fetchUserData();
+    fetchReportData();
+    _pageController = PageController();
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < 4) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer.cancel();
+    _pageController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,315 +199,141 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
               ],
             ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcBlack,
-                        ),
+            Container(
+              height: 300.h,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: PageView.builder(
+                  controller: _pageController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: reportData.length >= 5 ? 5 : reportData.length,
+                  itemBuilder: (context, index) {
+                    final item = reportData[index];
+                    return Container(
+                      child: Column(
                         children: [
-                          TextSpan(
-                            text: 'Today\'s date: ',
-                          ),
-                          TextSpan(
-                            text:
-                                DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                            style: TextStyle(
-                              color: tcBlack,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Positioned.fill(
+                                  child: Image.network(
+                                    item.image!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                        colors: [
+                                          Colors.black,
+                                          Colors.transparent,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            width: double.infinity,
+                            height: 70,
+                            color: Colors.black,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: tcViolet,
+                                      foregroundColor: tcWhite,
+                                      child: Icon(
+                                        Icons.person_rounded,
+                                      ),
+                                    ),
+                                    VerticalDivider(
+                                      color: Colors.transparent,
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Report ID: ${item.id.toString()}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'PublicSans',
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: tcWhite,
+                                          ),
+                                        ),
+                                        Text(
+                                          formatCustomDateTime(
+                                              item.createdAt.toString()),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'PublicSans',
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: tcWhite,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return ReportDetail(
+                                              feedModel: item,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: tcViolet,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      elevation: 2,
+                                    ),
+                                    child: Text(
+                                      'View',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: tcWhite,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcBlack,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'Total barangay: ',
-                          ),
-                          TextSpan(
-                            text: '38',
-                            style: TextStyle(
-                              color: tcBlack,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-                Divider(
-                  color: Colors.transparent,
-                  height: 5.h,
-                ),
-                Container(
-                  width: double.infinity.w,
-                  height: 120.h,
-                  decoration: BoxDecoration(
-                    color: tcViolet,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 10,
-                        top: 10,
-                        child: Text(
-                          'Not feeling safe?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'PublicSans',
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                            color: tcWhite,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 15,
-                        bottom: 10,
-                        child: Container(
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: tcWhite,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 2,
-                            ),
-                            child: Text(
-                              'One tap report',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w700,
-                                color: tcViolet,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Taguig Emergency Service',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: tcBlack,
-                  ),
-                ),
-                Divider(
-                  color: Colors.transparent,
-                  height: 5.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          width: 60.w,
-                          height: 60.w,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final Uri launchUri = Uri(
-                                scheme: 'tel',
-                                path: '911',
-                              );
-                              await launchUrl(launchUri);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: EdgeInsets.all(16),
-                              backgroundColor: tcOrange,
-                              elevation: 2,
-                            ),
-                            child: Icon(
-                              Icons.phone,
-                              color: tcWhite,
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                          height: 5.h,
-                        ),
-                        Text(
-                          'General',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: tcBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          width: 60.w.w,
-                          height: 60.w.h,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final Uri launchUri = Uri(
-                                scheme: 'tel',
-                                path: '143',
-                              );
-                              await launchUrl(launchUri);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: EdgeInsets.all(16),
-                              backgroundColor: tcGreen,
-                              elevation: 2,
-                            ),
-                            child: Icon(
-                              Icons.phone,
-                              color: tcWhite,
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                          height: 5.h,
-                        ),
-                        Text(
-                          'Medical',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: tcBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          width: 60.w,
-                          height: 60.w,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final Uri launchUri = Uri(
-                                scheme: 'tel',
-                                path: '160',
-                              );
-                              await launchUrl(launchUri);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: EdgeInsets.all(16),
-                              backgroundColor: tcRed,
-                              elevation: 2,
-                            ),
-                            child: Icon(
-                              Icons.phone,
-                              color: tcWhite,
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                          height: 5.h,
-                        ),
-                        Text(
-                          'Fire',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: tcBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          width: 60.w,
-                          height: 60.w,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final Uri launchUri = Uri(
-                                scheme: 'tel',
-                                path: '117',
-                              );
-                              await launchUrl(launchUri);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: EdgeInsets.all(16),
-                              backgroundColor: tcBlue,
-                              elevation: 2,
-                            ),
-                            child: Icon(
-                              Icons.phone,
-                              color: tcWhite,
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                          height: 5.h,
-                        ),
-                        Text(
-                          'Crime',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: tcBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

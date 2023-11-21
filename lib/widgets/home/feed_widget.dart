@@ -20,8 +20,6 @@ class FeedWidget extends StatefulWidget {
 
 class _FeedWidgetState extends State<FeedWidget> {
   int selectedBarangayIndex = 0;
-  late PageController _pageController;
-  late Timer _timer;
   final scrollController = ScrollController();
   int page = 1;
   late List<FeedModel> initialReportData; // Store the initial data
@@ -29,7 +27,6 @@ class _FeedWidgetState extends State<FeedWidget> {
   List<FeedModel> reportData = [];
   List<FeedModel> filteredReportData = [];
   List<BarangayModel> barangayData = [];
-  int _currentPage = 0;
   int currentPage = 1;
   int totalPage = 1;
   bool isLoadingMore = false;
@@ -123,17 +120,12 @@ class _FeedWidgetState extends State<FeedWidget> {
     }
   }
 
-  Future<void> fetchInitialData() async {
-    await fetchReportData('All');
-    initialReportData = List.from(reportData);
-    featuredReport = List.from(reportData);
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchInitialData();
+    fetchReportData('All');
+    fetchBarangay();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -144,29 +136,12 @@ class _FeedWidgetState extends State<FeedWidget> {
         fetchReportData('all', page: currentPage + 1);
       }
     });
-    fetchBarangay();
-    _pageController = PageController();
-    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 4) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _timer.cancel();
-    _pageController.dispose();
   }
 
   @override
@@ -222,157 +197,6 @@ class _FeedWidgetState extends State<FeedWidget> {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                margin: EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                height: 250,
-                width: double.infinity,
-                child: PageView.builder(
-                  controller: _pageController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount:
-                      featuredReport.length >= 5 ? 5 : featuredReport.length,
-                  itemBuilder: (context, index) {
-                    final item = featuredReport[index];
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              height: 180,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Positioned.fill(
-                                    child: Image.network(
-                                      item.image!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Positioned.fill(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter,
-                                          colors: [
-                                            Colors.black,
-                                            Colors.transparent,
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              width: double.infinity,
-                              height: 70,
-                              color: Colors.black,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor: tcViolet,
-                                        foregroundColor: tcWhite,
-                                        child: Icon(
-                                          Icons.person_rounded,
-                                        ),
-                                      ),
-                                      VerticalDivider(
-                                        color: Colors.transparent,
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Report ID: ${item.id.toString()}',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: tcWhite,
-                                            ),
-                                          ),
-                                          Text(
-                                            formatCustomDateTime(
-                                                item.createdAt.toString()),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400,
-                                              color: tcWhite,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return ReportDetail(
-                                                feedModel: item,
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: tcViolet,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        elevation: 2,
-                                      ),
-                                      child: Text(
-                                        'View',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: tcWhite,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
                 ),
               ),
             ),

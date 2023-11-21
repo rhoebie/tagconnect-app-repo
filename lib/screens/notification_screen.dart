@@ -16,7 +16,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       backgroundColor: tcWhite,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: BackButton(),
+        leading: CloseButton(),
         iconTheme: IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
         elevation: 0,

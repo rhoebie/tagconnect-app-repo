@@ -1,13 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/constants/endpoint_constant.dart';
 import 'package:taguigconnect/models/report_model.dart';
 import 'package:taguigconnect/services/report_service.dart';
-import 'package:flutter_map/flutter_map.dart' as map;
 import 'package:url_launcher/url_launcher.dart';
 
 class ReportListScreen extends StatefulWidget {
@@ -59,7 +55,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: FutureBuilder(
             future: fetchReport(),
             builder: (context, snapshot) {
@@ -102,7 +98,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               style: TextStyle(
                                 color: tcBlack,
                                 fontFamily: 'Roboto',
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -132,7 +128,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               style: TextStyle(
                                 color: tcBlack,
                                 fontFamily: 'Roboto',
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -198,94 +194,45 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                 style: TextStyle(
                                   color: tcGray,
                                   fontFamily: 'PublisSans',
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
                             );
                           } else {
-                            return Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return ReportDetail(
-                                            reportModel: item,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
+                            return ListTile(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ReportDetail(
+                                        reportModel: item,
+                                      );
+                                    },
                                   ),
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    width: double.infinity,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              item.barangayId!,
-                                              style: TextStyle(
-                                                fontFamily: 'PublicSans',
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w700,
-                                                color: tcBlack,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Status: ${item.isDone!}',
-                                              style: TextStyle(
-                                                fontFamily: 'PublicSans',
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400,
-                                                color: tcBlack,
-                                              ),
-                                            ),
-                                            Text(
-                                              formatCustomDateTime(
-                                                  item.createdAt.toString()),
-                                              style: TextStyle(
-                                                fontFamily: 'PublicSans',
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400,
-                                                color: tcBlack,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.file_open_rounded,
-                                          size: 30,
-                                          color: tcBlack,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                );
+                              },
+                              titleAlignment: ListTileTitleAlignment.center,
+                              title: Text(
+                                item.barangayId ?? '',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: tcBlack,
+                                  fontFamily: 'PublisSans',
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                                SizedBox(
-                                  height: 10,
+                              ),
+                              subtitle: Text(
+                                formatCustomDateTime(item.createdAt.toString()),
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: tcBlack,
+                                  fontFamily: 'PublisSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              ],
+                              ),
                             );
                           }
                         },
@@ -301,7 +248,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                     style: TextStyle(
                       color: tcGray,
                       fontFamily: 'PublisSans',
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -342,61 +289,45 @@ class ReportDetail extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: tcViolet,
-                    foregroundColor: tcWhite,
-                    child: Icon(Icons.person_rounded),
+                  Text(
+                    'Name: Me',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: tcBlack,
+                      fontFamily: 'Roboto',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                  VerticalDivider(
-                    color: Colors.transparent,
-                    width: 5,
+                  Text(
+                    'Date: ${formatCustomDateTime(reportModel.createdAt.toString())}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.normal,
+                      color: tcBlack,
+                    ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        reportModel.userId ?? '',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: tcBlack,
-                          fontFamily: 'Roboto',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Text(
-                        'Date: ${formatCustomDateTime(reportModel.createdAt.toString())}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.normal,
-                          color: tcBlack,
-                        ),
-                      ),
-                      Text(
-                        'Resolve Time: ${calculateTimeInterval(reportModel.createdAt!, reportModel.updatedAt!)}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.normal,
-                          color: tcBlack,
-                        ),
-                      ),
-                    ],
-                  )
+                  Text(
+                    'Resolve Time: ${calculateTimeInterval(reportModel.createdAt!, reportModel.updatedAt!)}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.normal,
+                      color: tcBlack,
+                    ),
+                  ),
                 ],
               ),
               Column(

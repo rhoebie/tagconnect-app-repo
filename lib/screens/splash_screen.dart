@@ -127,14 +127,26 @@ class _SplashScreenState extends State<SplashScreen> {
                   color: tcRed,
                   size: 50,
                 ),
-                Text(
-                  'TaguigConnect',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'PublicSans',
-                    fontSize: 32.sp,
-                    fontWeight: FontWeight.w700,
-                    color: tcViolet,
+                RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcViolet,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'TAGUIG',
+                      ),
+                      TextSpan(
+                        text: 'ALERT',
+                        style: TextStyle(
+                          color: tcRed,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(

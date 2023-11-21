@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/models/contact_model.dart';
 import 'package:taguigconnect/screens/contact-add_screen.dart';
-import 'package:taguigconnect/services/barangay_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactWidget extends StatefulWidget {
@@ -21,7 +19,6 @@ class ContactWidget extends StatefulWidget {
 class _ContactWidgetState extends State<ContactWidget> {
   List<ContactModel> contacts = [];
   List<ContactModel> filteredContacts = [];
-  List<BarangayModel> barangayData = [];
 
   Future<void> loadContacts() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -56,26 +53,10 @@ class _ContactWidgetState extends State<ContactWidget> {
     });
   }
 
-  Future<void> fetchBarangay() async {
-    try {
-      final barangayService = BarangayService();
-      final List<BarangayModel> fetchData =
-          await barangayService.getbarangays();
-
-      setState(() {
-        barangayData = fetchData;
-      });
-    } catch (e) {
-      print('Error: $e');
-    }
-    return null;
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchBarangay();
     loadContacts();
   }
 
@@ -184,52 +165,179 @@ class _ContactWidgetState extends State<ContactWidget> {
                     Container(
                       width: double.infinity,
                       height: 30,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: barangayData.length,
-                        itemBuilder: (context, index) {
-                          final item = barangayData[index];
-                          return InkWell(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
                             onTap: () async {
                               final Uri launchUri = Uri(
                                 scheme: 'tel',
-                                path: item.contact,
+                                path: '911',
                               );
                               await launchUrl(launchUri);
                             },
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
+                              width: 80,
                               margin: EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
-                                color: tcAsh,
+                                color: tcOrange,
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               child: Center(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    item.name ?? '',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                ],
-                              )),
+                                    Text(
+                                      'General',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: tcWhite,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          );
-                        },
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '143',
+                              );
+                              await launchUrl(launchUri);
+                            },
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              width: 80,
+                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              decoration: BoxDecoration(
+                                color: tcGreen,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Medical',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: tcWhite,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '160',
+                              );
+                              await launchUrl(launchUri);
+                            },
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              width: 80,
+                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              decoration: BoxDecoration(
+                                color: tcRed,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Fire',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: tcWhite,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              final Uri launchUri = Uri(
+                                scheme: 'tel',
+                                path: '117',
+                              );
+                              await launchUrl(launchUri);
+                            },
+                            borderRadius: BorderRadius.circular(50),
+                            child: Container(
+                              width: 80,
+                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              decoration: BoxDecoration(
+                                color: tcBlue,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Crime',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: tcWhite,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
