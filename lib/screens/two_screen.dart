@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/animations/slideLeft_animation.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/screens/login_screen.dart';

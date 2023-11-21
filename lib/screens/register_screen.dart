@@ -1628,7 +1628,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               setState(() {
                                 isLoading = true;
                               });
-                              final fcmToken = await getFCM();
+                              //final fcmToken = await getFCM();
                               final byte64Image =
                                   await convertXFileToBase64(_image);
 

@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taguigconnect/animations/fade_animation.dart';
 import 'package:taguigconnect/animations/slideLeft_animation.dart';
 import 'package:taguigconnect/configs/network_config.dart';
-import 'package:taguigconnect/configs/request_service.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/screens/forgot-password_screen.dart';
 import 'package:taguigconnect/screens/home_screen.dart';
@@ -113,16 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
         stateTextWithIcon = stateTextWithIcon;
       },
     );
-  }
-
-  Future<void> checkPermission() async {
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    try {
-      bool checkPermission =
-          await RequestService.checkAllPermission(androidInfo);
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override

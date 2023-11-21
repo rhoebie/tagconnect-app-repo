@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taguigconnect/configs/request_service.dart';
-import 'package:taguigconnect/constants/barangay_constant.dart';
 import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/models/create-report_model.dart';
