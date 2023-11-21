@@ -7,7 +7,6 @@ import 'package:taguigconnect/constants/color_constant.dart';
 import 'package:taguigconnect/models/barangay_model.dart';
 import 'package:taguigconnect/services/barangay_service.dart';
 import 'package:taguigconnect/widgets/barangay/barangay-details_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BarangayListScreen extends StatefulWidget {
   const BarangayListScreen({super.key});
@@ -17,49 +16,7 @@ class BarangayListScreen extends StatefulWidget {
 }
 
 class _BarangayListScreenState extends State<BarangayListScreen> {
-  double? userLatitude;
-  double? userLongitude;
   String? imageUrl;
-
-  Future<List<String>> calculateDistances() async {
-    List<String> distances = [];
-    bool locationPermission = await RequestService.locationPermission();
-
-    if (locationPermission) {
-      try {
-        final List<BarangayModel> barangays = await fetchBarangay();
-        final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
-        final Position position = await geolocator.getCurrentPosition(
-          locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
-        );
-
-        userLatitude = position.latitude;
-        userLongitude = position.longitude;
-
-        for (BarangayModel barangay in barangays) {
-          if (barangay.location != null) {
-            Location barangayLocation = barangay.location!;
-
-            final distanceReport = HaversineCalculator.calculateDistance(
-              userLatitude!,
-              userLongitude!,
-              barangayLocation.latitude!,
-              barangayLocation.longitude!,
-            );
-
-            distances.add(distanceReport);
-          }
-        }
-      } catch (e) {
-        print('Error: $e');
-        return [];
-      }
-    } else {
-      Navigator.pop(context);
-    }
-
-    return distances;
-  }
 
   Future<List<BarangayModel>> fetchBarangay() async {
     try {
@@ -72,12 +29,6 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
       print('Error: $e');
     }
     return [];
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
   }
 
   @override
@@ -147,8 +98,6 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                   builder: (context) {
                                     return BarangayDetailsWidget(
                                       barangayModel: item,
-                                      userLatitude: userLatitude,
-                                      userLongitude: userLongitude,
                                     );
                                   },
                                 ),
@@ -240,213 +189,6 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class BarangayDetailWidget extends StatelessWidget {
-  final BarangayModel barangayModel;
-  final double? userLatitude;
-  final double? userLongitude;
-  const BarangayDetailWidget(
-      {super.key,
-      required this.barangayModel,
-      required this.userLatitude,
-      required this.userLongitude});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 10),
-      height: 600.h,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 200,
-                child: barangayModel.image == null
-                    ? Center(
-                        child: Icon(
-                          Icons.question_mark,
-                          size: 50,
-                          color: tcBlack,
-                        ),
-                      )
-                    : Image.network(
-                        barangayModel.image!,
-                        fit: BoxFit.cover,
-                      ),
-              ),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          barangayModel.name!,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                            color: tcRed,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'District: ',
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w700,
-                                color: tcBlack,
-                              ),
-                            ),
-                            Text(
-                              barangayModel.district.toString(),
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                color: tcBlack,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Contact',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Text(
-                      barangayModel.contact!,
-                      style: TextStyle(
-                        fontFamily: 'PublicSans',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Address',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Text(
-                      barangayModel.address!,
-                      style: TextStyle(
-                        fontFamily: 'PublicSans',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Response Time',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Text(
-                      barangayModel.analytics!.responseTime!,
-                      style: TextStyle(
-                        fontFamily: 'PublicSans',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                    ),
-                    Text(
-                      'Total Resolve Reports',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: tcBlack,
-                      ),
-                    ),
-                    Text(
-                      barangayModel.analytics!.totalReports!.toString(),
-                      style: TextStyle(
-                        fontFamily: 'PublicSans',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: tcBlack,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            width: double.infinity,
-            height: 50.h,
-            child: ElevatedButton(
-              onPressed: () async {
-                if (userLatitude != null && userLongitude != null) {
-                  final Uri launchUri = Uri.parse(
-                      'https://www.google.com/maps/dir/$userLatitude, $userLongitude/${barangayModel.location!.latitude!},${barangayModel.location!.longitude!}');
-                  await launchUrl(launchUri);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: tcViolet,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 2,
-              ),
-              child: Text(
-                'View',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'PublicSans',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: tcWhite,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
