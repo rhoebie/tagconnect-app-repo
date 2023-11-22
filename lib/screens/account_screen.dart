@@ -66,7 +66,8 @@ class _AccountScreenState extends State<AccountScreen> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return AccountEditWidget(userModel: userModel);
+                    return AccountEditWidget(
+                        userModel: userModel, callbackFunction: fetchUserData);
                   },
                 ),
               );
@@ -95,8 +96,8 @@ class _AccountScreenState extends State<AccountScreen> {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
                 final items = snapshot.data;
-                items!.image != null
-                    ? imageUrl = ApiConstants.baseUrl + items.image!
+                items?.image != null
+                    ? imageUrl = ApiConstants.baseUrl + items!.image!
                     : imageUrl = null;
 
                 return Column(
@@ -138,7 +139,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             Container(
                               width: 210,
                               child: AutoSizeText(
-                                '${items.lastname}, ${items.firstname} ${items.middlename}',
+                                '${items!.lastname}, ${items.firstname} ${items.middlename}',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 textAlign: TextAlign.start,

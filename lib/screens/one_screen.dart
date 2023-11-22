@@ -26,7 +26,7 @@ class WelcomeOneScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
                 text: TextSpan(
                   style: TextStyle(
-                    fontFamily: 'Roboto',
+                    fontFamily: 'PublicSans',
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w900,
                     color: tcViolet,

@@ -14,8 +14,10 @@ import 'package:taguigconnect/models/user_model.dart';
 import 'package:taguigconnect/services/user_service.dart';
 
 class AccountEditWidget extends StatefulWidget {
+  final VoidCallback callbackFunction;
   final UserModel userModel;
-  const AccountEditWidget({super.key, required this.userModel});
+  const AccountEditWidget(
+      {super.key, required this.userModel, required this.callbackFunction});
 
   @override
   State<AccountEditWidget> createState() => _AccountEditWidgetState();
@@ -48,6 +50,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
       final response = await userService.patchUser(userdata);
 
       if (response) {
+        widget.callbackFunction.call();
         Navigator.pop(
           context,
         );
@@ -57,25 +60,6 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
       }
     } catch (e) {
       throw Exception('Failed to update user: $e');
-    }
-  }
-
-  Future<UserModel?> fetchUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      // Initialize Service for User
-      final userService = UserService();
-      final userId = prefs.getInt('userId');
-
-      if (userId != null) {
-        final UserModel userData = await userService.getUserById(userId);
-        return userData;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print('Error: $e');
-      return null;
     }
   }
 
