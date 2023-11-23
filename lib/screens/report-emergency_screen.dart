@@ -119,15 +119,20 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
 
   Future<void> fetchLocationData() async {
     try {
-      final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
-      final Position position = await geolocator.getCurrentPosition(
-        locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
-      );
-      setState(() {
-        userLatitude = position.latitude;
-        userLongitude = position.longitude;
-      });
-      print('Latitude: $userLatitude, Longitude: $userLongitude');
+      final locationStats = await RequestService.locationPermission();
+      if (locationStats) {
+        final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
+        final Position position = await geolocator.getCurrentPosition(
+          locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
+        );
+        setState(() {
+          userLatitude = position.latitude;
+          userLongitude = position.longitude;
+        });
+        print('Latitude: $userLatitude, Longitude: $userLongitude');
+      } else {
+        return;
+      }
     } catch (e) {
       print('Error fetching location: $e');
     }

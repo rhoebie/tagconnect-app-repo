@@ -45,7 +45,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
         print('Error: $e');
       }
     } else {
-      Navigator.pop(context);
+      return;
     }
   }
 
