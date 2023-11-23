@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/constants/endpoint_constant.dart';
-import 'package:taguigconnect/models/user_model.dart';
-import 'package:taguigconnect/widgets/account/account-edit_screen.dart';
-import 'package:taguigconnect/services/user_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/constants/endpoint_constant.dart';
+import 'package:TagConnect/models/user_model.dart';
+import 'package:TagConnect/widgets/account/account-edit_screen.dart';
+import 'package:TagConnect/services/user_service.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});

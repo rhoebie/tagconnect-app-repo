@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/news_model.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -48,7 +48,7 @@ class _NewsListState extends State<NewsList> {
     }
 
     try {
-      final url = 'https://taguigconnect.online/api/get-news?page=$page';
+      final url = 'https://TagConnect.online/api/get-news?page=$page';
       final response = await http.get(
         Uri.parse(url),
       );

@@ -13,6 +13,7 @@ class CreateReportModel {
   String description;
   bool casualties;
   userLoc location;
+  String visibility;
   String? image;
 
   CreateReportModel({
@@ -21,6 +22,7 @@ class CreateReportModel {
     required this.description,
     required this.casualties,
     required this.location,
+    required this.visibility,
     this.image,
   });
 
@@ -30,6 +32,7 @@ class CreateReportModel {
         "description": description,
         "casualties": casualties,
         "location": location.toJson(),
+        "visibility": visibility,
         "image": image,
       };
 }

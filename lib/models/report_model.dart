@@ -19,22 +19,24 @@ class ReportModel {
   String? description;
   String? casualties;
   Location? location;
+  String? visibility;
   String? image;
   String? isDone;
   DateTime? createdAt;
   DateTime? updatedAt;
 
   ReportModel({
-    this.id, //
-    this.userId, //
-    this.barangayId, //
-    this.emergencyType, //
-    this.forWhom, //
-    this.description, //
-    this.casualties, //
-    this.location, //
-    this.image, //
-    this.isDone, //
+    this.id,
+    this.userId,
+    this.barangayId,
+    this.emergencyType,
+    this.forWhom,
+    this.description,
+    this.casualties,
+    this.location,
+    this.visibility,
+    this.image,
+    this.isDone,
     this.createdAt,
     this.updatedAt,
   });
@@ -50,6 +52,7 @@ class ReportModel {
         location: json["location"] == null
             ? null
             : Location.fromJson(json["location"]),
+        visibility: json["visibility"],
         image: json["image"],
         isDone: json["isDone"],
         createdAt: json["created_at"] == null
@@ -69,6 +72,7 @@ class ReportModel {
         "description": description,
         "casualties": casualties,
         "location": location?.toJson(),
+        "visibility": visibility,
         "image": image,
         "isDone": isDone,
         "created_at": createdAt?.toIso8601String(),

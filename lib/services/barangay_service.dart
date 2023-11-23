@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:taguigconnect/constants/endpoint_constant.dart';
-import 'package:taguigconnect/models/barangay_model.dart';
+import 'package:TagConnect/constants/endpoint_constant.dart';
+import 'package:TagConnect/models/barangay_model.dart';
 
 class BarangayService {
   final String baseUrl = ApiConstants.apiUrl;

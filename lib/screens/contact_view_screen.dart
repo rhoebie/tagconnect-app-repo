@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/contact_model.dart';
-import 'package:taguigconnect/screens/contact-edit_screen.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/contact_model.dart';
+import 'package:TagConnect/screens/contact-edit_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactViewScreen extends StatelessWidget {

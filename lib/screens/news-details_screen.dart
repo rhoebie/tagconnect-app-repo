@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/news_model.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/news_model.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 

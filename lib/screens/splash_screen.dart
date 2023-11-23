@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:TagConnect/animations/fade_animation.dart';
+import 'package:TagConnect/configs/network_config.dart';
+import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/screens/login_screen.dart';
+import 'package:TagConnect/screens/one_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:taguigconnect/animations/fade_animation.dart';
-import 'package:taguigconnect/configs/network_config.dart';
-import 'package:taguigconnect/configs/request_service.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/screens/login_screen.dart';
-import 'package:taguigconnect/screens/one_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
@@ -137,10 +137,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     children: [
                       TextSpan(
-                        text: 'TAGUIG',
+                        text: 'TAG',
                       ),
                       TextSpan(
-                        text: 'ALERT',
+                        text: 'CONNECT',
                         style: TextStyle(
                           color: tcRed,
                         ),

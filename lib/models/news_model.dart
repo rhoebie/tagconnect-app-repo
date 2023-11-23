@@ -4,11 +4,12 @@
 
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/screens/news-details_screen.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/screens/news-details_screen.dart';
 
 List<NewsModel> newsModelFromJson(String str) =>
     List<NewsModel>.from(json.decode(str).map((x) => NewsModel.fromJson(x)));
@@ -54,13 +55,19 @@ class NewsModel {
   Widget buildContactWidget(BuildContext context, NewsModel newsData) {
     return ListTile(
       leading: image != null
-          ? CircleAvatar(
-              backgroundColor: tcAsh,
-              backgroundImage: NetworkImage(
-                image!,
+          ? ClipOval(
+              child: CachedNetworkImage(
+                width: 40,
+                height: 40,
+                imageUrl: image!,
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             )
           : CircleAvatar(
+              radius: 20,
               backgroundColor: tcAsh,
               child: Center(
                 child: Icon(

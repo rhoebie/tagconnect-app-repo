@@ -2,20 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/feed_model.dart';
-import 'package:taguigconnect/models/news_model.dart';
-import 'package:taguigconnect/models/user_model.dart';
-import 'package:taguigconnect/screens/news-details_screen.dart';
-import 'package:taguigconnect/screens/news-list_screen.dart';
-import 'package:taguigconnect/screens/report-details_screen.dart';
-import 'package:taguigconnect/screens/report-emergency_screen.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/barangay_model.dart';
+import 'package:TagConnect/models/feed_model.dart';
+import 'package:TagConnect/models/news_model.dart';
+import 'package:TagConnect/models/user_model.dart';
+import 'package:TagConnect/screens/news-details_screen.dart';
+import 'package:TagConnect/screens/news-list_screen.dart';
+import 'package:TagConnect/screens/report-details_screen.dart';
+import 'package:TagConnect/screens/report-emergency_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:taguigconnect/services/user_service.dart';
+import 'package:TagConnect/services/barangay_service.dart';
+import 'package:TagConnect/services/user_service.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -27,6 +30,7 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
   final List<Color> bgColor = [tcOrange, tcGreen, tcRed, tcBlue];
   List<FeedModel> reportData = [];
+  List<BarangayModel> barangayData = [];
   late PageController _pageController;
   int _currentPage = 0;
   late Timer _timer;
@@ -123,12 +127,35 @@ class _HomeWidgetState extends State<HomeWidget> {
     }
   }
 
+  Future<void> fetchBarangay() async {
+    try {
+      final barangayService = BarangayService();
+      final List<BarangayModel> fetchData =
+          await barangayService.getbarangays();
+
+      setState(() {
+        barangayData = fetchData;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> fetchInit() async {
+    try {
+      await fetchUserData();
+      await fetchBarangay();
+      await fetchReportData();
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchUserData();
-    fetchReportData();
+    fetchInit();
     _pageController = PageController();
     _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       if (_currentPage < 4) {
@@ -209,7 +236,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                   itemCount: reportData.length >= 5 ? 5 : reportData.length,
                   itemBuilder: (context, index) {
                     final item = reportData[index];
+                    final barangayInfo = barangayData.firstWhere(
+                      (barangay) => barangay.id == item.barangayId,
+                      orElse: () => BarangayModel(),
+                    );
                     return Container(
+                      width: double.infinity,
+                      height: 300.h,
                       child: Column(
                         children: [
                           Expanded(
@@ -217,9 +250,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                               alignment: Alignment.center,
                               children: [
                                 Positioned.fill(
-                                  child: Image.network(
-                                    item.image!,
+                                  child: CachedNetworkImage(
+                                    imageUrl: item.image!,
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                                 Positioned.fill(
@@ -254,9 +291,24 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       radius: 20,
                                       backgroundColor: tcViolet,
                                       foregroundColor: tcWhite,
-                                      child: Icon(
-                                        Icons.person_rounded,
-                                      ),
+                                      child: barangayInfo.image != null
+                                          ? ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl: barangayInfo.image!,
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    Center(
+                                                        child:
+                                                            CircularProgressIndicator()),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              ),
+                                            )
+                                          : Icon(
+                                              Icons.question_mark,
+                                              size: 20,
+                                            ),
                                     ),
                                     VerticalDivider(
                                       color: Colors.transparent,
@@ -301,6 +353,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           builder: (context) {
                                             return ReportDetail(
                                               feedModel: item,
+                                              barangayModel: barangayInfo,
                                             );
                                           },
                                         ),
@@ -430,9 +483,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               ? Container(
                                                   width: 180.w,
                                                   height: 100.h,
-                                                  child: Image.network(
-                                                    item.image!,
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: item.image!,
                                                     fit: BoxFit.cover,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
                                                   ),
                                                 )
                                               : Container(

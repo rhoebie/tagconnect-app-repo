@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:TagConnect/constants/color_constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:taguigconnect/models/barangay_model.dart';
-import 'package:taguigconnect/models/feed_model.dart';
-import 'package:taguigconnect/screens/report-details_screen.dart';
-import 'package:taguigconnect/services/barangay_service.dart';
+import 'package:TagConnect/models/barangay_model.dart';
+import 'package:TagConnect/models/feed_model.dart';
+import 'package:TagConnect/screens/report-details_screen.dart';
+import 'package:TagConnect/services/barangay_service.dart';
 
 class FeedWidget extends StatefulWidget {
   const FeedWidget({super.key});
@@ -20,10 +21,8 @@ class FeedWidget extends StatefulWidget {
 
 class _FeedWidgetState extends State<FeedWidget> {
   int selectedBarangayIndex = 0;
-  final scrollController = ScrollController();
   int page = 1;
-  late List<FeedModel> initialReportData; // Store the initial data
-  List<FeedModel> featuredReport = []; // Initial data for PageView
+  late List<FeedModel> initialReportData;
   List<FeedModel> reportData = [];
   List<FeedModel> filteredReportData = [];
   List<BarangayModel> barangayData = [];
@@ -31,6 +30,46 @@ class _FeedWidgetState extends State<FeedWidget> {
   int totalPage = 1;
   bool isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
+  List<String> barangayList = [
+    'Fort Bonifacio',
+    'Upper Bicutan',
+    'Western Bicutan',
+    'Pinagsama',
+    'Ususan',
+    'Napindan',
+    'Tuktukan',
+    'Central Signal Village',
+    'New Lower Bicutan',
+    'Maharlika Village',
+    'Central Bicutan',
+    'Lower Bicutan',
+    'North Daang Hari',
+    'Tanyag',
+    'Bagumbayan',
+    'South Daang Hari',
+    'Palingon',
+    'Ligid Tipas',
+    'Ibayo Tipas',
+    'Calzada',
+    'Bambang',
+    'Sta Ana',
+    'Wawa',
+    'Katuparan',
+    'North Signal Village',
+    'San Miguel',
+    'South Signal Village',
+    'Hagonoy',
+    'Pembo',
+    'Comembo',
+    'Cembo',
+    'South Cembo',
+    'West Rembo',
+    'East Rembo',
+    'Pitogo',
+    'Rizal',
+    'Post Proper North Side',
+    'Post Proper South Side',
+  ];
 
   void filterReport(String query) {
     query = query.toLowerCase();
@@ -83,6 +122,9 @@ class _FeedWidgetState extends State<FeedWidget> {
         List<FeedModel> reports =
             data.map((item) => FeedModel.fromJson(item)).toList();
 
+        // Sort the reports by id in ascending order
+        reports.sort((a, b) => a.id!.compareTo(b.id!));
+
         setState(() {
           if (page == 1) {
             reportData = reports;
@@ -124,8 +166,8 @@ class _FeedWidgetState extends State<FeedWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchReportData('All');
     fetchBarangay();
+    fetchReportData('All');
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -136,12 +178,6 @@ class _FeedWidgetState extends State<FeedWidget> {
         fetchReportData('all', page: currentPage + 1);
       }
     });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   @override
@@ -228,15 +264,14 @@ class _FeedWidgetState extends State<FeedWidget> {
                       height: 30,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: barangayData.length + 1,
+                        itemCount: barangayList.length + 1,
                         itemBuilder: (context, index) {
                           bool isSelected = index == selectedBarangayIndex;
 
                           return InkWell(
                             onTap: () {
-                              String selectedBarangayName = index == 0
-                                  ? "All"
-                                  : barangayData[index - 1].name ?? '';
+                              String selectedBarangayName =
+                                  index == 0 ? "All" : barangayList[index - 1];
                               fetchReportData(selectedBarangayName);
                               setState(() {
                                 selectedBarangayIndex = isSelected ? -1 : index;
@@ -258,7 +293,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                     Text(
                                       index == 0
                                           ? "All"
-                                          : barangayData[index - 1].name ?? '',
+                                          : barangayList[index - 1],
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                         fontFamily: 'Roboto',
@@ -290,6 +325,10 @@ class _FeedWidgetState extends State<FeedWidget> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final item = filteredReportData[index];
+                    final barangayInfo = barangayData.firstWhere(
+                      (barangay) => barangay.id == item.barangayId,
+                      orElse: () => BarangayModel(),
+                    );
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -297,6 +336,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                             builder: (context) {
                               return ReportDetail(
                                 feedModel: item,
+                                barangayModel: barangayInfo,
                               );
                             },
                           ),
@@ -307,93 +347,83 @@ class _FeedWidgetState extends State<FeedWidget> {
                         child: Container(
                           padding: EdgeInsets.all(10),
                           height: 120,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: tcViolet,
-                                        foregroundColor: tcWhite,
-                                        radius: 15,
-                                        child: Icon(
-                                          Icons.person_rounded,
+                                  item.image != null
+                                      ? ClipOval(
+                                          child: CachedNetworkImage(
+                                            width: 30,
+                                            height: 30,
+                                            imageUrl: item.image!,
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) => Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.question_mark,
                                           size: 20,
                                         ),
+                                  VerticalDivider(
+                                    color: Colors.transparent,
+                                    width: 5,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${barangayInfo.name ?? ''} Report #${item.id}',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: tcBlack,
+                                        ),
                                       ),
-                                      VerticalDivider(
-                                        color: Colors.transparent,
-                                        width: 5,
+                                      Text(
+                                        formatCustomDateTime(
+                                            item.createdAt.toString()),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'PublicSans',
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.normal,
+                                          color: tcBlack,
+                                        ),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            item.emergencyType ?? '',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: tcBlack,
-                                            ),
-                                          ),
-                                          Text(
-                                            formatCustomDateTime(
-                                                item.createdAt.toString()),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'PublicSans',
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.normal,
-                                              color: tcBlack,
-                                            ),
-                                          ),
-                                        ],
-                                      )
                                     ],
-                                  ),
-                                  Container(
-                                    width: 200,
-                                    child: Text(
-                                      item.description ?? '',
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                        fontFamily: 'PublicSans',
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: tcBlack,
-                                      ),
-                                    ),
-                                  ),
+                                  )
                                 ],
                               ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  child: item.image != null
-                                      ? Image.network(
-                                          item.image!,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Container(
-                                          child: Icon(Icons.question_mark),
-                                        ),
+                              Divider(
+                                color: Colors.transparent,
+                                height: 5,
+                              ),
+                              Text(
+                                item.description ?? '',
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: tcBlack,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),

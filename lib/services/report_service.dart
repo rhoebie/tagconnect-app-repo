@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/constants/endpoint_constant.dart';
-import 'package:taguigconnect/models/create-report_model.dart';
-import 'package:taguigconnect/models/report_model.dart';
+import 'package:TagConnect/constants/endpoint_constant.dart';
+import 'package:TagConnect/models/create-report_model.dart';
+import 'package:TagConnect/models/report_model.dart';
 
 class ReportService {
   final String baseUrl = ApiConstants.apiUrl;

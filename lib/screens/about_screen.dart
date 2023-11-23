@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:TagConnect/constants/color_constant.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});

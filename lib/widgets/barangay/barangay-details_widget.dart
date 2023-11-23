@@ -2,9 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:taguigconnect/configs/request_service.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/barangay_model.dart';
+import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/barangay_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BarangayDetailsWidget extends StatefulWidget {

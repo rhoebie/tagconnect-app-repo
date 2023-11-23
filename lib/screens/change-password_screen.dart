@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/services/user_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/services/user_service.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});

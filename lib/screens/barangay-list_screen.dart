@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/barangay_model.dart';
-import 'package:taguigconnect/services/barangay_service.dart';
-import 'package:taguigconnect/widgets/barangay/barangay-details_widget.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/barangay_model.dart';
+import 'package:TagConnect/services/barangay_service.dart';
+import 'package:TagConnect/widgets/barangay/barangay-details_widget.dart';
 
 class BarangayListScreen extends StatefulWidget {
   const BarangayListScreen({super.key});
@@ -105,27 +106,32 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    InkWell(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(5)),
-                                        child: Container(
-                                          color: tcAsh,
-                                          height: 150.h,
-                                          width: double.infinity,
-                                          child: item.image != null
-                                              ? Image.network(
-                                                  item.image!,
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : Center(
-                                                  child: Icon(
-                                                    Icons.question_mark,
-                                                    size: 50,
-                                                    color: tcBlack,
-                                                  ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(5)),
+                                      child: Container(
+                                        color: tcAsh,
+                                        height: 150.h,
+                                        width: double.infinity,
+                                        child: item.image != null
+                                            ? CachedNetworkImage(
+                                                imageUrl: item.image!,
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    Center(
+                                                        child:
+                                                            CircularProgressIndicator()),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              )
+                                            : Center(
+                                                child: Icon(
+                                                  Icons.question_mark,
+                                                  size: 50,
+                                                  color: tcBlack,
                                                 ),
-                                        ),
+                                              ),
                                       ),
                                     ),
                                     Expanded(

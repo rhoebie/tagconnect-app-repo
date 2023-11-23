@@ -2,16 +2,16 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/animations/fade_animation.dart';
-import 'package:taguigconnect/animations/slideLeft_animation.dart';
-import 'package:taguigconnect/configs/network_config.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/screens/forgot-password_screen.dart';
-import 'package:taguigconnect/screens/home_screen.dart';
-import 'package:taguigconnect/screens/register_screen.dart';
+import 'package:TagConnect/animations/fade_animation.dart';
+import 'package:TagConnect/animations/slideLeft_animation.dart';
+import 'package:TagConnect/configs/network_config.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/screens/forgot-password_screen.dart';
+import 'package:TagConnect/screens/home_screen.dart';
+import 'package:TagConnect/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/services/user_service.dart';
+import 'package:TagConnect/services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

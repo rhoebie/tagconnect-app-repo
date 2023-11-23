@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/constants/barangay_constant.dart';
-import 'package:taguigconnect/constants/calculate_constant.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/constants/endpoint_constant.dart';
-import 'package:taguigconnect/models/barangay-response_model.dart';
-import 'package:taguigconnect/models/emergency-type_model.dart';
+import 'package:TagConnect/constants/barangay_constant.dart';
+import 'package:TagConnect/constants/calculate_constant.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/constants/endpoint_constant.dart';
+import 'package:TagConnect/models/barangay-response_model.dart';
+import 'package:TagConnect/models/emergency-type_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:taguigconnect/screens/barangay-list_screen.dart';
+import 'package:TagConnect/screens/barangay-list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExploreWidget extends StatefulWidget {

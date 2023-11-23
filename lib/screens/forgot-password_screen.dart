@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/animations/slideLeft_animation.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/screens/login_screen.dart';
-import 'package:taguigconnect/services/user_service.dart';
+import 'package:TagConnect/animations/slideLeft_animation.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/screens/login_screen.dart';
+import 'package:TagConnect/services/user_service.dart';
 
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController txtOne = TextEditingController();

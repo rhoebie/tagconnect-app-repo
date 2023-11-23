@@ -1,17 +1,17 @@
+import 'package:TagConnect/animations/fade_animation.dart';
+import 'package:TagConnect/configs/network_config.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/report_model.dart';
+import 'package:TagConnect/screens/about_screen.dart';
+import 'package:TagConnect/screens/account_screen.dart';
+import 'package:TagConnect/screens/barangay-list_screen.dart';
+import 'package:TagConnect/screens/change-password_screen.dart';
+import 'package:TagConnect/screens/login_screen.dart';
+import 'package:TagConnect/screens/news-list_screen.dart';
+import 'package:TagConnect/screens/report-list_screen.dart';
+import 'package:TagConnect/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/animations/fade_animation.dart';
-import 'package:taguigconnect/configs/network_config.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/report_model.dart';
-import 'package:taguigconnect/screens/about_screen.dart';
-import 'package:taguigconnect/screens/account_screen.dart';
-import 'package:taguigconnect/screens/barangay-list_screen.dart';
-import 'package:taguigconnect/screens/change-password_screen.dart';
-import 'package:taguigconnect/screens/login_screen.dart';
-import 'package:taguigconnect/screens/news-list_screen.dart';
-import 'package:taguigconnect/screens/report-list_screen.dart';
-import 'package:taguigconnect/services/user_service.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({super.key});

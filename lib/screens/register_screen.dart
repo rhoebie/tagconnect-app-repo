@@ -5,14 +5,14 @@ import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taguigconnect/animations/slideLeft_animation.dart';
-import 'package:taguigconnect/configs/network_config.dart';
-import 'package:taguigconnect/configs/request_service.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
+import 'package:TagConnect/animations/slideLeft_animation.dart';
+import 'package:TagConnect/configs/network_config.dart';
+import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:taguigconnect/screens/login_screen.dart';
-import 'package:taguigconnect/services/user_service.dart';
+import 'package:TagConnect/screens/login_screen.dart';
+import 'package:TagConnect/services/user_service.dart';
 
 // variables
 

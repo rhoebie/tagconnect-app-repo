@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taguigconnect/configs/request_service.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/barangay_model.dart';
-import 'package:taguigconnect/models/create-report_model.dart';
-import 'package:taguigconnect/services/report_service.dart';
+import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/barangay_model.dart';
+import 'package:TagConnect/models/create-report_model.dart';
+import 'package:TagConnect/services/report_service.dart';
 
 class ReportEmergencyScreen extends StatefulWidget {
   const ReportEmergencyScreen({super.key});
@@ -29,6 +29,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
   String? selectedEmergencyType;
   String? selectedForWhom;
   bool? selectedCasualties;
+  bool? selectedVisibility = true;
   bool anotherperson = false;
   String? locationData;
   String? _imageName;
@@ -132,8 +133,8 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
     }
   }
 
-  Future<void> submitReport(
-      String emergencyType, forWhom, description, casualties, imahe) async {
+  Future<void> submitReport(String emergencyType, forWhom, description,
+      casualties, visibility, imahe) async {
     final reportService = ReportService();
 
     try {
@@ -141,13 +142,17 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       final locationUser =
           userLoc(latitude: userLatitude!, longitude: userLongitude!);
 
+      final visib = visibility != true ? 'Public' : 'Private';
+
       final reportMod = CreateReportModel(
-          emergencyType: emergencyType,
-          forWhom: forWhom,
-          description: description,
-          casualties: casualties,
-          location: locationUser,
-          image: imahe);
+        emergencyType: emergencyType,
+        forWhom: forWhom,
+        description: description,
+        casualties: casualties,
+        location: locationUser,
+        visibility: visib,
+        image: imahe,
+      );
 
       final response = await reportService.createReport(reportMod);
 
@@ -203,7 +208,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                         Row(
                           children: [
                             Text(
-                              'EMERGENCY TYPE',
+                              'Emergency Type',
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
@@ -316,7 +321,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                         Row(
                           children: [
                             Text(
-                              'FOR WHOM?',
+                              'For Whom?',
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
@@ -405,7 +410,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                         Row(
                           children: [
                             Text(
-                              'DESCRIPTION',
+                              'Description',
                               style: TextStyle(
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
@@ -503,7 +508,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                     Row(
                       children: <Widget>[
                         Text(
-                          "ANY CASUALTIES?",
+                          "Any Casualties?",
                           style: TextStyle(
                             fontFamily: 'PublicSans',
                             fontSize: 14.sp,
@@ -540,6 +545,55 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                         ),
                         Text(
                           "NO",
+                          style: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: tcBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Visibility",
+                          style: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: tcBlack,
+                          ),
+                        ),
+                        Radio(
+                          value: true,
+                          groupValue: selectedVisibility,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedVisibility = value;
+                            });
+                          },
+                        ),
+                        Text(
+                          "Private",
+                          style: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: tcBlack,
+                          ),
+                        ),
+                        Radio(
+                          value: false,
+                          groupValue: selectedVisibility,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedVisibility = value;
+                            });
+                          },
+                        ),
+                        Text(
+                          "Public",
                           style: TextStyle(
                             fontFamily: 'PublicSans',
                             fontSize: 14.sp,
@@ -676,6 +730,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             selectedForWhom,
                             _descriptionController.text,
                             selectedCasualties,
+                            selectedVisibility,
                             imageStr);
 
                         setState(() {
@@ -699,6 +754,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             selectedForWhom,
                             _descriptionController.text,
                             selectedCasualties,
+                            selectedVisibility,
                             null);
 
                         setState(() {

@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:taguigconnect/constants/color_constant.dart';
-import 'package:taguigconnect/models/report_model.dart';
-import 'package:taguigconnect/services/report_service.dart';
+import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/models/report_model.dart';
+import 'package:TagConnect/services/report_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReportListScreen extends StatefulWidget {
@@ -286,14 +287,56 @@ class ReportDetail extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final Uri launchUri = Uri.parse(
+                  'https://maps.google.com/?q=${reportModel.location!.latitude!},${reportModel.location!.longitude!}');
+              await launchUrl(launchUri);
+            },
+            icon: Icon(
+              Icons.location_pin,
+              color: tcRed,
+            ),
+          )
+        ],
       ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Container(
+                height: 200.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: tcAsh,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                child: reportModel.image != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: Container(
+                          child: CachedNetworkImage(
+                            imageUrl: reportModel.image!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: Icon(Icons.question_mark),
+                      ),
+              ),
+              Divider(
+                color: Colors.transparent,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,6 +373,37 @@ class ReportDetail extends StatelessWidget {
                   ),
                 ],
               ),
+              Divider(
+                color: Colors.transparent,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Visibility',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcBlack,
+                    ),
+                  ),
+                  Text(
+                    reportModel.visibility ?? '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PublicSans',
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: tcBlack,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                color: Colors.transparent,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -354,6 +428,9 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              Divider(
+                color: Colors.transparent,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,6 +457,9 @@ class ReportDetail extends StatelessWidget {
                   ),
                 ],
               ),
+              Divider(
+                color: Colors.transparent,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -404,6 +484,9 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              Divider(
+                color: Colors.transparent,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,6 +513,9 @@ class ReportDetail extends StatelessWidget {
                   ),
                 ],
               ),
+              Divider(
+                color: Colors.transparent,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -452,77 +538,6 @@ class ReportDetail extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: tcBlack,
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Location',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
-                    ),
-                  ),
-                  Container(
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final Uri launchUri = Uri.parse(
-                            'https://maps.google.com/?q=${reportModel.location!.latitude!},${reportModel.location!.longitude!}');
-                        await launchUrl(launchUri);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: tcViolet,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        elevation: 2,
-                      ),
-                      child: Text(
-                        'View',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: tcWhite,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Image',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    child: reportModel.image != null
-                        ? Image.network(
-                            reportModel.image!,
-                            fit: BoxFit.cover,
-                          )
-                        : Center(
-                            child: Icon(
-                              Icons.question_mark,
-                              color: tcBlack,
-                            ),
-                          ),
                   ),
                 ],
               ),
