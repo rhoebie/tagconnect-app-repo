@@ -60,7 +60,7 @@ class AboutScreen extends StatelessWidget {
                 color: Colors.transparent,
               ),
               Text(
-                'Taguig Connect',
+                'TagConnect',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontFamily: 'Roboto',
@@ -74,238 +74,13 @@ class AboutScreen extends StatelessWidget {
                 height: 5,
               ),
               Text(
-                'Our Android-Based Incident Response Management System for Taguig City is a cutting-edge solution designed to streamline incident reporting and management within the city\'s barangays. Leveraging advanced technologies such as Flutter, Point in Polygon algorithms, and data analytics, this system is built to enhance public safety and empower local authorities with valuable insights.',
+                'The Android-Based Incident Response Management System is an innovative and efficient solution designed to enhance incident reporting and response procedures within the urban landscape of Taguig City. Leveraging Flutter for multiplatform deployment, the system seamlessly integrates both Android and web applications to cater to various user levels: admin, moderator, and end users.',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: tcBlack,
-                ),
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Text(
-                'Key Capabilities',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: tcViolet,
-                ),
-              ),
-              Divider(
-                color: Colors.transparent,
-                height: 5,
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Efficient Incident Reporting:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- The system provides a user-friendly Android application for end users to report incidents promptly and accurately.\n- Users can submit incident details, including their location, ensuring swift response and resolution.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400, // Make this part bold
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Precise Barangay Assignment:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- Utilizing the Point in Polygon algorithm, the system intelligently determines the appropriate barangay to notify based on the user\'s location.\n- This ensures that incident reports are directed to the correct local authorities for a rapid and efficient response.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Web-Based Administrative Control:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- The web application offers a powerful administrative interface for barangay officials and administrators.\n- Admins can create accounts, view incident reports within their jurisdiction, and manage these reports effectively.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Data Analytics for Informed Decision Making:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- Robust data analytics capabilities enable administrators to gain valuable insights from incident data.\n- Administrators can track incident trends, assess the effectiveness of response efforts, and make data-driven decisions to improve public safety.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'User Friendly Experience:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- Both Android and web applications are designed with a focus on user-friendliness, ensuring that users can easily report incidents and administrators can navigate the system effortlessly.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Data Security and Privacy:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- The system prioritizes data security and privacy, implementing encryption and access controls to safeguard sensitive information.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Scalability and Flexibility:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- Designed to scale with growing user and incident data, the system can adapt to the changing needs of Taguig City and its barangays.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Enhancing Public Safety:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- By providing a seamless incident reporting process and facilitating efficient incident management, this system contributes to the safety and well-being of Taguig City\'s residents and visitors.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
                 ),
               ),
               Divider(
@@ -330,7 +105,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Incident Reporting and Management:\n',
+                      text: 'Multiplatform Development:\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -340,7 +115,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- The system encompasses incident reporting and management within the geographical boundaries of Taguig City.\n- It allows users to report various types of incidents, including but not limited to accidents, emergencies, and public safety concerns.\n',
+                          '- The system will be developed using Flutter, ensuring a single codebase for a multiplatform release, enabling accessibility on both Android devices and web browsers.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -356,7 +131,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Geographical Specificity:\n',
+                      text: 'Incident Reporting:\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -366,7 +141,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- The system uses the Point in Polygon algorithm to accurately determine the responsible barangay based on the user\'s location within the city.\n- It ensures that incident reports are directed to the appropriate local authorities for swift response and resolution.\n',
+                          '- Users can report incidents through the Android application, providing location and information for efficient response by barangay authorities.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -382,7 +157,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Multiplatform Application:\n',
+                      text: 'Haversine Formula Algorithm\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -392,7 +167,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- The system offers a cross-platform Android application built using Flutter, allowing users to report incidents conveniently using a single codebase for Android only\n',
+                          '- The system employs the Haversine Formula Algorithm to determine the nearest barangay for incident notification, optimizing the dispatch process.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -408,7 +183,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Web-Based Administration:\n',
+                      text: 'User Levels:\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -418,7 +193,85 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- Administrators have access to a web application for managing incident reports within their respective barangays.\n- They can view, update, and analyze incident data, enabling data-driven decision-making.\n',
+                          '- The system caters to three user levels - admin, moderator, and end users - each with distinct functionalities to manage incidents, accounts, and analytics.\n',
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Web Application for Admin:\n',
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          '- Admins can create accounts, view all incident reports in the database, and perform data analytics, including bar graphs, line graphs, and total reports.\n',
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Web Application for Moderator:\n',
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          '- Moderators can create accounts (pending admin confirmation), view incident reports within their barangay boundary, manage reports, and access data analytics specific to their assigned area.\n',
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                textAlign: TextAlign.justify,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Android Application for End Users:\n',
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          '- End users can create accounts, report incidents with location details, and access data analytics, including a bar graph depicting report counts based on emergency types.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -444,59 +297,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- The system provides data analytics features that enable administrators to extract valuable insights from incident data, such as incident trends, patterns, and hotspots.\n- This data can aid in resource allocation and improved public safety strategies.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'User Authentication and Data Security:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- User accounts are protected through secure authentication mechanisms.\n- Data privacy and security are maintained through encryption and access controls. \n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Scalability:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- The system is designed to handle potential increases in users and incident reports as the user base grows.\n- Scalability measures are in place to ensure system performance.',
+                          '- Both web applications provide analytics features, including bar graphs, line graphs, and total incident reports, offering insights into trends and patterns.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -555,7 +356,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Accuracy of Location Data:\n',
+                      text: 'Location Accuracy:\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -565,7 +366,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- The accuracy of the Point in Polygon algorithm relies on the precision of location data provided by users\' devices. Inaccurate or outdated location information may affect the system\'s functionality.\n',
+                          '- The precision of incident location determination relies on the device\'s GPS and the Haversine Formula Algorithm, with potential deviations in accuracy.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -581,7 +382,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Data Volume:\n',
+                      text: 'Emergency Type Limitations:\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -591,7 +392,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- While designed to scale, the system\'s performance may be affected by exceptionally high volumes of incident reports or concurrent users. Ongoing monitoring and optimization may be necessary.\n',
+                          '-  Incident categorization is based on predefined emergency types, potentially limiting the accurate description of incidents that do not fit within these categories.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -607,7 +408,7 @@ class AboutScreen extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Data Privacy Compliance:\n',
+                      text: 'Android Compatibility:\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
@@ -617,85 +418,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                          '- Compliance with data privacy regulations, such as the Data Privacy Act, is essential. However, the responsibility for compliance lies with the system administrators and operators.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'User Adoption:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- The effectiveness of the system relies on user adoption and engagement. Encouraging users to report incidents through the app may require awareness campaigns and incentives.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Response Time:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- The system facilitates incident reporting but does not guarantee immediate response or resolution. Response times may vary based on the nature and urgency of reported incidents and the availability of local authorities.\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.justify,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Maintenance and Support:\n',
-                      style: TextStyle(
-                        color: tcBlack,
-                        fontFamily: 'PublicSans',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          '- Ongoing system maintenance, updates, and user support are required to ensure its continued functionality and usefulness.\n',
+                          '- The Android application is designed for devices running the Android OS, and compatibility with other operating systems is outside the system\'s scope.\n',
                       style: TextStyle(
                         color: tcBlack,
                         fontFamily: 'PublicSans',
