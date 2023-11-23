@@ -122,8 +122,8 @@ class _FeedWidgetState extends State<FeedWidget> {
         List<FeedModel> reports =
             data.map((item) => FeedModel.fromJson(item)).toList();
 
-        // Sort the reports by id in ascending order
-        reports.sort((a, b) => a.id!.compareTo(b.id!));
+        // Sort the reports by id in descending order
+        reports.sort((a, b) => b.id!.compareTo(a.id!));
 
         setState(() {
           if (page == 1) {

@@ -48,7 +48,7 @@ class _NewsListState extends State<NewsList> {
     }
 
     try {
-      final url = 'https://TagConnect.online/api/get-news?page=$page';
+      final url = 'https://taguigconnect.online/api/get-news?page=$page';
       final response = await http.get(
         Uri.parse(url),
       );
