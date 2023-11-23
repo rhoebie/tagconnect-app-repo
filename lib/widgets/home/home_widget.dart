@@ -86,12 +86,13 @@ class _HomeWidgetState extends State<HomeWidget> {
         List<FeedModel> reports =
             data.map((item) => FeedModel.fromJson(item)).toList();
 
+        // Sort the reports by id in descending order
+        reports.sort((a, b) => b.id!.compareTo(a.id!));
+
         setState(() {
           reportData = reports;
         });
       } else {
-        // If the server did not return a 200 OK response,
-        // throw an exception.
         throw Exception('Failed to load reports');
       }
     } catch (error) {
