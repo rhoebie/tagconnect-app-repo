@@ -123,26 +123,27 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: tcWhite,
         automaticallyImplyLeading: false,
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              'TCONNECT',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: tcViolet,
-                fontFamily: 'Roboto',
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w900,
-              ),
+        title: RichText(
+          textAlign: TextAlign.start,
+          text: TextSpan(
+            style: TextStyle(
+              fontFamily: 'PublicSans',
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w900,
+              color: tcViolet,
             ),
-            const Icon(
-              Icons.location_pin,
-              color: tcRed,
-              size: 24,
-            )
-          ],
+            children: [
+              TextSpan(
+                text: 'TAG',
+              ),
+              TextSpan(
+                text: 'CONNECT',
+                style: TextStyle(
+                  color: tcRed,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       body: SafeArea(

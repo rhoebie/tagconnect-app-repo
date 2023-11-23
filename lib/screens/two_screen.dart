@@ -17,38 +17,27 @@ class WelcomeTwoScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w900,
-                    color: tcViolet,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'TAGUIG',
-                    ),
-                    TextSpan(
-                      text: 'ALERT',
-                      style: TextStyle(
-                        color: tcRed,
-                      ),
-                    ),
-                  ],
-                ),
+          child: RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              style: TextStyle(
+                fontFamily: 'PublicSans',
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w900,
+                color: tcViolet,
               ),
-              const Icon(
-                Icons.location_pin,
-                color: tcRed,
-                size: 24,
-              )
-            ],
+              children: [
+                TextSpan(
+                  text: 'TAG',
+                ),
+                TextSpan(
+                  text: 'CONNECT',
+                  style: TextStyle(
+                    color: tcRed,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
