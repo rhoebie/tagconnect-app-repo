@@ -206,8 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcBlack,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 16),
                               prefixIcon: Icon(
                                 Icons.email,
                                 size: 20,
@@ -277,8 +275,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcBlack,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 16),
                               prefixIcon: Icon(
                                 Icons.lock,
                                 size: 20,

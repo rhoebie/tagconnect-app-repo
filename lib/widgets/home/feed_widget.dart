@@ -329,6 +329,13 @@ class _FeedWidgetState extends State<FeedWidget> {
                       (barangay) => barangay.id == item.barangayId,
                       orElse: () => BarangayModel(),
                     );
+
+                    // Calculate the height based on the description length
+                    final descriptionLines =
+                        (item.description ?? '').split('\n');
+                    final descriptionHeight = descriptionLines.length *
+                        16.0; // Adjust the line height as needed
+
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -342,89 +349,93 @@ class _FeedWidgetState extends State<FeedWidget> {
                           ),
                         );
                       },
-                      child: Card(
-                        color: tcWhite,
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          height: 120,
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  item.image != null
-                                      ? ClipOval(
-                                          child: CachedNetworkImage(
-                                            width: 30,
-                                            height: 30,
-                                            imageUrl: item.image!,
-                                            fit: BoxFit.cover,
-                                            placeholder: (context, url) => Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
+                      child: SizedBox(
+                        height: descriptionHeight + 120,
+                        child: Card(
+                          color: tcWhite,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            height: 120,
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    item.image != null
+                                        ? ClipOval(
+                                            child: CachedNetworkImage(
+                                              width: 30,
+                                              height: 30,
+                                              imageUrl: item.image!,
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) => Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
+                                          )
+                                        : Icon(
+                                            Icons.question_mark,
+                                            size: 20,
                                           ),
-                                        )
-                                      : Icon(
-                                          Icons.question_mark,
-                                          size: 20,
+                                    VerticalDivider(
+                                      color: Colors.transparent,
+                                      width: 5,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${barangayInfo.name ?? ''} Report #${item.id}',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: tcBlack,
+                                          ),
                                         ),
-                                  VerticalDivider(
-                                    color: Colors.transparent,
-                                    width: 5,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${barangayInfo.name ?? ''} Report #${item.id}',
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: tcBlack,
+                                        Text(
+                                          formatCustomDateTime(
+                                              item.createdAt.toString()),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'PublicSans',
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.normal,
+                                            color: tcBlack,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        formatCustomDateTime(
-                                            item.createdAt.toString()),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'PublicSans',
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.normal,
-                                          color: tcBlack,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Divider(
-                                color: Colors.transparent,
-                                height: 5,
-                              ),
-                              Text(
-                                item.description ?? '',
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  fontFamily: 'PublicSans',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                      ],
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ],
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
+                                ),
+                                Text(
+                                  item.description ?? '',
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontFamily: 'PublicSans',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcBlack,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
