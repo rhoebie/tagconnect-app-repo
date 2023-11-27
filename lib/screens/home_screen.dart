@@ -75,21 +75,23 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: Container(
-            child: PageView(
-          controller: _pageController,
-          children: [
-            HomeWidget(),
-            FeedWidget(),
-            ContactWidget(),
-            MenuWidget(),
-          ],
-          onPageChanged: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          physics: NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics
-        )),
+          child: PageView(
+            controller: _pageController,
+            children: [
+              HomeWidget(),
+              FeedWidget(),
+              ContactWidget(),
+              MenuWidget(),
+            ],
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            physics:
+                NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics
+          ),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: tcWhite,
