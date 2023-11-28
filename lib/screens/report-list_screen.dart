@@ -1,3 +1,4 @@
+import 'package:TagConnect/screens/report-edit_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -278,7 +279,7 @@ class ReportDetail extends StatelessWidget {
         elevation: 0,
         title: Text(
           reportModel.emergencyType?.toUpperCase() ?? '',
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           style: TextStyle(
             color: tcBlack,
             fontFamily: 'Roboto',
@@ -286,8 +287,25 @@ class ReportDetail extends StatelessWidget {
             fontWeight: FontWeight.w900,
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ReportEditScreen(
+                      reportModel: reportModel,
+                    );
+                  },
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.edit,
+              color: tcViolet,
+            ),
+          ),
           IconButton(
             onPressed: () async {
               final Uri launchUri = Uri.parse(
@@ -296,9 +314,9 @@ class ReportDetail extends StatelessWidget {
             },
             icon: Icon(
               Icons.location_pin,
-              color: tcRed,
+              color: tcViolet,
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(

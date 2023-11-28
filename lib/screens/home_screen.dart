@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/screens/notification_screen.dart';
-import 'package:TagConnect/widgets/home/feed_widget.dart';
-import 'package:TagConnect/widgets/home/contact_widget.dart';
-import 'package:TagConnect/widgets/home/home_widget.dart';
-import 'package:TagConnect/widgets/home/menu_widget.dart';
+import 'package:TagConnect/widgets/feed_widget.dart';
+import 'package:TagConnect/widgets/contact_widget.dart';
+import 'package:TagConnect/widgets/home_widget.dart';
+import 'package:TagConnect/widgets/menu_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

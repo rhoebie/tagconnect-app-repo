@@ -1,5 +1,5 @@
-import 'package:TagConnect/widgets/emergency/another-person_widget.dart';
-import 'package:TagConnect/widgets/emergency/myself_widget.dart';
+import 'package:TagConnect/screens/report-another-person_screen.dart';
+import 'package:TagConnect/screens/report-myself_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:TagConnect/constants/color_constant.dart';
@@ -39,7 +39,6 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tcWhite,
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),

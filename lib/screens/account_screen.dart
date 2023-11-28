@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/constants/endpoint_constant.dart';
 import 'package:TagConnect/models/user_model.dart';
-import 'package:TagConnect/widgets/account/account-edit_screen.dart';
+import 'package:TagConnect/screens/account-edit_screen.dart';
 import 'package:TagConnect/services/user_service.dart';
 
 class AccountScreen extends StatefulWidget {

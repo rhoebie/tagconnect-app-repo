@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/barangay_model.dart';
 import 'package:TagConnect/services/barangay_service.dart';
-import 'package:TagConnect/widgets/barangay/barangay-details_widget.dart';
+import 'package:TagConnect/screens/barangay-details_screen.dart';
 
 class BarangayListScreen extends StatefulWidget {
   const BarangayListScreen({super.key});
