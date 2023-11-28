@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 
 class AnotherPersonWidget extends StatefulWidget {
   const AnotherPersonWidget({super.key});
@@ -37,7 +39,8 @@ class _AnotherPersonWidgetState extends State<AnotherPersonWidget> {
   double? userLongitude;
   XFile? _image;
   bool isLoading = false;
-  double? screenWidth;
+  ButtonState stateOnlyText = ButtonState.idle;
+  ButtonState stateTextWithIcon = ButtonState.idle;
 
   Future<void> requesetGalleryPermission() async {
     try {
@@ -138,7 +141,7 @@ class _AnotherPersonWidgetState extends State<AnotherPersonWidget> {
     }
   }
 
-  Future<void> submitReport(
+  Future<bool> submitReport(
       String emergencyType, description, casualties, visibility, imahe) async {
     final reportService = ReportService();
 
@@ -159,14 +162,62 @@ class _AnotherPersonWidgetState extends State<AnotherPersonWidget> {
         image: imahe,
       );
 
-      final response = await reportService.createReport(reportMod);
+      final bool response = await reportService.createReport(reportMod);
 
       if (response) {
-        _clearForm();
+        return true;
       }
     } catch (e) {
       print('Error: $e');
     }
+    return false;
+  }
+
+  void onPressedIconWithText(
+      {required String emergencyType,
+      required String description,
+      required bool casualties,
+      required bool visibility,
+      required String? imahe}) {
+    switch (stateTextWithIcon) {
+      case ButtonState.idle:
+        stateTextWithIcon = ButtonState.loading;
+        Future.delayed(
+          Duration(seconds: 1),
+          () async {
+            bool isSent = await submitReport(
+                emergencyType, description, casualties, visibility, imahe);
+            setState(
+              () {
+                stateTextWithIcon =
+                    isSent ? ButtonState.success : ButtonState.fail;
+              },
+            );
+            if (isSent) {
+              Future.delayed(
+                Duration(seconds: 1),
+                () async {
+                  _clearForm();
+                },
+              );
+            }
+          },
+        );
+        break;
+      case ButtonState.loading:
+        break;
+      case ButtonState.success:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+      case ButtonState.fail:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+    }
+    setState(
+      () {
+        stateTextWithIcon = stateTextWithIcon;
+      },
+    );
   }
 
   @override
@@ -603,88 +654,53 @@ class _AnotherPersonWidgetState extends State<AnotherPersonWidget> {
                   ],
                 ),
               ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50.h,
-                child: ElevatedButton(
+              ProgressButton.icon(
+                  iconedButtons: {
+                    ButtonState.idle: IconedButton(
+                        text: 'Send',
+                        icon: Icon(Icons.send, color: Colors.white),
+                        color: tcViolet),
+                    ButtonState.loading:
+                        IconedButton(text: 'Loading', color: tcViolet),
+                    ButtonState.fail: IconedButton(
+                        text: 'Failed',
+                        icon: Icon(Icons.cancel, color: Colors.white),
+                        color: Colors.red.shade300),
+                    ButtonState.success: IconedButton(
+                        text: 'Success',
+                        icon: Icon(
+                          Icons.check_circle,
+                          color: Colors.white,
+                        ),
+                        color: Colors.green.shade400)
+                  },
                   onPressed: () async {
                     if (_image != null) {
                       final imageStr = await convertXFileToBase64(_image);
                       if (_formKey.currentState != null &&
                           _formKey.currentState!.validate() &&
                           selectedCasualties != null) {
-                        setState(() {
-                          if (mounted) {
-                            isLoading = true;
-                          }
-                        });
-
-                        await submitReport(
-                            selectedEmergencyType!,
-                            _descriptionController.text,
-                            selectedCasualties,
-                            selectedVisibility,
-                            imageStr);
-
-                        setState(() {
-                          if (mounted) {
-                            isLoading = false;
-                          }
-                        });
+                        onPressedIconWithText(
+                            emergencyType: selectedEmergencyType!,
+                            description: _descriptionController.text,
+                            casualties: selectedCasualties!,
+                            visibility: selectedVisibility!,
+                            imahe: imageStr!);
                       }
                     } else {
                       if (_formKey.currentState != null &&
                           _formKey.currentState!.validate() &&
                           selectedCasualties != null) {
-                        setState(() {
-                          if (mounted) {
-                            isLoading = true;
-                          }
-                        });
-
-                        await submitReport(
-                            selectedEmergencyType!,
-                            _descriptionController.text,
-                            selectedCasualties,
-                            selectedVisibility,
-                            null);
-
-                        setState(() {
-                          if (mounted) {
-                            isLoading = false;
-                          }
-                        });
+                        onPressedIconWithText(
+                            emergencyType: selectedEmergencyType!,
+                            description: _descriptionController.text,
+                            casualties: selectedCasualties!,
+                            visibility: selectedVisibility!,
+                            imahe: null);
                       }
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tcViolet,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: isLoading != false
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          'Submit',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'PublicSans',
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: tcWhite,
-                          ),
-                        ),
-                ),
-              ),
+                  state: stateTextWithIcon),
             ],
           ),
         ),

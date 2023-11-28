@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/services/user_service.dart';
@@ -26,8 +28,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool hasDigit = false;
   bool is6char = false;
   bool isLoading = false;
+  bool _passwordVisible = false;
+  bool _oldPasswordVisible = false;
+  ButtonState stateOnlyText = ButtonState.idle;
+  ButtonState stateTextWithIcon = ButtonState.idle;
 
-  Future<void> changePassword(String oldPw, newPw, confPw) async {
+  Future<bool> changePassword(String oldPw, newPw, confPw) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       final userService = UserService();
@@ -35,20 +41,73 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
       if (response) {
         await prefs.remove('userPassword');
-        clearText();
-        print('Success');
         await prefs.setString('userPassword', _passwordController.text);
+        return true;
       }
     } catch (e) {
       print('Error Updating user: $e');
       throw e;
     }
+    return false;
   }
 
   void clearText() {
-    _oldPasswordController.clear();
-    _passwordController.clear();
-    _confirmPassController.clear();
+    setState(() {
+      _oldPasswordController.clear();
+      _passwordController.clear();
+      _confirmPassController.clear();
+      isEnabled = false;
+      hasUppercase = false;
+      hasLowercase = false;
+      hasSpecialChar = false;
+      hasDigit = false;
+      is6char = false;
+    });
+  }
+
+  void onPressedIconWithText({
+    required String oldPw,
+    required String newPw,
+    required String confPw,
+  }) {
+    switch (stateTextWithIcon) {
+      case ButtonState.idle:
+        stateTextWithIcon = ButtonState.loading;
+        Future.delayed(
+          Duration(seconds: 1),
+          () async {
+            bool isSent = await changePassword(oldPw, newPw, confPw);
+            setState(
+              () {
+                stateTextWithIcon =
+                    isSent ? ButtonState.success : ButtonState.fail;
+              },
+            );
+            if (isSent) {
+              Future.delayed(
+                Duration(seconds: 1),
+                () async {
+                  clearText();
+                },
+              );
+            }
+          },
+        );
+        break;
+      case ButtonState.loading:
+        break;
+      case ButtonState.success:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+      case ButtonState.fail:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+    }
+    setState(
+      () {
+        stateTextWithIcon = stateTextWithIcon;
+      },
+    );
   }
 
   @override
@@ -56,6 +115,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       backgroundColor: tcWhite,
       appBar: AppBar(
+        leading: CloseButton(),
         iconTheme: const IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
         elevation: 0,
@@ -75,7 +135,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Form(
                 key: _formKey,
@@ -85,7 +145,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       keyboardType: TextInputType.visiblePassword,
                       controller: _oldPasswordController,
                       focusNode: _oldPasswordFocus,
-                      obscureText: false,
+                      obscureText: !_oldPasswordVisible,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.sp,
@@ -99,10 +159,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         errorMaxLines: 2,
-                        contentPadding: EdgeInsets.symmetric(vertical: 16),
                         prefixIcon: Icon(
                           Icons.lock,
                           size: 20,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _oldPasswordVisible = !_oldPasswordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            _oldPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: tcBlack,
+                            size: 20,
+                          ),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -139,7 +212,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      validator: (value) => validatePassword(value!),
                     ),
                     Divider(
                       color: tcWhite,
@@ -148,7 +220,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       keyboardType: TextInputType.visiblePassword,
                       controller: _passwordController,
                       focusNode: _passwordFocus,
-                      obscureText: false,
+                      obscureText: !_passwordVisible,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.sp,
@@ -169,10 +241,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           fontWeight: FontWeight.w400,
                           color: tcGray,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 16),
                         prefixIcon: Icon(
                           Icons.lock,
                           size: 20,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                              print(_passwordVisible);
+                            });
+                          },
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: tcBlack,
+                            size: 20,
+                          ),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -228,7 +314,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       keyboardType: TextInputType.visiblePassword,
                       controller: _confirmPassController,
                       focusNode: _confirmPassFocus,
-                      obscureText: false,
+                      obscureText: true,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.sp,
@@ -257,7 +343,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           fontWeight: FontWeight.w400,
                           color: tcGray,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 16),
                         prefixIcon: Icon(
                           Icons.lock,
                           size: 20,
@@ -396,56 +481,39 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ],
                 ),
               ),
-              Container(
-                width: double.infinity,
-                height: 50.h,
-                child: ElevatedButton(
+              Divider(
+                color: tcWhite,
+              ),
+              ProgressButton.icon(
+                  iconedButtons: {
+                    ButtonState.idle: IconedButton(
+                        text: 'Change Password',
+                        icon: Icon(Icons.change_circle, color: Colors.white),
+                        color: tcViolet),
+                    ButtonState.loading:
+                        IconedButton(text: 'Loading', color: tcViolet),
+                    ButtonState.fail: IconedButton(
+                        text: 'Failed',
+                        icon: Icon(Icons.cancel, color: Colors.white),
+                        color: Colors.red.shade300),
+                    ButtonState.success: IconedButton(
+                        text: 'Success',
+                        icon: Icon(
+                          Icons.check_circle,
+                          color: Colors.white,
+                        ),
+                        color: Colors.green.shade400)
+                  },
                   onPressed: () async {
                     if (_formKey.currentState != null &&
                         _formKey.currentState!.validate()) {
-                      setState(() {
-                        if (mounted) {
-                          isLoading = true;
-                        }
-                      });
-
-                      await changePassword(
-                          _oldPasswordController.text,
-                          _passwordController.text,
-                          _confirmPassController.text);
-
-                      setState(() {
-                        if (mounted) {
-                          isLoading = false;
-                        }
-                      });
+                      onPressedIconWithText(
+                          oldPw: _oldPasswordController.text,
+                          newPw: _passwordController.text,
+                          confPw: _confirmPassController.text);
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tcViolet,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: isLoading != false
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          'Change',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'PublicSans',
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: tcWhite,
-                          ),
-                        ),
-                ),
-              ),
+                  state: stateTextWithIcon),
             ],
           ),
         ),

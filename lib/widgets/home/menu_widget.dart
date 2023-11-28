@@ -9,6 +9,7 @@ import 'package:TagConnect/screens/change-password_screen.dart';
 import 'package:TagConnect/screens/login_screen.dart';
 import 'package:TagConnect/screens/news-list_screen.dart';
 import 'package:TagConnect/screens/report-list_screen.dart';
+import 'package:TagConnect/screens/settings_screen.dart';
 import 'package:TagConnect/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -230,6 +231,31 @@ class _MenuWidgetState extends State<MenuWidget> {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
+                  color: tcBlack,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return SettingScreen();
+                      },
+                    ),
+                  );
+                },
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: tcBlack,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.navigate_next,
                   color: tcBlack,
                 ),
               ),

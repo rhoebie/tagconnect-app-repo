@@ -152,7 +152,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
       backgroundColor: tcWhite,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: BackButton(),
+        leading: CloseButton(),
         iconTheme: IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
         elevation: 0,

@@ -61,7 +61,7 @@ class ContactViewScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: tcWhite,
       appBar: AppBar(
-        leading: BackButton(),
+        leading: CloseButton(),
         iconTheme: IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
         elevation: 0,

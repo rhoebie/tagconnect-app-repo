@@ -265,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               } else if (value.length < 6) {
                                 return 'Password should atleast 6 characters or more';
                               }
-                              return null; // Return null if the input is valid
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Password',

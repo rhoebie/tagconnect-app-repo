@@ -29,29 +29,32 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 800),
       builder: (context, child) {
-        final customTheme = ThemeData.from(
-          colorScheme: const ColorScheme(
-            brightness: Brightness.light,
-            primary: tcViolet,
-            onPrimary: tcWhite,
-            secondary: tcViolet,
-            onSecondary: tcWhite,
-            background: tcWhite,
-            surface: Colors.white,
-            onBackground: tcBlack,
-            onSurface: tcBlack,
-            error: tcRed,
-            onError: tcWhite,
-          ),
-        );
-
         return MaterialApp(
-          theme: customTheme,
+          theme: lightTheme,
+          themeMode: ThemeMode.light,
           debugShowCheckedModeBanner: false,
           title: 'System',
-          home: SplashScreen(),
+          home: const SplashScreen(),
         );
       },
     );
   }
 }
+
+final ThemeData lightTheme = ThemeData(
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: tcWhite,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light,
+    primary: tcViolet,
+    onPrimary: tcWhite,
+    secondary: tcViolet,
+    onSecondary: tcWhite,
+    background: tcWhite,
+    surface: Colors.white,
+    onBackground: tcBlack,
+    onSurface: tcBlack,
+    error: tcRed,
+    onError: tcWhite,
+  ),
+);

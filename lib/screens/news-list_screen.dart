@@ -83,7 +83,6 @@ class _NewsListState extends State<NewsList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchNewsData();
     _scrollController.addListener(() {
@@ -103,7 +102,7 @@ class _NewsListState extends State<NewsList> {
     return Scaffold(
       backgroundColor: tcWhite,
       appBar: AppBar(
-        leading: BackButton(),
+        leading: CloseButton(),
         iconTheme: IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
         elevation: 0,

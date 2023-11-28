@@ -11,6 +11,8 @@ import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/constants/endpoint_constant.dart';
 import 'package:TagConnect/models/user_model.dart';
 import 'package:TagConnect/services/user_service.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 
 class AccountEditWidget extends StatefulWidget {
   final VoidCallback callbackFunction;
@@ -42,24 +44,23 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
   bool isLoading = false;
   XFile? _image;
   String? imageUrl;
+  ButtonState stateOnlyText = ButtonState.idle;
+  ButtonState stateTextWithIcon = ButtonState.idle;
 
-  Future<void> updateUser(UserModel userdata) async {
+  Future<bool> updateUser(UserModel userdata) async {
     try {
       final userService = UserService();
       final response = await userService.patchUser(userdata);
 
       if (response) {
-        widget.callbackFunction.call();
-        Navigator.pop(
-          context,
-        );
-        print('Update Success');
+        return true;
       } else {
         print('Update Failed');
       }
     } catch (e) {
       throw Exception('Failed to update user: $e');
     }
+    return false;
   }
 
   Future<void> requestCameraPermission() async {
@@ -120,6 +121,50 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
     setState(() {
       _image = pickedImage;
     });
+  }
+
+  void onPressedIconWithText(UserModel userdata) {
+    switch (stateTextWithIcon) {
+      case ButtonState.idle:
+        stateTextWithIcon = ButtonState.loading;
+        Future.delayed(
+          Duration(seconds: 1),
+          () async {
+            bool isSent = await updateUser(userdata);
+            setState(
+              () {
+                stateTextWithIcon =
+                    isSent ? ButtonState.success : ButtonState.fail;
+              },
+            );
+            if (isSent) {
+              Future.delayed(
+                Duration(seconds: 1),
+                () async {
+                  widget.callbackFunction.call();
+                  Navigator.pop(
+                    context,
+                  );
+                },
+              );
+            }
+          },
+        );
+        break;
+      case ButtonState.loading:
+        break;
+      case ButtonState.success:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+      case ButtonState.fail:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+    }
+    setState(
+      () {
+        stateTextWithIcon = stateTextWithIcon;
+      },
+    );
   }
 
   void clearText() {
@@ -762,85 +807,141 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                 Divider(
                   color: Colors.transparent,
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 50.h,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_image != null) {
-                        final imageByte = await convertXFileToBase64(_image);
-                        if (_formKey.currentState != null &&
-                            _formKey.currentState!.validate()) {
-                          final data = UserModel(
-                            firstname: _firstNameController.text,
-                            middlename: _middleNameController.text,
-                            lastname: _lastNameController.text,
-                            age: int.parse(_ageController.text),
-                            birthdate: _birthdayController.text,
-                            contactnumber: _contactController.text,
-                            address: _addressController.text,
-                            image: imageByte.toString(),
-                          );
-                          setState(() {
-                            isLoading == true;
-                          });
-
-                          await updateUser(data);
-
-                          setState(() {
-                            isLoading == false;
-                          });
-                        }
-                      } else {
-                        if (_formKey.currentState != null &&
-                            _formKey.currentState!.validate()) {
-                          final data = UserModel(
-                            firstname: _firstNameController.text,
-                            middlename: _middleNameController.text,
-                            lastname: _lastNameController.text,
-                            age: int.parse(_ageController.text),
-                            birthdate: _birthdayController.text,
-                            contactnumber: _contactController.text,
-                            address: _addressController.text,
-                            image: null,
-                          );
-                          setState(() {
-                            isLoading == true;
-                          });
-
-                          await updateUser(data);
-
-                          setState(() {
-                            isLoading == false;
-                          });
-                        }
+                ProgressButton.icon(
+                  iconedButtons: {
+                    ButtonState.idle: IconedButton(
+                        text: 'Update',
+                        icon: Icon(Icons.send, color: Colors.white),
+                        color: tcViolet),
+                    ButtonState.loading:
+                        IconedButton(text: 'Loading', color: tcViolet),
+                    ButtonState.fail: IconedButton(
+                        text: 'Failed',
+                        icon: Icon(Icons.cancel, color: Colors.white),
+                        color: Colors.red.shade300),
+                    ButtonState.success: IconedButton(
+                        text: 'Success',
+                        icon: Icon(
+                          Icons.check_circle,
+                          color: Colors.white,
+                        ),
+                        color: Colors.green.shade400)
+                  },
+                  onPressed: () async {
+                    if (_image != null) {
+                      final imageByte = await convertXFileToBase64(_image);
+                      if (_formKey.currentState != null &&
+                          _formKey.currentState!.validate()) {
+                        final data = UserModel(
+                          firstname: _firstNameController.text,
+                          middlename: _middleNameController.text,
+                          lastname: _lastNameController.text,
+                          age: int.parse(_ageController.text),
+                          birthdate: _birthdayController.text,
+                          contactnumber: _contactController.text,
+                          address: _addressController.text,
+                          image: imageByte.toString(),
+                        );
+                        onPressedIconWithText(data);
                       }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: tcViolet,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 2,
-                    ),
-                    child: isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: tcWhite,
-                            ),
-                          )
-                        : Text(
-                            'Update',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'PublicSans',
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: tcWhite,
-                            ),
-                          ),
-                  ),
+                    } else {
+                      if (_formKey.currentState != null &&
+                          _formKey.currentState!.validate()) {
+                        final data = UserModel(
+                          firstname: _firstNameController.text,
+                          middlename: _middleNameController.text,
+                          lastname: _lastNameController.text,
+                          age: int.parse(_ageController.text),
+                          birthdate: _birthdayController.text,
+                          contactnumber: _contactController.text,
+                          address: _addressController.text,
+                          image: null,
+                        );
+                        onPressedIconWithText(data);
+                      }
+                    }
+                  },
+                  state: stateTextWithIcon,
                 ),
+                // Container(
+                //   width: double.infinity,
+                //   height: 50.h,
+                //   child: ElevatedButton(
+                //     onPressed: () async {
+                //       if (_image != null) {
+                //         final imageByte = await convertXFileToBase64(_image);
+                //         if (_formKey.currentState != null &&
+                //             _formKey.currentState!.validate()) {
+                //           final data = UserModel(
+                //             firstname: _firstNameController.text,
+                //             middlename: _middleNameController.text,
+                //             lastname: _lastNameController.text,
+                //             age: int.parse(_ageController.text),
+                //             birthdate: _birthdayController.text,
+                //             contactnumber: _contactController.text,
+                //             address: _addressController.text,
+                //             image: imageByte.toString(),
+                //           );
+                //           setState(() {
+                //             isLoading == true;
+                //           });
+
+                //           await updateUser(data);
+
+                //           setState(() {
+                //             isLoading == false;
+                //           });
+                //         }
+                //       } else {
+                //         if (_formKey.currentState != null &&
+                //             _formKey.currentState!.validate()) {
+                //           final data = UserModel(
+                //             firstname: _firstNameController.text,
+                //             middlename: _middleNameController.text,
+                //             lastname: _lastNameController.text,
+                //             age: int.parse(_ageController.text),
+                //             birthdate: _birthdayController.text,
+                //             contactnumber: _contactController.text,
+                //             address: _addressController.text,
+                //             image: null,
+                //           );
+                //           setState(() {
+                //             isLoading == true;
+                //           });
+
+                //           await updateUser(data);
+
+                //           setState(() {
+                //             isLoading == false;
+                //           });
+                //         }
+                //       }
+                //     },
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: tcViolet,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //       elevation: 2,
+                //     ),
+                //     child: isLoading
+                //         ? Center(
+                //             child: CircularProgressIndicator(
+                //               color: tcWhite,
+                //             ),
+                //           )
+                //         : Text(
+                //             'Update',
+                //             textAlign: TextAlign.center,
+                //             style: TextStyle(
+                //               fontFamily: 'PublicSans',
+                //               fontSize: 16.sp,
+                //               fontWeight: FontWeight.w600,
+                //               color: tcWhite,
+                //             ),
+                //           ),
+                //   ),
+                // ),
               ],
             ),
           ),

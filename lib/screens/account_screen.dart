@@ -40,6 +40,14 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
+  Future<void> refresh() async {
+    try {
+      setState(() {});
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +75,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 MaterialPageRoute(
                   builder: (context) {
                     return AccountEditWidget(
-                        userModel: userModel, callbackFunction: fetchUserData);
+                        userModel: userModel, callbackFunction: refresh);
                   },
                 ),
               );
