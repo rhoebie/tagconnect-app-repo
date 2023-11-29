@@ -1,4 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/models/credential_model.dart';
+import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,40 +39,93 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _passwordVisible = false;
   bool isFailed = false;
   bool isLoading = false;
+  bool rememberMe = true;
+
+  Future<void> saveCredentials() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    // Create a CredentialModel instance
+    final credentialModel = CredentialModel(email: email, password: password);
+
+    // Convert CredentialModel to JSON
+    final jsonCredentials = json.encode(credentialModel.toJson());
+
+    // Save JSON to a text file
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/credentials.txt');
+    await file.writeAsString(jsonCredentials);
+    print('Save');
+  }
+
+  Future<void> loadSavedCredentials() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/credentials.txt');
+
+      if (await file.exists()) {
+        // Load JSON from the text file
+        final jsonCredentials = await file.readAsString();
+
+        // Parse JSON into a CredentialModel instance
+        final credentialModel =
+            CredentialModel.fromJson(json.decode(jsonCredentials));
+
+        // Set email and password from CredentialModel
+        _emailController.text = credentialModel.email ?? '';
+        _passwordController.text = credentialModel.password ?? '';
+        Future.delayed(
+          Duration(seconds: 1),
+          () async {
+            onPressedIconWithText(
+                email: _emailController.text,
+                password: _passwordController.text);
+          },
+        );
+      } else {
+        print('Credentials file does not exist.');
+      }
+    } catch (e) {
+      print('Error loading credentials: $e');
+    }
+  }
 
   Future<bool> loginUser(
       {required String email, required String password}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isConnnected = await NetworkService.isConnected();
-    await prefs.remove('barangayData');
-    if (isConnnected) {
-      final authService = UserService();
-      final token = await authService.login(email, password);
+    try {
+      bool isConnnected = await NetworkService.isConnected();
+      if (isConnnected) {
+        final authService = UserService();
+        final token = await authService.login(email, password);
 
-      if (token != null) {
-        print('User Token: $token');
-        _emailController.clear();
-        _passwordController.clear();
-        return true;
+        if (token != null) {
+          print('User Token: $token');
+          _emailController.clear();
+          _passwordController.clear();
+          return true;
+        } else {
+          return false;
+        }
       } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('No Internet'),
+            content: const Text('Check your internet connection in settings'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
         return false;
       }
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('No Internet'),
-          content: const Text('Check your internet connection in settings'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-      return false;
+    } catch (e) {
+      print('Error $e');
     }
+    return false;
   }
 
   void onPressedIconWithText(
@@ -112,6 +172,76 @@ class _LoginScreenState extends State<LoginScreen> {
         stateTextWithIcon = stateTextWithIcon;
       },
     );
+  }
+
+  Future<void> checkPermission() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      bool checkPermission =
+          await RequestService.checkAllPermission(androidInfo);
+
+      await prefs.setBool('firstCheck', true);
+      if (checkPermission) {
+        print('Permission Granted');
+      } else {
+        print('Permission not granted');
+      }
+    } catch (e) {
+      print('Error $e');
+    }
+  }
+
+  Future<void> promptUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      bool isFirstTimeOpen = prefs.getBool('firstCheck') ?? false;
+      if (!isFirstTimeOpen) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Permission'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('For the best experience, we need these permissions:'),
+                  SizedBox(height: 10),
+                  Text('- Camera'),
+                  Text('- Gallery'),
+                  Text('- Storage'),
+                  Text('- Location'),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text('Ok'),
+                ),
+              ],
+            );
+          },
+        ).then((value) {
+          if (value != null && value) {
+            checkPermission();
+            print('User pressed "Ok"');
+          }
+        });
+      }
+    } catch (e) {
+      print('Error $e');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    promptUser();
+    loadSavedCredentials();
   }
 
   @override
@@ -331,27 +461,46 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    SlideLeftAnimation(
-                                      const ForgotPasswordScreen(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Forgot your password?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: 'PublicSans',
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: tcViolet,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Checkbox(
+                                    value: rememberMe,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        rememberMe = value!;
+                                      });
+                                    },
                                   ),
-                                ),
+                                  Text('Remember Me'),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        SlideLeftAnimation(
+                                          const ForgotPasswordScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Forgot your password?',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: tcViolet,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -385,12 +534,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.green.shade400)
                             },
                             onPressed: () async {
-                              if (_formKey.currentState != null &&
-                                  _formKey.currentState!.validate()) {
-                                onPressedIconWithText(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                );
+                              if (rememberMe) {
+                                saveCredentials();
+                                if (_formKey.currentState != null &&
+                                    _formKey.currentState!.validate()) {
+                                  onPressedIconWithText(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                                }
+                              } else {
+                                if (_formKey.currentState != null &&
+                                    _formKey.currentState!.validate()) {
+                                  onPressedIconWithText(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                                }
                               }
                             },
                             state: stateTextWithIcon),
@@ -415,6 +575,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextButton(
                     onPressed: () {
+                      //promptUser();
                       Navigator.push(
                         context,
                         SlideLeftAnimation(

@@ -8,6 +8,7 @@ import 'package:TagConnect/screens/barangay-list_screen.dart';
 import 'package:TagConnect/screens/change-password_screen.dart';
 import 'package:TagConnect/screens/login_screen.dart';
 import 'package:TagConnect/screens/news-list_screen.dart';
+import 'package:TagConnect/screens/report-emergency_screen.dart';
 import 'package:TagConnect/screens/report-list_screen.dart';
 import 'package:TagConnect/screens/settings_screen.dart';
 import 'package:TagConnect/services/user_service.dart';
@@ -115,14 +116,14 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return ReportListScreen();
+                        return ReportEmergencyScreen();
                       },
                     ),
                   );
                 },
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text(
-                  'Reports',
+                  'Report (For someone)',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
@@ -169,6 +170,31 @@ class _MenuWidgetState extends State<MenuWidget> {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
+                  color: tcBlack,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ReportListScreen();
+                      },
+                    ),
+                  );
+                },
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text(
+                  'Reports',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: tcBlack,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.navigate_next,
                   color: tcBlack,
                 ),
               ),
@@ -272,25 +298,6 @@ class _MenuWidgetState extends State<MenuWidget> {
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text(
                   'About',
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: tcBlack,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.navigate_next,
-                  color: tcBlack,
-                ),
-              ),
-              ListTile(
-                onTap: () {
-                  logoutuser();
-                },
-                titleAlignment: ListTileTitleAlignment.center,
-                title: Text(
-                  'Logout',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,

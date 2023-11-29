@@ -3,7 +3,8 @@ import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:TagConnect/screens/one_screen.dart';
+import 'package:TagConnect/screens/splash-one_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeTwoScreen extends StatelessWidget {
   const WelcomeTwoScreen({super.key});
@@ -93,10 +94,12 @@ class WelcomeTwoScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 80.w,
                         height: 50.h,
                         child: ElevatedButton(
                           onPressed: () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await prefs.setBool('firstOpen', true);
                             Navigator.push(
                               context,
                               SlideLeftAnimation(
@@ -111,9 +114,10 @@ class WelcomeTwoScreen extends StatelessWidget {
                             ),
                             elevation: 2,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.arrow_right_alt_outlined,
                             size: 40,
+                            color: tcWhite,
                           ),
                         ),
                       ),

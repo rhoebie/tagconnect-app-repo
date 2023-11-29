@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/animations/slideLeft_animation.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/screens/login_screen.dart';
-import 'package:TagConnect/screens/two_screen.dart';
+import 'package:TagConnect/screens/splash-two_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -94,13 +94,12 @@ class WelcomeOneScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 80.w,
                         height: 50.h,
                         child: ElevatedButton(
                           onPressed: () async {
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                            await prefs.setBool('firstOpen', false);
+                            await prefs.setBool('firstOpen', true);
                             Navigator.push(
                               context,
                               SlideLeftAnimation(
@@ -118,6 +117,7 @@ class WelcomeOneScreen extends StatelessWidget {
                           child: const Icon(
                             Icons.arrow_right_alt_outlined,
                             size: 40,
+                            color: tcWhite,
                           ),
                         ),
                       ),

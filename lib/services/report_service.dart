@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:TagConnect/models/update-report_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/endpoint_constant.dart';
@@ -92,15 +93,27 @@ class ReportService {
     }
   }
 
-  Future<void> patchReport(ReportModel report) async {
+  Future<bool> patchReport(int id, UpdateReportModel report) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
     final response = await http.patch(
-      Uri.parse('$baseUrl${ApiConstants.countReportEndpoint}/${report.id}'),
-      headers: {'Content-Type': 'application/json'},
+      Uri.parse('$baseUrl${ApiConstants.reportEndpoint}/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json'
+      },
       body: json.encode(report.toJson()),
     );
 
-    if (response.statusCode != 204) {
-      throw Exception('Failed to update report');
+    if (response.statusCode == 200) {
+      // Successfully created the report
+      print('Report updated successfully');
+      return true;
+    } else {
+      print('Error updating the report: ${response.body}');
+      return false;
     }
   }
 

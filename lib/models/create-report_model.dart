@@ -8,38 +8,41 @@ String createReportModelToJson(List<CreateReportModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CreateReportModel {
-  String emergencyType;
-  String forWhom;
-  String description;
-  bool casualties;
-  userLoc location;
-  String visibility;
+  String barangayId;
+  String? emergencyType;
+  String? forWhom;
+  String? description;
+  bool? casualties;
+  userLoc? location;
+  String? visibility;
   String? image;
 
   CreateReportModel({
-    required this.emergencyType,
-    required this.forWhom,
-    required this.description,
-    required this.casualties,
-    required this.location,
-    required this.visibility,
+    required this.barangayId,
+    this.emergencyType,
+    this.forWhom,
+    this.description,
+    this.casualties,
+    this.location,
+    this.visibility,
     this.image,
   });
 
   Map<String, dynamic> toJson() => {
+        "barangay_id": barangayId,
         "emergency_type": emergencyType,
         "for_whom": forWhom,
         "description": description,
         "casualties": casualties,
-        "location": location.toJson(),
+        "location": location?.toJson(),
         "visibility": visibility,
         "image": image,
       };
 }
 
 class userLoc {
-  double latitude;
-  double longitude;
+  double? latitude;
+  double? longitude;
 
   userLoc({
     required this.latitude,

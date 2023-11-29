@@ -32,6 +32,8 @@ class _ReportListScreenState extends State<ReportListScreen> {
     }
   }
 
+  Future<void> refresh() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,7 +218,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               },
                               titleAlignment: ListTileTitleAlignment.center,
                               title: Text(
-                                item.barangayId ?? '',
+                                'Report ID: ${item.id}',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   color: tcBlack,
@@ -303,7 +305,7 @@ class ReportDetail extends StatelessWidget {
             },
             icon: Icon(
               Icons.edit,
-              color: tcViolet,
+              color: tcBlack,
             ),
           ),
           IconButton(
@@ -314,7 +316,7 @@ class ReportDetail extends StatelessWidget {
             },
             icon: Icon(
               Icons.location_pin,
-              color: tcViolet,
+              color: tcBlack,
             ),
           ),
         ],
@@ -322,244 +324,253 @@ class ReportDetail extends StatelessWidget {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 200.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: tcAsh,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: reportModel.image != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Container(
-                          child: CachedNetworkImage(
-                            imageUrl: reportModel.image!,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 200.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: tcAsh,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
-                      )
-                    : Center(
-                        child: Icon(Icons.question_mark),
                       ),
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Name: Me',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: tcBlack,
-                      fontFamily: 'Roboto',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      child: reportModel.image != null
+                          ? ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              child: Container(
+                                child: CachedNetworkImage(
+                                  imageUrl: reportModel.image!,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                              ),
+                            )
+                          : Center(
+                              child: Icon(Icons.question_mark),
+                            ),
                     ),
-                  ),
-                  Text(
-                    'Date: ${formatCustomDateTime(reportModel.createdAt.toString())}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.normal,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Name: Me',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: tcBlack,
+                        fontFamily: 'Roboto',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Resolve Time: ${calculateTimeInterval(reportModel.createdAt!, reportModel.updatedAt!)}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.normal,
-                      color: tcBlack,
+                    Text(
+                      'Date: ${formatCustomDateTime(reportModel.createdAt.toString())}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.normal,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Visibility',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                    Text(
+                      'Resolve Time: ${calculateTimeInterval(reportModel.createdAt!, reportModel.updatedAt!)}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.normal,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    reportModel.visibility ?? '',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Visibility',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Report ID',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                    Text(
+                      reportModel.visibility ?? '',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    reportModel.id.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Report ID',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Barangay ID',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                    Text(
+                      reportModel.id.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    reportModel.barangayId.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Barangay ID',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'For Whom?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                    Text(
+                      reportModel.barangayId.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    reportModel.forWhom ?? '',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'For Whom?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Any Casualties?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                    Text(
+                      reportModel.forWhom ?? '',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    reportModel.casualties == 1 ? 'Yes' : 'No',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Any Casualties?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Description',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                    Text(
+                      reportModel.casualties == 1 ? 'Yes' : 'No',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    reportModel.description ?? '',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Description',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: tcBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Text(
+                      reportModel.description ?? '',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcBlack,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

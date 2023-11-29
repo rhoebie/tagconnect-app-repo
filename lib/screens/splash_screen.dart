@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:TagConnect/animations/fade_animation.dart';
-import 'package:TagConnect/configs/network_config.dart';
-import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/screens/login_screen.dart';
-import 'package:TagConnect/screens/one_screen.dart';
+import 'package:TagConnect/screens/splash-one_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -25,79 +21,22 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkInternet();
-  }
-
-  Future<void> _checkInternet() async {
-    bool isConnnected = await NetworkService.isConnected();
-
-    if (isConnnected) {
-      _checkPermissionAndFirstTimeOpen();
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('No Internet'),
-          content: const Text('Check your internet connection in settings'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
+    _checkPermissionAndFirstTimeOpen();
   }
 
   Future<void> _checkPermissionAndFirstTimeOpen() async {
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      // Check if the firstOpenApplication.txt file exists
-      Directory documentsDirectory = await getApplicationDocumentsDirectory();
-      File file = File('${documentsDirectory.path}/firstOpenApplication.txt');
-
-      bool hasStoragePermission =
-          await RequestService.storagePermission(androidInfo);
-
-      if (!hasStoragePermission) {
-        // If storage permission is not granted, request it
-        bool storagePermissionGranted =
-            await RequestService.storagePermission(androidInfo);
-
-        if (!storagePermissionGranted) {
-          // Handle if storage permission is not granted
-          print('Storage permission not granted');
-          return;
-        }
-      }
-
-      bool isFirstTimeOpen = !file.existsSync();
-
-      if (isFirstTimeOpen) {
-        bool checkPermission =
-            await RequestService.checkAllPermission(androidInfo);
-
-        if (checkPermission) {
-          print('Permission Granted');
-
-          // Create the firstOpenApplication.txt file
-          file.writeAsStringSync('First Open');
-
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              Navigator.of(context)
-                  .pushReplacement(FadeAnimation(const WelcomeOneScreen()));
-            },
-          );
-        } else {
-          // Handle if permissions are not granted
-          print('Permission not granted');
-        }
+      bool isFirstTimeOpen = prefs.getBool('firstOpen') ?? false;
+      if (!isFirstTimeOpen) {
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            Navigator.of(context)
+                .pushReplacement(FadeAnimation(const WelcomeOneScreen()));
+          },
+        );
       } else {
-        print('Already Opened');
         Future.delayed(
           const Duration(seconds: 2),
           () {
@@ -107,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       }
     } catch (e) {
-      print(e);
+      print('Error: $e');
     }
   }
 

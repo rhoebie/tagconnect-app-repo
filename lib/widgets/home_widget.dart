@@ -1,10 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/constants/barangay_constant.dart';
+import 'package:TagConnect/models/create-report_model.dart';
+import 'package:TagConnect/services/report_service.dart';
 import 'package:animations/animations.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/color_constant.dart';
@@ -28,12 +34,10 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  final List<Color> bgColor = [tcOrange, tcGreen, tcRed, tcBlue];
-  List<FeedModel> reportData = [];
-  List<BarangayModel> barangayData = [];
-  late PageController _pageController;
-  int _currentPage = 0;
-  late Timer _timer;
+  String? locationData;
+  double? userLatitude;
+  double? userLongitude;
+  bool isLoading = false;
   late UserModel userData = UserModel(
     firstname: '',
     lastname: '',
@@ -60,44 +64,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       }
     } catch (e) {
       print('Error: $e');
-    }
-  }
-
-  Future<void> fetchReportData() async {
-    final url =
-        Uri.parse('https://taguigconnect.online/api/get-reports?page=1');
-
-    // Create a map with the request body
-    final Map<String, dynamic> requestBody = {'barangayName': 'all'};
-
-    try {
-      final response = await http.post(
-        url,
-        body: json.encode(requestBody),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // If the server returns a 200 OK response, parse the JSON
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        final List<dynamic> data = responseData['data'];
-        List<FeedModel> reports =
-            data.map((item) => FeedModel.fromJson(item)).toList();
-
-        // Sort the reports by id in descending order
-        reports.sort((a, b) => b.id!.compareTo(a.id!));
-
-        setState(() {
-          reportData = reports;
-        });
-      } else {
-        throw Exception('Failed to load reports');
-      }
-    } catch (error) {
-      // Handle network-related errors
-      throw Exception('Network error: $error');
     }
   }
 
@@ -128,25 +94,136 @@ class _HomeWidgetState extends State<HomeWidget> {
     }
   }
 
-  Future<void> fetchBarangay() async {
-    try {
-      final barangayService = BarangayService();
-      final List<BarangayModel> fetchData =
-          await barangayService.getbarangays();
+  Future<void> fetchLocationData() async {
+    final barangayConstant = BarangayConstant();
+    LocationChecker locationChecker;
+    LocationService locationService;
+    locationChecker = LocationChecker(
+      barangayConstant.cityTaguig,
+      barangayConstant.taguigBarangays,
+    );
 
+    locationService = LocationService(locationChecker);
+
+    try {
+      final locationStats = await RequestService.locationPermission();
+      if (locationStats) {
+        final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
+        final Position position = await geolocator.getCurrentPosition(
+          locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
+        );
+
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
+        print('Latitude: $userLatitude, Longitude: $userLongitude');
+
+        final locationIdk = await locationService.getUserLocation(
+            userLatitude!, userLongitude!);
+        setState(() {
+          var type = locationIdk['type'];
+          var value = locationIdk['value'];
+          if (type == 'exact') {
+            print('Exact Value: $value');
+            locationData = value;
+          } else if (type == 'near') {
+            print('Near Value: $value');
+            locationData = value;
+          } else {
+            print("Other Location: $type");
+          }
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Permission'),
+              content: Text('Need Location/GPS Permission'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text('Yes'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      print('Error fetching location: $e');
+    }
+  }
+
+  Future<void> submitReport() async {
+    final reportService = ReportService();
+
+    try {
       setState(() {
-        barangayData = fetchData;
+        isLoading = true;
       });
+      await fetchLocationData();
+      final locationUser =
+          userLoc(latitude: userLatitude!, longitude: userLongitude!);
+      final barangayName = locationData!;
+
+      final reportMod = CreateReportModel(
+        barangayId: barangayName,
+        emergencyType: 'General',
+        forWhom: 'Myself',
+        description: null,
+        casualties: null,
+        location: locationUser,
+        visibility: 'Private',
+        image: null,
+      );
+
+      final bool response = await reportService.createReport(reportMod);
+
+      if (response) {
+        setState(() {
+          isLoading = false;
+        });
+        print('Success');
+      }
     } catch (e) {
       print('Error: $e');
     }
   }
 
-  Future<void> fetchInit() async {
+  Future<void> prompt() async {
     try {
-      await fetchUserData();
-      await fetchBarangay();
-      await fetchReportData();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirmation'),
+            content: Text('Are you sure you want to continue?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('No'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Yes'),
+              ),
+            ],
+          );
+        },
+      ).then((value) {
+        if (value != null && value) {
+          submitReport();
+          print('User pressed "Yes"');
+        } else {
+          print('User pressed "No" or dismissed the dialog');
+        }
+      });
     } catch (e) {
       print('Error: $e');
     }
@@ -156,29 +233,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchInit();
-    _pageController = PageController();
-    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 4) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _timer.cancel();
-    _pageController.dispose();
+    fetchUserData();
   }
 
   @override
@@ -227,167 +282,53 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
               ],
             ),
-            Container(
-              height: 300.h,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                child: PageView.builder(
-                  controller: _pageController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: reportData.length >= 5 ? 5 : reportData.length,
-                  itemBuilder: (context, index) {
-                    final item = reportData[index];
-                    final barangayInfo = barangayData.firstWhere(
-                      (barangay) => barangay.id == item.barangayId,
-                      orElse: () => BarangayModel(),
-                    );
-                    return Container(
-                      width: double.infinity,
-                      height: 300.h,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              alignment: Alignment.center,
+            Center(
+              child: isLoading != false
+                  ? CircularProgressIndicator()
+                  : AvatarGlow(
+                      glowColor: tcRed,
+                      endRadius: 130,
+                      duration: Duration(milliseconds: 2000),
+                      repeat: true,
+                      showTwoGlows: true,
+                      curve: Curves.easeOutQuad,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(99),
+                        onTap: prompt,
+                        child: Container(
+                            height: 140,
+                            width: 140,
+                            decoration: BoxDecoration(
+                              color: tcRed,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Positioned.fill(
-                                  child: CachedNetworkImage(
-                                    imageUrl: item.image!,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                  ),
+                                Icon(
+                                  Icons.touch_app,
+                                  color: tcWhite,
+                                  size: 70,
                                 ),
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        colors: [
-                                          Colors.black,
-                                          Colors.transparent,
-                                        ],
-                                      ),
-                                    ),
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Tap to Send',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PublicSans',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: tcWhite,
                                   ),
                                 ),
                               ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            width: double.infinity,
-                            height: 70,
-                            color: Colors.black,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: tcViolet,
-                                      foregroundColor: tcWhite,
-                                      child: barangayInfo.image != null
-                                          ? ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl: barangayInfo.image!,
-                                                fit: BoxFit.cover,
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                        child:
-                                                            CircularProgressIndicator()),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                              ),
-                                            )
-                                          : Icon(
-                                              Icons.question_mark,
-                                              size: 20,
-                                            ),
-                                    ),
-                                    VerticalDivider(
-                                      color: Colors.transparent,
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Report ID: ${item.id.toString()}',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: 'PublicSans',
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: tcWhite,
-                                          ),
-                                        ),
-                                        Text(
-                                          formatCustomDateTime(
-                                              item.createdAt.toString()),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: 'PublicSans',
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: tcWhite,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Container(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return ReportDetail(
-                                              feedModel: item,
-                                              barangayModel: barangayInfo,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: tcViolet,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                    child: Text(
-                                      'View',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: tcWhite,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                            )),
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -613,32 +554,6 @@ class _HomeWidgetState extends State<HomeWidget> {
           ],
         ),
       ),
-      floatingActionButton: OpenContainer(
-        closedElevation: 5,
-        closedShape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(50),
-          ),
-        ),
-        transitionType: ContainerTransitionType.fade,
-        transitionDuration: const Duration(milliseconds: 300),
-        openBuilder: (BuildContext context, VoidCallback _) {
-          return ReportEmergencyScreen();
-        },
-        tappable: false,
-        closedBuilder: (BuildContext context, VoidCallback openContainer) {
-          return FloatingActionButton(
-            backgroundColor: tcViolet,
-            onPressed: openContainer,
-            child: const Icon(
-              Icons.add,
-              color: tcWhite,
-              size: 30,
-            ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

@@ -195,12 +195,6 @@ class UserService {
     final prefs = await SharedPreferences.getInstance();
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({'email': email, 'password': password});
-
-    await prefs.remove('userId');
-    await prefs.remove('token');
-    await prefs.remove('userEmail');
-    await prefs.remove('userPassword');
-
     // try to login
     try {
       final response = await http.post(
