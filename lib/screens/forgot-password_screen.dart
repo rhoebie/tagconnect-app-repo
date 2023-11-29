@@ -145,7 +145,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               fontWeight: FontWeight.w400,
                               color: tcGray,
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 16),
                             prefixIcon: Icon(
                               Icons.email,
                               size: 20,
@@ -254,6 +253,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             : Icon(
                                 Icons.arrow_right_alt_outlined,
                                 size: 40,
+                                color: backgroundColor,
                               ),
                       ),
                     ),
@@ -718,6 +718,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                             : Icon(
                                 Icons.arrow_right_alt_outlined,
                                 size: 40,
+                                color: backgroundColor,
                               ),
                       ),
                     ),
@@ -749,6 +750,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool is6char = false;
   bool isFailed = false;
   bool isLoading = false;
+  bool _passwordVisible = false;
 
   Future<void> resetPass() async {
     try {
@@ -855,7 +857,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           keyboardType: TextInputType.visiblePassword,
                           controller: _passwordController,
                           focusNode: _passwordFocus,
-                          obscureText: true,
+                          obscureText: !_passwordVisible,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14.sp,
@@ -881,6 +883,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             prefixIcon: Icon(
                               Icons.lock,
                               size: 20,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                if (mounted) {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                }
+                              },
+                              icon: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: textColor,
+                                size: 20,
+                              ),
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(

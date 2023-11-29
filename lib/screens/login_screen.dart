@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/credential_model.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/animations/fade_animation.dart';
 import 'package:TagConnect/animations/slideLeft_animation.dart';
@@ -39,6 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isFailed = false;
   bool isLoading = false;
   bool rememberMe = true;
+  late AutoLoginNotifier autoLoginNotifier;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    autoLoginNotifier = Provider.of<AutoLoginNotifier>(context, listen: false);
+    loadSavedCredentials();
+  }
 
   Future<void> saveCredentials() async {
     final email = _emailController.text;
@@ -73,14 +83,16 @@ class _LoginScreenState extends State<LoginScreen> {
         // Set email and password from CredentialModel
         _emailController.text = credentialModel.email ?? '';
         _passwordController.text = credentialModel.password ?? '';
-        Future.delayed(
-          Duration(seconds: 1),
-          () async {
-            onPressedIconWithText(
-                email: _emailController.text,
-                password: _passwordController.text);
-          },
-        );
+        if (autoLoginNotifier.isAutoLogin) {
+          Future.delayed(
+            Duration(seconds: 1),
+            () async {
+              onPressedIconWithText(
+                  email: _emailController.text,
+                  password: _passwordController.text);
+            },
+          );
+        }
       } else {
         print('Credentials file does not exist.');
       }
@@ -245,7 +257,6 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
     promptUser();
-    loadSavedCredentials();
   }
 
   @override
@@ -253,6 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,

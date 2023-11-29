@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:TagConnect/constants/theme_constants.dart';
+import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:TagConnect/constants/color_constant.dart';
-import 'package:TagConnect/constants/endpoint_constant.dart';
 import 'package:TagConnect/models/user_model.dart';
 import 'package:TagConnect/services/user_service.dart';
 import 'package:progress_state_button/iconed_button.dart';

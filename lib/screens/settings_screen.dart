@@ -1,3 +1,4 @@
+import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final autoLoginNotifier = Provider.of<AutoLoginNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -42,15 +44,48 @@ class _SettingScreenState extends State<SettingScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Appearance',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Account',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                  ),
+                ),
+              ),
+              ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
+                leading: Icon(Icons.login_rounded),
+                title: Text(
+                  'Auto Login',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: textColor,
+                  ),
+                ),
+                trailing: Switch(
+                  value: autoLoginNotifier.isAutoLogin,
+                  onChanged: (value) {
+                    autoLoginNotifier.toggleLogin();
+                  },
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Appearance',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                  ),
                 ),
               ),
               ListTile(

@@ -1,4 +1,5 @@
 //import 'package:firebase_core/firebase_core.dart';
+import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:TagConnect/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,45 @@ void main() async {
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+        ChangeNotifierProvider(create: (_) => AutoLoginNotifier()),
+      ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late bool _isDataLoaded;
+
+  @override
+  void initState() {
+    _isDataLoaded = false;
+    _loadData();
+    super.initState();
+  }
+
+  Future<void> _loadData() async {
+    await Provider.of<ThemeNotifier>(context, listen: false).loadDarkMode();
+    setState(() {
+      _isDataLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isDataLoaded) {
+      return Container();
+    }
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData currentTheme =
         themeNotifier.isDarkMode ? darkTheme : lightTheme;

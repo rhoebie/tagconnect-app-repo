@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
+import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:TagConnect/models/create-report_model.dart';
 import 'package:TagConnect/services/report_service.dart';
@@ -298,7 +299,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             Center(
               child: isLoading != false
                   ? CircularProgressIndicator(
-                      color: backgroundColor,
+                      color: textColor,
                     )
                   : AvatarGlow(
                       glowColor: tcRed,

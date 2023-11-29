@@ -313,6 +313,23 @@ class _MenuWidgetState extends State<MenuWidget> {
                   color: textColor,
                 ),
               ),
+              ListTile(
+                onTap: logoutuser,
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: textColor,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.navigate_next,
+                  color: textColor,
+                ),
+              ),
             ],
           ),
         ),
