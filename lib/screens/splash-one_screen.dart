@@ -84,6 +84,9 @@ class WelcomeOneScreen extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.setBool('firstOpen', true);
                           Navigator.push(
                             context,
                             SlideLeftAnimation(

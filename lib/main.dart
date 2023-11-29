@@ -41,16 +41,15 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _loadData() async {
     await Provider.of<ThemeNotifier>(context, listen: false).loadDarkMode();
-    setState(() {
-      _isDataLoaded = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isDataLoaded = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isDataLoaded) {
-      return Container();
-    }
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData currentTheme =
         themeNotifier.isDarkMode ? darkTheme : lightTheme;
