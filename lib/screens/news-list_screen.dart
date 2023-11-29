@@ -98,10 +98,17 @@ class _NewsListState extends State<NewsList> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tcWhite,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leading: CloseButton(),
         iconTheme: IconThemeData(color: tcBlack),
         backgroundColor: tcWhite,
@@ -133,55 +140,6 @@ class _NewsListState extends State<NewsList> {
           child: CustomScrollView(
             controller: _scrollController,
             slivers: [
-              SliverAppBar(
-                pinned: false,
-                floating: true,
-                snap: true,
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: tcWhite,
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            onChanged: (value) {
-                              filterNews(value);
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Search',
-                              hintStyle: TextStyle(
-                                color: tcGray,
-                              ),
-                              icon: Icon(
-                                Icons.search,
-                                color: tcGray,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
