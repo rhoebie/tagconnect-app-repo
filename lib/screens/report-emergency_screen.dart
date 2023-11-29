@@ -6,8 +6,6 @@ import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/models/barangay_model.dart';
 import 'package:TagConnect/models/create-report_model.dart';
-import 'package:TagConnect/screens/report-another-person_screen.dart';
-import 'package:TagConnect/screens/report-myself_screen.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';

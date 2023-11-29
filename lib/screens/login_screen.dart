@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/models/credential_model.dart';
-import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:progress_state_button/iconed_button.dart';

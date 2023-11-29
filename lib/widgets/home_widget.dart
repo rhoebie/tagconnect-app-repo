@@ -5,7 +5,6 @@ import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/models/create-report_model.dart';
 import 'package:TagConnect/services/report_service.dart';
-import 'package:animations/animations.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +13,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/color_constant.dart';
-import 'package:TagConnect/models/barangay_model.dart';
-import 'package:TagConnect/models/feed_model.dart';
 import 'package:TagConnect/models/news_model.dart';
 import 'package:TagConnect/models/user_model.dart';
 import 'package:TagConnect/screens/news-details_screen.dart';
 import 'package:TagConnect/screens/news-list_screen.dart';
-import 'package:TagConnect/screens/report-details_screen.dart';
-import 'package:TagConnect/screens/report-emergency_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:TagConnect/services/barangay_service.dart';
 import 'package:TagConnect/services/user_service.dart';
 
 class HomeWidget extends StatefulWidget {
