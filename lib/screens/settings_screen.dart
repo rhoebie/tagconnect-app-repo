@@ -55,8 +55,11 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
+                leading: themeNotifier.isDarkMode
+                    ? Icon(Icons.dark_mode_rounded)
+                    : Icon(Icons.light_mode_rounded),
                 title: Text(
-                  'Dark Mode',
+                  'Theme Mode',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,

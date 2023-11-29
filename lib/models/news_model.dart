@@ -53,6 +53,8 @@ class NewsModel {
       };
 
   Widget buildContactWidget(BuildContext context, NewsModel newsData) {
+    final ThemeData theme = Theme.of(context);
+    final Color textColor = theme.colorScheme.onBackground;
     return ListTile(
       leading: image != null
           ? ClipOval(
@@ -72,7 +74,7 @@ class NewsModel {
               child: Center(
                 child: Icon(
                   Icons.question_mark,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
             ),
@@ -82,7 +84,7 @@ class NewsModel {
           fontFamily: 'Roboto',
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          color: tcBlack,
+          color: textColor,
         ),
       ),
       subtitle: Text(

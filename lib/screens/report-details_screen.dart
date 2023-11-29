@@ -110,9 +110,11 @@ class _ReportDetailState extends State<ReportDetail> {
                     height: 40.h,
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {
-                          isBlurred = !isBlurred;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            isBlurred = !isBlurred;
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: tcViolet,

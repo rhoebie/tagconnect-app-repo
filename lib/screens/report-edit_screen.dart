@@ -50,24 +50,26 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
       if (galleryStatus) {
         _pickImage();
       } else {
-        setState(
-          () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Permission Denied'),
-                content: const Text(
-                    'You must grant the gallery permission for this to work'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => {Navigator.pop(context, 'OK')},
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Permission Denied'),
+                  content: const Text(
+                      'You must grant the gallery permission for this to work'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => {Navigator.pop(context, 'OK')},
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -356,9 +358,11 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                 ),
                               ],
                               onChanged: (value) {
-                                setState(() {
-                                  selectedEmergencyType = value;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    selectedEmergencyType = value;
+                                  });
+                                }
                               },
                               validator: (value) {
                                 if (value == null) {
@@ -445,9 +449,11 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                 ),
                               ],
                               onChanged: (value) {
-                                setState(() {
-                                  selectedForWhom = value;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    selectedForWhom = value;
+                                  });
+                                }
                               },
                               validator: (value) {
                                 if (value == null) {
@@ -561,9 +567,11 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             value: true,
                             groupValue: selectedCasualties,
                             onChanged: (value) {
-                              setState(() {
-                                selectedCasualties = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedCasualties = value;
+                                });
+                              }
                             },
                           ),
                           Text(
@@ -579,9 +587,11 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             value: false,
                             groupValue: selectedCasualties,
                             onChanged: (value) {
-                              setState(() {
-                                selectedCasualties = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedCasualties = value;
+                                });
+                              }
                             },
                           ),
                           Text(
@@ -610,9 +620,11 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             value: true,
                             groupValue: selectedVisibility,
                             onChanged: (value) {
-                              setState(() {
-                                selectedVisibility = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedVisibility = value;
+                                });
+                              }
                             },
                           ),
                           Text(
@@ -628,9 +640,11 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             value: false,
                             groupValue: selectedVisibility,
                             onChanged: (value) {
-                              setState(() {
-                                selectedVisibility = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedVisibility = value;
+                                });
+                              }
                             },
                           ),
                           Text(

@@ -175,9 +175,11 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                   ),
                                 ],
                                 onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedValue = newValue!;
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      selectedValue = newValue!;
+                                    });
+                                  }
                                 },
                               ),
                             ),

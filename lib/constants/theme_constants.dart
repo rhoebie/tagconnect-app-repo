@@ -1,5 +1,6 @@
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThemeNotifier extends ChangeNotifier {
@@ -9,9 +10,55 @@ class ThemeNotifier extends ChangeNotifier {
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
+    _updateSystemNavigationBarColor(); // Update system navigation bar color
     notifyListeners();
   }
+
+  void _updateSystemNavigationBarColor() {
+    final ThemeData currentTheme = _isDarkMode ? darkTheme : lightTheme;
+    final Color navigationBarColor = currentTheme.scaffoldBackgroundColor;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: navigationBarColor,
+    ));
+  }
 }
+
+final ThemeData lightTheme = ThemeData(
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: tcWhite,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light,
+    primary: tcViolet,
+    onPrimary: tcWhite,
+    secondary: tcViolet,
+    onSecondary: tcWhite,
+    background: tcWhite,
+    surface: Colors.white,
+    onBackground: tcBlack,
+    onSurface: tcBlack,
+    error: tcRed,
+    onError: tcWhite,
+  ),
+);
+
+final ThemeData darkTheme = ThemeData(
+  scaffoldBackgroundColor: tcBlack,
+  brightness: Brightness.dark,
+  colorScheme: const ColorScheme(
+    brightness: Brightness.dark,
+    primary: tcViolet,
+    onPrimary: tcWhite,
+    secondary: tcViolet,
+    onSecondary: tcWhite,
+    background: tcBlack,
+    surface: Colors.black,
+    onBackground: tcWhite,
+    onSurface: tcWhite,
+    error: tcRed,
+    onError: tcWhite,
+  ),
+);
 
 final ThemeData taguigTheme = ThemeData(
   platform: TargetPlatform.android,

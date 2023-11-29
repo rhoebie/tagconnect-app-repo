@@ -15,6 +15,34 @@ class NewsDetails extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
+
+    void showImageDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                  child: Image.network(
+                    newsModel.image ?? '',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -62,12 +90,17 @@ class NewsDetails extends StatelessWidget {
                     ),
                   ),
                   child: newsModel.image != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          child: Container(
-                            child: Image.network(
-                              newsModel.image!,
-                              fit: BoxFit.cover,
+                      ? GestureDetector(
+                          onTap: () {
+                            showImageDialog(context);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Container(
+                              child: Image.network(
+                                newsModel.image!,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         )

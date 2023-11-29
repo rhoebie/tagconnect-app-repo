@@ -52,17 +52,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   void clearText() {
-    setState(() {
-      _oldPasswordController.clear();
-      _passwordController.clear();
-      _confirmPassController.clear();
-      isEnabled = false;
-      hasUppercase = false;
-      hasLowercase = false;
-      hasSpecialChar = false;
-      hasDigit = false;
-      is6char = false;
-    });
+    if (mounted) {
+      setState(() {
+        _oldPasswordController.clear();
+        _passwordController.clear();
+        _confirmPassController.clear();
+        isEnabled = false;
+        hasUppercase = false;
+        hasLowercase = false;
+        hasSpecialChar = false;
+        hasDigit = false;
+        is6char = false;
+      });
+    }
   }
 
   void onPressedIconWithText({
@@ -77,12 +79,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           Duration(seconds: 1),
           () async {
             bool isSent = await changePassword(oldPw, newPw, confPw);
-            setState(
-              () {
-                stateTextWithIcon =
-                    isSent ? ButtonState.success : ButtonState.fail;
-              },
-            );
+            if (mounted) {
+              setState(
+                () {
+                  stateTextWithIcon =
+                      isSent ? ButtonState.success : ButtonState.fail;
+                },
+              );
+            }
             if (isSent) {
               Future.delayed(
                 Duration(seconds: 1),
@@ -103,11 +107,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         stateTextWithIcon = ButtonState.idle;
         break;
     }
-    setState(
-      () {
-        stateTextWithIcon = stateTextWithIcon;
-      },
-    );
+    if (mounted) {
+      setState(
+        () {
+          stateTextWithIcon = stateTextWithIcon;
+        },
+      );
+    }
   }
 
   @override
@@ -168,9 +174,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         suffixIcon: IconButton(
                           onPressed: () {
-                            setState(() {
-                              _oldPasswordVisible = !_oldPasswordVisible;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                _oldPasswordVisible = !_oldPasswordVisible;
+                              });
+                            }
                           },
                           icon: Icon(
                             _oldPasswordVisible
@@ -250,10 +258,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         suffixIcon: IconButton(
                           onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                              print(_passwordVisible);
-                            });
+                            if (mounted) {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                                print(_passwordVisible);
+                              });
+                            }
                           },
                           icon: Icon(
                             _passwordVisible
@@ -300,14 +310,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       ),
                       validator: (value) => validatePassword(value!),
                       onChanged: (value) {
-                        setState(() {
-                          hasUppercase = value.contains(RegExp(r'[A-Z]'));
-                          hasLowercase = value.contains(RegExp(r'[a-z]'));
-                          hasSpecialChar = value
-                              .contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>-]'));
-                          hasDigit = value.contains(RegExp(r'[0-9]'));
-                          is6char = value.length >= 6;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            hasUppercase = value.contains(RegExp(r'[A-Z]'));
+                            hasLowercase = value.contains(RegExp(r'[a-z]'));
+                            hasSpecialChar = value
+                                .contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>-]'));
+                            hasDigit = value.contains(RegExp(r'[0-9]'));
+                            is6char = value.length >= 6;
+                          });
+                        }
                       },
                     ),
                     Divider(

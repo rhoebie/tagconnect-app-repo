@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/contact_model.dart';
 import 'package:TagConnect/screens/contact-edit_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactViewScreen extends StatelessWidget {
@@ -17,6 +19,7 @@ class ContactViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -60,6 +63,35 @@ class ContactViewScreen extends StatelessWidget {
     String firstLetter = contact.firstname!.isNotEmpty
         ? contact.firstname![0].toUpperCase()
         : '?';
+
+    void showImageDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Image.memory(
+                    base64Decode(contact.image!),
+                    width: 350,
+                    height: 350,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -131,15 +163,21 @@ class ContactViewScreen extends StatelessWidget {
               Column(
                 children: [
                   contact.image != null
-                      ? CircleAvatar(
-                          radius: 50,
-                          backgroundColor: tcAsh,
-                          backgroundImage: MemoryImage(
-                            base64Decode(contact.image!),
+                      ? GestureDetector(
+                          onTap: () {
+                            showImageDialog(context);
+                          },
+                          child: CircleAvatar(
+                            radius: 70,
+                            backgroundColor:
+                                themeNotifier.isDarkMode ? tcDark : tcAsh,
+                            backgroundImage: MemoryImage(
+                              base64Decode(contact.image!),
+                            ),
                           ),
                         )
                       : CircleAvatar(
-                          radius: 50,
+                          radius: 70,
                           backgroundColor: tcViolet,
                           child: Center(
                             child: Text(
@@ -173,13 +211,21 @@ class ContactViewScreen extends StatelessWidget {
                                     await launchUrl(launchUri);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: tcAsh,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     radius: 30,
                                     child: Icon(
                                       Icons.message,
-                                      color: tcViolet,
+                                      color: themeNotifier.isDarkMode
+                                          ? tcWhite
+                                          : tcBlack,
                                     ),
                                   ),
+                                ),
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
                                 ),
                                 Text(
                                   'Message',
@@ -204,13 +250,21 @@ class ContactViewScreen extends StatelessWidget {
                                     await launchUrl(launchUri);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: tcAsh,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     radius: 30,
                                     child: Icon(
                                       Icons.phone,
-                                      color: tcViolet,
+                                      color: themeNotifier.isDarkMode
+                                          ? tcWhite
+                                          : tcBlack,
                                     ),
                                   ),
+                                ),
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
                                 ),
                                 Text(
                                   'Call',
@@ -235,13 +289,21 @@ class ContactViewScreen extends StatelessWidget {
                                     await launchUrl(launchUri);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: tcAsh,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     radius: 30,
                                     child: Icon(
                                       Icons.email,
-                                      color: tcViolet,
+                                      color: themeNotifier.isDarkMode
+                                          ? tcWhite
+                                          : tcBlack,
                                     ),
                                   ),
+                                ),
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
                                 ),
                                 Text(
                                   'Email',
@@ -272,13 +334,21 @@ class ContactViewScreen extends StatelessWidget {
                                     await launchUrl(launchUri);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: tcAsh,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     radius: 30,
                                     child: Icon(
                                       Icons.message,
-                                      color: tcViolet,
+                                      color: themeNotifier.isDarkMode
+                                          ? tcWhite
+                                          : tcBlack,
                                     ),
                                   ),
+                                ),
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
                                 ),
                                 Text(
                                   'Message',
@@ -303,13 +373,21 @@ class ContactViewScreen extends StatelessWidget {
                                     await launchUrl(launchUri);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: tcAsh,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     radius: 30,
                                     child: Icon(
                                       Icons.phone,
-                                      color: tcViolet,
+                                      color: themeNotifier.isDarkMode
+                                          ? tcWhite
+                                          : tcBlack,
                                     ),
                                   ),
+                                ),
+                                Divider(
+                                  color: Colors.transparent,
+                                  height: 5,
                                 ),
                                 Text(
                                   'Call',
@@ -328,102 +406,136 @@ class ContactViewScreen extends StatelessWidget {
                     color: Colors.transparent,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Personal Information',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: textColor,
+                      ),
                     ),
+                  ),
+                  Divider(
+                    color: Colors.transparent,
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'First Name',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: textColor,
-                          ),
-                        ),
-                        Text(
-                          contact.firstname ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: textColor,
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                        ),
-                        Text(
-                          'Last Name',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: textColor,
-                          ),
-                        ),
-                        Text(
-                          contact.lastname ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: textColor,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'First Name',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                            Text(
+                              contact.firstname ?? '',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
                         ),
                         Divider(
                           color: Colors.transparent,
+                          height: 5,
                         ),
-                        Text(
-                          'Email',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: textColor,
-                          ),
-                        ),
-                        Text(
-                          contact.email ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: textColor,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Last Name',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                            Text(
+                              contact.lastname ?? '',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
                         ),
                         Divider(
                           color: Colors.transparent,
+                          height: 5,
                         ),
-                        Text(
-                          'Phone Number',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: textColor,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Email',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                            Text(
+                              contact.email ?? '',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          contact.contact ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: textColor,
-                          ),
+                        Divider(
+                          color: Colors.transparent,
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Phone Number',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                            Text(
+                              contact.contact ?? '',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

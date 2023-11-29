@@ -26,9 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onItemTapped(int index) {
     if (_currentIndex != index) {
-      setState(() {
-        _currentIndex = index;
-      });
+      if (mounted) {
+        setState(() {
+          _currentIndex = index;
+        });
+      }
       _pageController.jumpToPage(index);
     }
   }
@@ -88,9 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
               MenuWidget(),
             ],
             onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
+              if (mounted) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              }
             },
             physics:
                 NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics

@@ -136,12 +136,15 @@ class _LoginScreenState extends State<LoginScreen> {
           Duration(seconds: 1),
           () async {
             bool isLogin = await loginUser(email: email, password: password);
-            setState(
-              () {
-                stateTextWithIcon =
-                    isLogin ? ButtonState.success : ButtonState.fail;
-              },
-            );
+            if (mounted) {
+              setState(
+                () {
+                  stateTextWithIcon =
+                      isLogin ? ButtonState.success : ButtonState.fail;
+                },
+              );
+            }
+
             if (isLogin) {
               Future.delayed(
                 Duration(seconds: 1),
@@ -166,11 +169,13 @@ class _LoginScreenState extends State<LoginScreen> {
         stateTextWithIcon = ButtonState.idle;
         break;
     }
-    setState(
-      () {
-        stateTextWithIcon = stateTextWithIcon;
-      },
-    );
+    if (mounted) {
+      setState(
+        () {
+          stateTextWithIcon = stateTextWithIcon;
+        },
+      );
+    }
   }
 
   Future<void> checkPermission() async {
@@ -413,10 +418,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    _passwordVisible = !_passwordVisible;
-                                    print(_passwordVisible);
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      _passwordVisible = !_passwordVisible;
+                                    });
+                                  }
                                 },
                                 icon: Icon(
                                   _passwordVisible
@@ -471,9 +477,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Checkbox(
                                     value: rememberMe,
                                     onChanged: (value) {
-                                      setState(() {
-                                        rememberMe = value!;
-                                      });
+                                      if (mounted) {
+                                        setState(() {
+                                          rememberMe = value!;
+                                        });
+                                      }
                                     },
                                   ),
                                   Text('Remember Me'),

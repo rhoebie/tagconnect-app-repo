@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:TagConnect/models/barangay_model.dart';
 import 'package:TagConnect/models/feed_model.dart';
 import 'package:TagConnect/screens/report-details_screen.dart';
 import 'package:TagConnect/services/barangay_service.dart';
+import 'package:provider/provider.dart';
 
 class FeedWidget extends StatefulWidget {
   const FeedWidget({super.key});
@@ -73,9 +75,11 @@ class _FeedWidgetState extends State<FeedWidget> {
   Future<void> fetchReportData(String barangayName, {int page = 1}) async {
     if (page > totalPage) {
       // No more data to fetch
-      setState(() {
-        isLoadingMore = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingMore = false;
+        });
+      }
       print('no more page');
       return;
     }
@@ -107,17 +111,18 @@ class _FeedWidgetState extends State<FeedWidget> {
 
         // Sort the reports by id in descending order
         reports.sort((a, b) => b.id!.compareTo(a.id!));
-
-        setState(() {
-          if (page == 1) {
-            reportData = reports;
-          } else {
-            reportData.addAll(reports); // Append new data
-          }
-          totalPage = responseData['meta']['total_page'];
-          currentPage = page;
-          isLoadingMore = false;
-        });
+        if (mounted) {
+          setState(() {
+            if (page == 1) {
+              reportData = reports;
+            } else {
+              reportData.addAll(reports); // Append new data
+            }
+            totalPage = responseData['meta']['total_page'];
+            currentPage = page;
+            isLoadingMore = false;
+          });
+        }
       } else {
         // If the server did not return a 200 OK response,
         // throw an exception.
@@ -134,10 +139,11 @@ class _FeedWidgetState extends State<FeedWidget> {
       final barangayService = BarangayService();
       final List<BarangayModel> fetchData =
           await barangayService.getbarangays();
-
-      setState(() {
-        barangayData = fetchData;
-      });
+      if (mounted) {
+        setState(() {
+          barangayData = fetchData;
+        });
+      }
     } catch (e) {
       print('Error: $e');
     }
@@ -153,9 +159,12 @@ class _FeedWidgetState extends State<FeedWidget> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         // Reached the end of the list, load more data
-        setState(() {
-          isLoadingMore = true;
-        });
+        if (mounted) {
+          setState(() {
+            isLoadingMore = true;
+          });
+        }
+
         fetchReportData('all', page: currentPage + 1);
       }
     });
@@ -163,6 +172,7 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -208,15 +218,24 @@ class _FeedWidgetState extends State<FeedWidget> {
                               String selectedBarangayName =
                                   index == 0 ? "All" : barangayList[index - 1];
                               fetchReportData(selectedBarangayName);
-                              setState(() {
-                                selectedBarangayIndex = isSelected ? -1 : index;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedBarangayIndex =
+                                      isSelected ? -1 : index;
+                                });
+                              }
                             },
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
-                                color: isSelected ? tcViolet : tcAsh,
+                                color: themeNotifier.isDarkMode
+                                    ? isSelected
+                                        ? tcViolet
+                                        : tcDark
+                                    : isSelected
+                                        ? tcViolet
+                                        : tcAsh,
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               child: Center(
@@ -234,9 +253,11 @@ class _FeedWidgetState extends State<FeedWidget> {
                                         fontFamily: 'Roboto',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w400,
-                                        color: isSelected
-                                            ? backgroundColor
-                                            : textColor,
+                                        color: themeNotifier.isDarkMode
+                                            ? textColor
+                                            : isSelected
+                                                ? backgroundColor
+                                                : textColor,
                                       ),
                                     ),
                                     SizedBox(width: 10),
@@ -267,12 +288,6 @@ class _FeedWidgetState extends State<FeedWidget> {
                       orElse: () => BarangayModel(),
                     );
 
-                    // Calculate the height based on the description length
-                    final descriptionLines =
-                        (item.description ?? '').split('\n');
-                    final descriptionHeight = descriptionLines.length *
-                        16.0; // Adjust the line height as needed
-
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -286,13 +301,10 @@ class _FeedWidgetState extends State<FeedWidget> {
                           ),
                         );
                       },
-                      child: SizedBox(
-                        height: descriptionHeight + 120,
+                      child: Card(
+                        color: themeNotifier.isDarkMode ? tcDark : tcWhite,
                         child: Container(
-                          color: backgroundColor,
                           padding: EdgeInsets.all(10),
-                          height: 120,
-                          width: double.infinity,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -357,16 +369,19 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 color: Colors.transparent,
                                 height: 5,
                               ),
-                              Text(
-                                item.description ?? '',
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  fontFamily: 'PublicSans',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: textColor,
+                              Container(
+                                width: double.infinity,
+                                child: Text(
+                                  item.description ?? '',
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontFamily: 'PublicSans',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: textColor,
+                                  ),
                                 ),
                               ),
                             ],

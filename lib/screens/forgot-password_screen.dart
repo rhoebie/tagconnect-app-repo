@@ -221,15 +221,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-
+                            if (mounted) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                            }
                             await sendCode(_emailController.text);
 
-                            setState(() {
-                              isLoading = false;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -677,9 +680,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                            }
                             final printText = txtOne.text +
                                 txtTwo.text +
                                 txtThree.text +
@@ -687,9 +692,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 txtFive.text +
                                 txtSix.text;
                             await verifyCode(code: printText);
-                            setState(() {
-                              isLoading = false;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -912,14 +919,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           ),
                           validator: (value) => validatePassword(value!),
                           onChanged: (value) {
-                            setState(() {
-                              hasUppercase = value.contains(RegExp(r'[A-Z]'));
-                              hasLowercase = value.contains(RegExp(r'[a-z]'));
-                              hasSpecialChar = value.contains(
-                                  RegExp(r'[!@#\$%^&*(),.?":{}|<>-]'));
-                              hasDigit = value.contains(RegExp(r'[0-9]'));
-                              is6char = value.length >= 6;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                hasUppercase = value.contains(RegExp(r'[A-Z]'));
+                                hasLowercase = value.contains(RegExp(r'[a-z]'));
+                                hasSpecialChar = value.contains(
+                                    RegExp(r'[!@#\$%^&*(),.?":{}|<>-]'));
+                                hasDigit = value.contains(RegExp(r'[0-9]'));
+                                is6char = value.length >= 6;
+                              });
+                            }
                           },
                         ),
                         Container(
@@ -1068,13 +1077,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                            }
+
                             await resetPass();
-                            setState(() {
-                              isLoading = false;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(

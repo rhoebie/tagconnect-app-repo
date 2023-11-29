@@ -48,24 +48,26 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       if (cameraStatus) {
         _takePhoto();
       } else {
-        setState(
-          () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Permission Denied'),
-                content: const Text(
-                    'You must grant the camera permission for this to work'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => {Navigator.pop(context, 'OK')},
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Permission Denied'),
+                  content: const Text(
+                      'You must grant the camera permission for this to work'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => {Navigator.pop(context, 'OK')},
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -94,24 +96,26 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       if (galleryStatus) {
         _pickImage();
       } else {
-        setState(
-          () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Permission Denied'),
-                content: const Text(
-                    'You must grant the gallery permission for this to work'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => {Navigator.pop(context, 'OK')},
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Permission Denied'),
+                  content: const Text(
+                      'You must grant the gallery permission for this to work'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => {Navigator.pop(context, 'OK')},
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -191,19 +195,21 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
 
         final locationIdk = await locationService.getUserLocation(
             userLatitude!, userLongitude!);
-        setState(() {
-          var type = locationIdk['type'];
-          var value = locationIdk['value'];
-          if (type == 'exact') {
-            print('Exact Value: $value');
-            locationData = value;
-          } else if (type == 'near') {
-            print('Near Value: $value');
-            locationData = value;
-          } else {
-            print("Other Location: $type");
-          }
-        });
+        if (mounted) {
+          setState(() {
+            var type = locationIdk['type'];
+            var value = locationIdk['value'];
+            if (type == 'exact') {
+              print('Exact Value: $value');
+              locationData = value;
+            } else if (type == 'near') {
+              print('Near Value: $value');
+              locationData = value;
+            } else {
+              print("Other Location: $type");
+            }
+          });
+        }
       } else {
         showDialog(
           context: context,
@@ -276,17 +282,23 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
           () async {
             bool isSent = await submitReport(
                 emergencyType, description, casualties, visibility, imahe);
-            setState(
-              () {
-                stateTextWithIcon =
-                    isSent ? ButtonState.success : ButtonState.fail;
-              },
-            );
+            if (mounted) {
+              setState(
+                () {
+                  stateTextWithIcon =
+                      isSent ? ButtonState.success : ButtonState.fail;
+                },
+              );
+            }
+
             if (isSent) {
               Future.delayed(
                 Duration(seconds: 1),
                 () async {
-                  setState(() {});
+                  if (mounted) {
+                    setState(() {});
+                  }
+
                   _clearForm();
                 },
               );
@@ -302,6 +314,9 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       case ButtonState.fail:
         stateTextWithIcon = ButtonState.idle;
         break;
+    }
+    if (mounted) {
+      // Code
     }
     setState(
       () {
@@ -441,9 +456,11 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                 ),
                               ],
                               onChanged: (value) {
-                                setState(() {
-                                  selectedEmergencyType = value;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    selectedEmergencyType = value;
+                                  });
+                                }
                               },
                               validator: (value) {
                                 if (value == null) {
@@ -574,9 +591,11 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             value: true,
                             groupValue: selectedCasualties,
                             onChanged: (value) {
-                              setState(() {
-                                selectedCasualties = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedCasualties = value;
+                                });
+                              }
                             },
                           ),
                           Text(
@@ -592,9 +611,11 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             value: false,
                             groupValue: selectedCasualties,
                             onChanged: (value) {
-                              setState(() {
-                                selectedCasualties = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedCasualties = value;
+                                });
+                              }
                             },
                           ),
                           Text(
@@ -623,9 +644,11 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             value: true,
                             groupValue: selectedVisibility,
                             onChanged: (value) {
-                              setState(() {
-                                selectedVisibility = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedVisibility = value;
+                                });
+                              }
                             },
                           ),
                           Text(
@@ -641,9 +664,11 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             value: false,
                             groupValue: selectedVisibility,
                             onChanged: (value) {
-                              setState(() {
-                                selectedVisibility = value;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  selectedVisibility = value;
+                                });
+                              }
                             },
                           ),
                           Text(

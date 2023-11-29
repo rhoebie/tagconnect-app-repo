@@ -51,6 +51,8 @@ class ContactModel {
 
   Widget buildContactWidget(
       BuildContext context, ContactModel contactData, VoidCallback voidFunct) {
+    final ThemeData theme = Theme.of(context);
+    final Color textColor = theme.colorScheme.onBackground;
     String firstLetter =
         firstname!.isNotEmpty ? firstname![0].toUpperCase() : '?';
 
@@ -82,7 +84,7 @@ class ContactModel {
           fontFamily: 'Roboto',
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          color: tcBlack,
+          color: textColor,
         ),
       ),
       subtitle: Text(

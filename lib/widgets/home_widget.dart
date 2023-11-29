@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:TagConnect/models/create-report_model.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/news_model.dart';
@@ -51,9 +53,11 @@ class _HomeWidgetState extends State<HomeWidget> {
       final userId = prefs.getInt('userId');
       if (userId != null) {
         final UserModel fetchUserData = await userService.getUserById(userId);
-        setState(() {
-          userData = fetchUserData;
-        });
+        if (mounted) {
+          setState(() {
+            userData = fetchUserData;
+          });
+        }
       } else {
         print('Error Fetching Data');
       }
@@ -114,19 +118,21 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         final locationIdk = await locationService.getUserLocation(
             userLatitude!, userLongitude!);
-        setState(() {
-          var type = locationIdk['type'];
-          var value = locationIdk['value'];
-          if (type == 'exact') {
-            print('Exact Value: $value');
-            locationData = value;
-          } else if (type == 'near') {
-            print('Near Value: $value');
-            locationData = value;
-          } else {
-            print("Other Location: $type");
-          }
-        });
+        if (mounted) {
+          setState(() {
+            var type = locationIdk['type'];
+            var value = locationIdk['value'];
+            if (type == 'exact') {
+              print('Exact Value: $value');
+              locationData = value;
+            } else if (type == 'near') {
+              print('Near Value: $value');
+              locationData = value;
+            } else {
+              print("Other Location: $type");
+            }
+          });
+        }
       } else {
         showDialog(
           context: context,
@@ -155,9 +161,12 @@ class _HomeWidgetState extends State<HomeWidget> {
     final reportService = ReportService();
 
     try {
-      setState(() {
-        isLoading = true;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
+
       await fetchLocationData();
       final locationUser =
           userLoc(latitude: userLatitude!, longitude: userLongitude!);
@@ -177,9 +186,12 @@ class _HomeWidgetState extends State<HomeWidget> {
       final bool response = await reportService.createReport(reportMod);
 
       if (response) {
-        setState(() {
-          isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+
         print('Success');
       }
     } catch (e) {
@@ -233,6 +245,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -415,6 +428,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 child: Container(
                                   width: 180,
                                   child: Card(
+                                    color: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcWhite,
                                     elevation: 3,
                                     child: Column(
                                       crossAxisAlignment:
@@ -527,7 +543,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
                                                       fontFamily: 'Roboto',
-                                                      fontSize: 12.sp,
+                                                      fontSize: 11.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       color: textColor,

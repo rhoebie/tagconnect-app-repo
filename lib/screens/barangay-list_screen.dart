@@ -1,3 +1,4 @@
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/barangay_model.dart';
 import 'package:TagConnect/services/barangay_service.dart';
 import 'package:TagConnect/screens/barangay-details_screen.dart';
+import 'package:provider/provider.dart';
 
 class BarangayListScreen extends StatefulWidget {
   const BarangayListScreen({super.key});
@@ -38,6 +40,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -105,6 +108,8 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                               );
                             },
                             child: Card(
+                              color:
+                                  themeNotifier.isDarkMode ? tcDark : tcWhite,
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +153,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                           children: [
                                             Text(
                                               item.name!,
+                                              maxLines: 1,
                                               style: TextStyle(
                                                 color: textColor,
                                                 fontFamily: 'PublicSans',

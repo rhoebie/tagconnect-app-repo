@@ -1,5 +1,4 @@
 //import 'package:firebase_core/firebase_core.dart';
-import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:TagConnect/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -37,19 +36,19 @@ class MyApp extends StatelessWidget {
             ? Brightness.light
             : Brightness.dark;
 
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: statusBarIconBrightness,
-        systemNavigationBarIconBrightness: navigationBarIconBrightness,
-        statusBarColor: statusBarColor,
-        systemNavigationBarColor: navigationBarColor,
-      ),
-    );
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: statusBarIconBrightness,
+      systemNavigationBarIconBrightness: navigationBarIconBrightness,
+      statusBarColor: statusBarColor,
+      systemNavigationBarColor: navigationBarColor,
+    ));
+
     return ScreenUtilInit(
       designSize: const Size(360, 800),
       builder: (context, child) {
         return MaterialApp(
-          theme: currentTheme,
+          theme: lightTheme,
+          darkTheme: darkTheme,
           themeMode:
               themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           debugShowCheckedModeBanner: false,
@@ -60,39 +59,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-final ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  scaffoldBackgroundColor: tcWhite,
-  colorScheme: const ColorScheme(
-    brightness: Brightness.light,
-    primary: tcViolet,
-    onPrimary: tcWhite,
-    secondary: tcViolet,
-    onSecondary: tcWhite,
-    background: tcWhite,
-    surface: Colors.white,
-    onBackground: tcBlack,
-    onSurface: tcBlack,
-    error: tcRed,
-    onError: tcWhite,
-  ),
-);
-
-final ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: tcBlack,
-  brightness: Brightness.dark,
-  colorScheme: const ColorScheme(
-    brightness: Brightness.dark,
-    primary: tcViolet,
-    onPrimary: tcWhite,
-    secondary: tcViolet,
-    onSecondary: tcWhite,
-    background: tcBlack,
-    surface: Colors.black,
-    onBackground: tcWhite,
-    onSurface: tcWhite,
-    error: tcRed,
-    onError: tcWhite,
-  ),
-);

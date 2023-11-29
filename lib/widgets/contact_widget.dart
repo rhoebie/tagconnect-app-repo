@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/contact_model.dart';
 import 'package:TagConnect/screens/contact-add_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactWidget extends StatefulWidget {
@@ -27,30 +29,34 @@ class _ContactWidgetState extends State<ContactWidget> {
     if (file.existsSync()) {
       String jsonData = file.readAsStringSync();
       List<dynamic> contactsData = json.decode(jsonData);
-      setState(() {
-        contacts =
-            contactsData.map((data) => ContactModel.fromJson(data)).toList();
-        contacts
-            .sort((a, b) => (a.firstname ?? '').compareTo(b.firstname ?? ''));
-        filteredContacts = contacts;
-      });
+      if (mounted) {
+        setState(() {
+          contacts =
+              contactsData.map((data) => ContactModel.fromJson(data)).toList();
+          contacts
+              .sort((a, b) => (a.firstname ?? '').compareTo(b.firstname ?? ''));
+          filteredContacts = contacts;
+        });
+      }
     }
   }
 
   void filterContacts(String query) {
     query = query.toLowerCase();
-    setState(() {
-      if (query.isEmpty || query == '') {
-        // Show all contacts when the query is empty or null
-        filteredContacts = List.from(contacts);
-      } else {
-        // Filter based on the search query
-        filteredContacts = contacts
-            .where(
-                (contact) => contact.firstname!.toLowerCase().contains(query))
-            .toList();
-      }
-    });
+    if (mounted) {
+      setState(() {
+        if (query.isEmpty || query == '') {
+          // Show all contacts when the query is empty or null
+          filteredContacts = List.from(contacts);
+        } else {
+          // Filter based on the search query
+          filteredContacts = contacts
+              .where(
+                  (contact) => contact.firstname!.toLowerCase().contains(query))
+              .toList();
+        }
+      });
+    }
   }
 
   @override
@@ -62,6 +68,7 @@ class _ContactWidgetState extends State<ContactWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -85,16 +92,8 @@ class _ContactWidgetState extends State<ContactWidget> {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
-                        color: backgroundColor,
+                        color: themeNotifier.isDarkMode ? tcDark : tcAsh,
                         borderRadius: BorderRadius.circular(25),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
                       ),
                       child: TextField(
                         onChanged: (value) {
@@ -103,11 +102,13 @@ class _ContactWidgetState extends State<ContactWidget> {
                         decoration: InputDecoration(
                           hintText: 'Search',
                           hintStyle: TextStyle(
-                            color: tcGray,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w400,
+                            color: textColor,
                           ),
                           icon: Icon(
                             Icons.search,
-                            color: tcGray,
+                            color: textColor,
                           ),
                           border: InputBorder.none,
                         ),

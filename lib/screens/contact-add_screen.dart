@@ -32,10 +32,11 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
   void _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = pickedImage;
-    });
+    if (mounted) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   }
 
   Future<String?> convertXFileToBase64(XFile? file) async {

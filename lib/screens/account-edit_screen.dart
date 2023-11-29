@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +14,7 @@ import 'package:TagConnect/models/user_model.dart';
 import 'package:TagConnect/services/user_service.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
+import 'package:provider/provider.dart';
 
 class AccountEditWidget extends StatefulWidget {
   final VoidCallback callbackFunction;
@@ -72,24 +74,26 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
       if (status.isPermanentlyDenied) {
         openAppSettings();
       } else {
-        setState(
-          () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Permission Denied'),
-                content: const Text(
-                    'You must grant the camera permission for this to work'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => {Navigator.pop(context, 'OK')},
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Permission Denied'),
+                  content: const Text(
+                      'You must grant the camera permission for this to work'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => {Navigator.pop(context, 'OK')},
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
       }
     }
   }
@@ -108,19 +112,22 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
   void _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = pickedImage;
-    });
+    if (mounted) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   }
 
   void _takePhoto() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.camera);
 
-    setState(() {
-      _image = pickedImage;
-    });
+    if (mounted) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   }
 
   void onPressedIconWithText(UserModel userdata) {
@@ -131,12 +138,14 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
           Duration(seconds: 1),
           () async {
             bool isSent = await updateUser(userdata);
-            setState(
-              () {
-                stateTextWithIcon =
-                    isSent ? ButtonState.success : ButtonState.fail;
-              },
-            );
+            if (mounted) {
+              setState(
+                () {
+                  stateTextWithIcon =
+                      isSent ? ButtonState.success : ButtonState.fail;
+                },
+              );
+            }
             if (isSent) {
               Future.delayed(
                 Duration(seconds: 1),
@@ -160,11 +169,13 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
         stateTextWithIcon = ButtonState.idle;
         break;
     }
-    setState(
-      () {
-        stateTextWithIcon = stateTextWithIcon;
-      },
-    );
+    if (mounted) {
+      setState(
+        () {
+          stateTextWithIcon = stateTextWithIcon;
+        },
+      );
+    }
   }
 
   void clearText() {
@@ -186,13 +197,11 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
     _birthdayController.text = widget.userModel.birthdate ?? '';
     _addressController.text = widget.userModel.address ?? '';
     _contactController.text = widget.userModel.contactnumber ?? '';
-    imageUrl = widget.userModel.image != null
-        ? ApiConstants.baseUrl + widget.userModel.image!
-        : null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -252,9 +261,9 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                       height: 100,
                                       fit: BoxFit.cover,
                                     )
-                                  : imageUrl != null
+                                  : widget.userModel.image != null
                                       ? Image.network(
-                                          imageUrl!,
+                                          widget.userModel.image!,
                                           width: 100,
                                           height: 100,
                                           fit: BoxFit.cover,
@@ -280,7 +289,9 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                     _takePhoto();
                                   }),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: backgroundColor,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -309,7 +320,9 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                     _pickImage();
                                   }),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: backgroundColor,
+                                    backgroundColor: themeNotifier.isDarkMode
+                                        ? tcDark
+                                        : tcAsh,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -657,14 +670,17 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
 
                               if (pickedDate != null &&
                                   pickedDate != selectedDate) {
-                                setState(() {
-                                  selectedDate = pickedDate;
+                                if (mounted) {
+                                  setState(() {
+                                    selectedDate = pickedDate;
 
-                                  // Format the selected date and set it to the dateController.text
-                                  final formattedDate = DateFormat('yyyy/MM/dd')
-                                      .format(pickedDate);
-                                  _birthdayController.text = formattedDate;
-                                });
+                                    // Format the selected date and set it to the dateController.text
+                                    final formattedDate =
+                                        DateFormat('yyyy/MM/dd')
+                                            .format(pickedDate);
+                                    _birthdayController.text = formattedDate;
+                                  });
+                                }
                               }
                             },
                             icon: Icon(Icons.calendar_month),
@@ -866,85 +882,6 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                   },
                   state: stateTextWithIcon,
                 ),
-                // Container(
-                //   width: double.infinity,
-                //   height: 50.h,
-                //   child: ElevatedButton(
-                //     onPressed: () async {
-                //       if (_image != null) {
-                //         final imageByte = await convertXFileToBase64(_image);
-                //         if (_formKey.currentState != null &&
-                //             _formKey.currentState!.validate()) {
-                //           final data = UserModel(
-                //             firstname: _firstNameController.text,
-                //             middlename: _middleNameController.text,
-                //             lastname: _lastNameController.text,
-                //             age: int.parse(_ageController.text),
-                //             birthdate: _birthdayController.text,
-                //             contactnumber: _contactController.text,
-                //             address: _addressController.text,
-                //             image: imageByte.toString(),
-                //           );
-                //           setState(() {
-                //             isLoading == true;
-                //           });
-
-                //           await updateUser(data);
-
-                //           setState(() {
-                //             isLoading == false;
-                //           });
-                //         }
-                //       } else {
-                //         if (_formKey.currentState != null &&
-                //             _formKey.currentState!.validate()) {
-                //           final data = UserModel(
-                //             firstname: _firstNameController.text,
-                //             middlename: _middleNameController.text,
-                //             lastname: _lastNameController.text,
-                //             age: int.parse(_ageController.text),
-                //             birthdate: _birthdayController.text,
-                //             contactnumber: _contactController.text,
-                //             address: _addressController.text,
-                //             image: null,
-                //           );
-                //           setState(() {
-                //             isLoading == true;
-                //           });
-
-                //           await updateUser(data);
-
-                //           setState(() {
-                //             isLoading == false;
-                //           });
-                //         }
-                //       }
-                //     },
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: tcViolet,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //       elevation: 2,
-                //     ),
-                //     child: isLoading
-                //         ? Center(
-                //             child: CircularProgressIndicator(
-                //               color: backgroundColor,
-                //             ),
-                //           )
-                //         : Text(
-                //             'Update',
-                //             textAlign: TextAlign.center,
-                //             style: TextStyle(
-                //               fontFamily: 'PublicSans',
-                //               fontSize: 16.sp,
-                //               fontWeight: FontWeight.w600,
-                //               color: backgroundColor,
-                //             ),
-                //           ),
-                //   ),
-                // ),
               ],
             ),
           ),

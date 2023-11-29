@@ -42,7 +42,9 @@ class _AccountScreenState extends State<AccountScreen> {
 
   Future<void> refresh() async {
     try {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } catch (e) {
       print('Error: $e');
     }
@@ -53,6 +55,36 @@ class _AccountScreenState extends State<AccountScreen> {
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
+
+    void showImageDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Image.network(
+                    userModel.image ?? '',
+                    width: 350,
+                    height: 350,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -107,9 +139,6 @@ class _AccountScreenState extends State<AccountScreen> {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
                 final items = snapshot.data;
-                items?.image != null
-                    ? imageUrl = ApiConstants.baseUrl + items!.image!
-                    : imageUrl = null;
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,23 +149,23 @@ class _AccountScreenState extends State<AccountScreen> {
                       children: [
                         CircleAvatar(
                           radius: 50,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            ),
-                            child: (imageUrl?.isEmpty ?? true)
-                                ? Center(
+                          child: ClipOval(
+                            child: items?.image != ''
+                                ? GestureDetector(
+                                    onTap: () {
+                                      showImageDialog(context);
+                                    },
+                                    child: Image.network(
+                                      items!.image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : Center(
                                     child: Icon(
                                       Icons.question_mark,
                                       size: 50,
                                       color: textColor,
                                     ),
-                                  )
-                                : Image.network(
-                                    imageUrl!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
                                   ),
                           ),
                         ),
@@ -312,10 +341,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                               Container(
                                 width: 150,
-                                child: AutoSizeText(
+                                child: Text(
                                   items.address ?? '',
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontFamily: 'PublicSans',

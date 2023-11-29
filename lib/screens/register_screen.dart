@@ -61,24 +61,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (cameraStatus) {
         _takePhoto();
       } else {
-        setState(
-          () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Permission Denied'),
-                content: const Text(
-                    'You must grant the camera permission for this to work'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => {Navigator.pop(context, 'OK')},
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Permission Denied'),
+                  content: const Text(
+                      'You must grant the camera permission for this to work'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => {Navigator.pop(context, 'OK')},
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -91,24 +93,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (galleryStatus) {
         _pickImage();
       } else {
-        setState(
-          () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Permission Denied'),
-                content: const Text(
-                    'You must grant the gallery permission for this to work'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => {Navigator.pop(context, 'OK')},
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Permission Denied'),
+                  content: const Text(
+                      'You must grant the gallery permission for this to work'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => {Navigator.pop(context, 'OK')},
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -118,19 +122,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = pickedImage;
-    });
+    if (mounted) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   }
 
   void _takePhoto() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.camera);
 
-    setState(() {
-      _image = pickedImage;
-    });
+    if (mounted) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   }
 
   @override
@@ -861,15 +868,18 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
 
                                   if (pickedDate != null &&
                                       pickedDate != selectedDate) {
-                                    setState(() {
-                                      selectedDate = pickedDate;
+                                    if (mounted) {
+                                      setState(() {
+                                        selectedDate = pickedDate;
 
-                                      // Format the selected date and set it to the dateController.text
-                                      final formattedDate =
-                                          DateFormat('yyyy/MM/dd')
-                                              .format(pickedDate);
-                                      _birthdayController.text = formattedDate;
-                                    });
+                                        // Format the selected date and set it to the dateController.text
+                                        final formattedDate =
+                                            DateFormat('yyyy/MM/dd')
+                                                .format(pickedDate);
+                                        _birthdayController.text =
+                                            formattedDate;
+                                      });
+                                    }
                                   }
                                 },
                                 icon: Icon(Icons.calendar_month),
@@ -1147,21 +1157,24 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
           ));
         }
       } else {
-        setState(() {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('No Internet'),
-              content: const Text('Check your internet connection in settings'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => {Navigator.pop(context, 'OK')},
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-        });
+        if (mounted) {
+          setState(() {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('No Internet'),
+                content:
+                    const Text('Check your internet connection in settings'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => {Navigator.pop(context, 'OK')},
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          });
+        }
       }
     } catch (e) {
       print('Error creating user: $e');
@@ -1637,9 +1650,12 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey3.currentState!.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                              }
+
                               //final fcmToken = await getFCM();
                               final byte64Image =
                                   await convertXFileToBase64(_image);
@@ -1659,9 +1675,11 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   image: byte64Image ?? '',
                                   token: '');
 
-                              setState(() {
-                                isLoading = false;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

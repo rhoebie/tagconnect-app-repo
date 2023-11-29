@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Color tcViolet = Color(0xFF5C6BC0);
 const Color tcWhite = Color(0xFFFFFFFF);
 const Color tcDark = Color(0xFF34495E);
+const Color tcDarker = Color(0xFF2C3E50);
 const Color tcBlack = Color(0xFF212121);
 const Color tcGray = Color(0xFF95A5A6);
 const Color tcRed = Color(0xFFF44336);
