@@ -193,19 +193,22 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: const IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'EDIT',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -234,10 +237,10 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(10.0),
-                              color: tcWhite,
+                              color: backgroundColor,
                               border: Border.all(
                                 width: 1,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                             child: ClipRRect(
@@ -258,13 +261,13 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                         )
                                       : Icon(
                                           Icons.question_mark,
-                                          color: tcBlack,
+                                          color: textColor,
                                           size: 50,
                                         ),
                             ),
                           ),
                           VerticalDivider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,7 +280,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                     _takePhoto();
                                   }),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: tcWhite,
+                                    backgroundColor: backgroundColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -290,13 +293,13 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
                               ),
                               Divider(
-                                color: tcWhite,
+                                color: backgroundColor,
                               ),
                               Container(
                                 width: 200.w,
@@ -306,7 +309,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                     _pickImage();
                                   }),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: tcWhite,
+                                    backgroundColor: backgroundColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -319,7 +322,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -338,7 +341,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           labelText: 'First Name',
@@ -358,7 +361,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -396,7 +399,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           labelText: 'Middle Name',
@@ -416,7 +419,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -454,7 +457,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           labelText: 'Last Name',
@@ -474,7 +477,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -513,7 +516,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         maxLength: 3,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           counterText: '',
@@ -541,7 +544,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -580,7 +583,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           labelText: 'Date of Birth',
@@ -607,7 +610,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -669,7 +672,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         ),
                       ),
                       Divider(
-                        color: tcWhite,
+                        color: backgroundColor,
                       ),
                       TextFormField(
                         keyboardType: TextInputType.phone,
@@ -678,7 +681,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           labelText: 'Contact',
@@ -705,7 +708,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -735,7 +738,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         validator: (value) => validatePhoneNumber(value!),
                       ),
                       Divider(
-                        color: tcWhite,
+                        color: backgroundColor,
                       ),
                       TextFormField(
                         keyboardType: TextInputType.streetAddress,
@@ -745,7 +748,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         maxLines: 3,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           labelText: 'Address',
@@ -772,7 +775,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -927,7 +930,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                 //     child: isLoading
                 //         ? Center(
                 //             child: CircularProgressIndicator(
-                //               color: tcWhite,
+                //               color: backgroundColor,
                 //             ),
                 //           )
                 //         : Text(
@@ -937,7 +940,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                 //               fontFamily: 'PublicSans',
                 //               fontSize: 16.sp,
                 //               fontWeight: FontWeight.w600,
-                //               color: tcWhite,
+                //               color: backgroundColor,
                 //             ),
                 //           ),
                 //   ),

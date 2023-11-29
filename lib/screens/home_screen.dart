@@ -35,10 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         centerTitle: false,
         toolbarHeight: 40,
@@ -50,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
-            color: tcBlack,
+            color: textColor,
           ),
         ),
         actions: [
@@ -67,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.notifications_rounded,
               size: 25,
-              color: tcBlack,
+              color: textColor,
             ),
           )
         ],
@@ -93,9 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         type: BottomNavigationBarType.fixed,
-        unselectedItemColor: tcBlack,
+        unselectedItemColor: textColor,
         selectedItemColor: tcViolet,
         showUnselectedLabels: false,
         showSelectedLabels: true,

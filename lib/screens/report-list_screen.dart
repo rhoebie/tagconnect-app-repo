@@ -36,20 +36,23 @@ class _ReportListScreenState extends State<ReportListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: const IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'REPORTS',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -100,7 +103,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               'Overall Reports',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: tcBlack,
+                                color: textColor,
                                 fontFamily: 'Roboto',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
@@ -114,7 +117,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               data.length.toString(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: tcBlack,
+                                color: textColor,
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
@@ -130,7 +133,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               'Filter By',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: tcBlack,
+                                color: textColor,
                                 fontFamily: 'Roboto',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
@@ -150,7 +153,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                       'Pending',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: tcBlack,
+                                        color: textColor,
                                         fontFamily: 'PublicSans',
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
@@ -163,7 +166,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                       'Done',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: tcBlack,
+                                        color: textColor,
                                         fontFamily: 'PublicSans',
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
@@ -221,7 +224,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                 'Report ID: ${item.id}',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublisSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
@@ -231,7 +234,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                 formatCustomDateTime(item.createdAt.toString()),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublisSans',
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
@@ -272,18 +275,21 @@ class ReportDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           reportModel.emergencyType?.toUpperCase() ?? '',
           textAlign: TextAlign.start,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -305,7 +311,7 @@ class ReportDetail extends StatelessWidget {
             },
             icon: Icon(
               Icons.edit,
-              color: tcBlack,
+              color: textColor,
             ),
           ),
           IconButton(
@@ -316,7 +322,7 @@ class ReportDetail extends StatelessWidget {
             },
             icon: Icon(
               Icons.location_pin,
-              color: tcBlack,
+              color: textColor,
             ),
           ),
         ],
@@ -373,7 +379,7 @@ class ReportDetail extends StatelessWidget {
                       'Name: Me',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'Roboto',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -386,7 +392,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.normal,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -396,7 +402,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.normal,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -414,7 +420,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -424,7 +430,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -442,7 +448,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -452,7 +458,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -470,7 +476,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -480,7 +486,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -498,7 +504,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -508,7 +514,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -526,7 +532,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -536,7 +542,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -554,7 +560,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -564,7 +570,7 @@ class ReportDetail extends StatelessWidget {
                         fontFamily: 'PublicSans',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                   ],

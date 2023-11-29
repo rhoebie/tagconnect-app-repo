@@ -24,7 +24,6 @@ class _FeedWidgetState extends State<FeedWidget> {
   int page = 1;
   late List<FeedModel> initialReportData;
   List<FeedModel> reportData = [];
-  List<FeedModel> filteredReportData = [];
   List<BarangayModel> barangayData = [];
   int currentPage = 1;
   int totalPage = 1;
@@ -71,22 +70,6 @@ class _FeedWidgetState extends State<FeedWidget> {
     'Post Proper South Side',
   ];
 
-  void filterReport(String query) {
-    query = query.toLowerCase();
-    setState(() {
-      if (query.isEmpty || query == '') {
-        // Show all contacts when the query is empty or null
-        filteredReportData = List.from(reportData);
-      } else {
-        // Filter based on the search query
-        filteredReportData = reportData
-            .where(
-                (report) => report.emergencyType!.toLowerCase().contains(query))
-            .toList();
-      }
-    });
-  }
-
   Future<void> fetchReportData(String barangayName, {int page = 1}) async {
     if (page > totalPage) {
       // No more data to fetch
@@ -128,10 +111,8 @@ class _FeedWidgetState extends State<FeedWidget> {
         setState(() {
           if (page == 1) {
             reportData = reports;
-            filteredReportData = reports;
           } else {
             reportData.addAll(reports); // Append new data
-            filteredReportData.addAll(reports); // Append new data
           }
           totalPage = responseData['meta']['total_page'];
           currentPage = page;
@@ -182,60 +163,14 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
       body: Container(
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            SliverAppBar(
-              pinned: false,
-              floating: true,
-              snap: true,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              flexibleSpace: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: tcWhite,
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          onChanged: (value) {
-                            filterReport(value);
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Emergency Type',
-                            hintStyle: TextStyle(
-                              color: tcGray,
-                            ),
-                            icon: Icon(
-                              Icons.search,
-                              color: tcGray,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             SliverToBoxAdapter(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
@@ -252,7 +187,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                         fontFamily: 'Roboto',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Divider(
@@ -299,7 +234,9 @@ class _FeedWidgetState extends State<FeedWidget> {
                                         fontFamily: 'Roboto',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w400,
-                                        color: isSelected ? tcWhite : tcBlack,
+                                        color: isSelected
+                                            ? backgroundColor
+                                            : textColor,
                                       ),
                                     ),
                                     SizedBox(width: 10),
@@ -324,7 +261,7 @@ class _FeedWidgetState extends State<FeedWidget> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final item = filteredReportData[index];
+                    final item = reportData[index];
                     final barangayInfo = barangayData.firstWhere(
                       (barangay) => barangay.id == item.barangayId,
                       orElse: () => BarangayModel(),
@@ -351,97 +288,94 @@ class _FeedWidgetState extends State<FeedWidget> {
                       },
                       child: SizedBox(
                         height: descriptionHeight + 120,
-                        child: Card(
-                          color: tcWhite,
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            height: 120,
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    item.image != null
-                                        ? ClipOval(
-                                            child: CachedNetworkImage(
-                                              width: 30,
-                                              height: 30,
-                                              imageUrl: item.image!,
-                                              fit: BoxFit.cover,
-                                              placeholder: (context, url) => Center(
-                                                  child:
-                                                      CircularProgressIndicator()),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
-                                            ),
-                                          )
-                                        : Icon(
-                                            Icons.question_mark,
-                                            size: 20,
+                        child: Container(
+                          color: backgroundColor,
+                          padding: EdgeInsets.all(10),
+                          height: 120,
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  item.image != null
+                                      ? ClipOval(
+                                          child: CachedNetworkImage(
+                                            width: 30,
+                                            height: 30,
+                                            imageUrl: item.image!,
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) => Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
                                           ),
-                                    VerticalDivider(
-                                      color: Colors.transparent,
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${barangayInfo.name ?? ''} Report #${item.id}',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: tcBlack,
-                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.question_mark,
+                                          size: 20,
                                         ),
-                                        Text(
-                                          formatCustomDateTime(
-                                              item.createdAt.toString()),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: 'PublicSans',
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color: tcBlack,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Divider(
-                                  color: Colors.transparent,
-                                  height: 5,
-                                ),
-                                Text(
-                                  item.description ?? '',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontFamily: 'PublicSans',
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                  VerticalDivider(
+                                    color: Colors.transparent,
+                                    width: 5,
                                   ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${barangayInfo.name ?? ''} Report #${item.id}',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: textColor,
+                                        ),
+                                      ),
+                                      Text(
+                                        formatCustomDateTime(
+                                            item.createdAt.toString()),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'PublicSans',
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.normal,
+                                          color: textColor,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Divider(
+                                color: Colors.transparent,
+                                height: 5,
+                              ),
+                              Text(
+                                item.description ?? '',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: textColor,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     );
                   },
-                  childCount: filteredReportData.length,
+                  childCount: reportData.length,
                 ),
               ),
             ),
@@ -461,7 +395,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 fontFamily: 'Roboto',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ),

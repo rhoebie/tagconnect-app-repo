@@ -148,19 +148,22 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'EDIT CONTACTS',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -222,7 +225,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 40.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: tcWhite,
+                                  color: backgroundColor,
                                 ),
                               ),
                             ),
@@ -243,7 +246,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           fontFamily: 'Roboto',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         children: [
                           TextSpan(
@@ -270,7 +273,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       decoration: InputDecoration(
                         errorMaxLines: 2,
@@ -291,7 +294,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),
@@ -335,7 +338,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           fontFamily: 'Roboto',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         children: [
                           TextSpan(
@@ -362,7 +365,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       decoration: InputDecoration(
                         errorMaxLines: 2,
@@ -383,7 +386,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),
@@ -421,7 +424,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           fontFamily: 'Roboto',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         children: [
                           TextSpan(
@@ -448,7 +451,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       decoration: InputDecoration(
                         errorMaxLines: 2,
@@ -469,7 +472,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),
@@ -520,7 +523,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           fontFamily: 'Roboto',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         children: [
                           TextSpan(
@@ -547,7 +550,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       decoration: InputDecoration(
                         errorMaxLines: 2,
@@ -568,7 +571,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),

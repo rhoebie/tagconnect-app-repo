@@ -48,10 +48,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -92,7 +95,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       fontFamily: 'PublicSans',
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w900,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -118,7 +121,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 16.sp,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -155,7 +158,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: tcBlack,
+                                color: textColor,
                                 width: 1.w,
                               ),
                               borderRadius: BorderRadius.circular(5),
@@ -240,7 +243,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ? Center(
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    tcWhite,
+                                    backgroundColor,
                                   ),
                                   strokeWidth: 3,
                                 ),
@@ -303,10 +306,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -347,7 +353,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       fontFamily: 'PublicSans',
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w900,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -360,7 +366,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     ),
                   ),
                   Divider(
-                    color: tcWhite,
+                    color: backgroundColor,
                   ),
                   Form(
                     key: _formKey,
@@ -697,7 +703,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                             ? Center(
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    tcWhite,
+                                    backgroundColor,
                                   ),
                                   strokeWidth: 3,
                                 ),
@@ -772,10 +778,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -816,7 +825,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       fontFamily: 'PublicSans',
                       fontSize: 26.sp,
                       fontWeight: FontWeight.w900,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -829,7 +838,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                   Divider(
-                    color: tcWhite,
+                    color: backgroundColor,
                   ),
                   Form(
                     key: _formKey,
@@ -843,7 +852,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14.sp,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Password',
@@ -874,7 +883,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: tcBlack,
+                                color: textColor,
                                 width: 1.w,
                               ),
                               borderRadius: BorderRadius.circular(5),
@@ -930,7 +939,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           ),
                         ),
                         Divider(
-                          color: tcWhite,
+                          color: backgroundColor,
                           height: 5,
                         ),
                         Column(
@@ -948,7 +957,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -967,7 +976,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -986,7 +995,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -1005,7 +1014,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -1022,7 +1031,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -1079,7 +1088,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ? Center(
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    tcWhite,
+                                    backgroundColor,
                                   ),
                                   strokeWidth: 3,
                                 ),
@@ -1091,7 +1100,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcWhite,
+                                  color: backgroundColor,
                                 ),
                               ),
                       ),

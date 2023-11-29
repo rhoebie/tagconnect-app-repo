@@ -62,7 +62,12 @@ class _ContactWidgetState extends State<ContactWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Container(
         child: CustomScrollView(
           slivers: [
@@ -71,6 +76,7 @@ class _ContactWidgetState extends State<ContactWidget> {
               floating: true,
               snap: true,
               elevation: 0,
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +85,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
-                        color: tcWhite,
+                        color: backgroundColor,
                         borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
@@ -155,7 +161,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                         fontFamily: 'Roboto',
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Divider(

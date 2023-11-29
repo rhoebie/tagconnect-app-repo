@@ -105,19 +105,22 @@ class _NewsListState extends State<NewsList> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'NEWS',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -140,6 +143,56 @@ class _NewsListState extends State<NewsList> {
           child: CustomScrollView(
             controller: _scrollController,
             slivers: [
+              SliverAppBar(
+                pinned: false,
+                floating: true,
+                snap: true,
+                elevation: 0,
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.transparent,
+                flexibleSpace: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: backgroundColor,
+                            borderRadius: BorderRadius.circular(25),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            onChanged: (value) {
+                              filterNews(value);
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              hintStyle: TextStyle(
+                                color: tcGray,
+                              ),
+                              icon: Icon(
+                                Icons.search,
+                                color: tcGray,
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
@@ -163,7 +216,7 @@ class _NewsListState extends State<NewsList> {
                                 fontFamily: 'Roboto',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ),

@@ -2,9 +2,16 @@ import 'package:TagConnect/constants/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-var myAppBar = AppBar(
-  backgroundColor: tcWhite,
-);
+class ThemeNotifier extends ChangeNotifier {
+  bool _isDarkMode = false;
+
+  bool get isDarkMode => _isDarkMode;
+
+  void toggleTheme() {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
+  }
+}
 
 final ThemeData taguigTheme = ThemeData(
   platform: TargetPlatform.android,

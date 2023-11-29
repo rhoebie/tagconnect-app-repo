@@ -17,6 +17,9 @@ class ContactViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     Future<void> deleteContact(int contactId) async {
       try {
         Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -59,17 +62,17 @@ class ContactViewScreen extends StatelessWidget {
         : '?';
 
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           contact.firstname ?? '',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w400,
@@ -145,7 +148,7 @@ class ContactViewScreen extends StatelessWidget {
                                 fontFamily: 'Roboto',
                                 fontSize: 40.sp,
                                 fontWeight: FontWeight.w700,
-                                color: tcWhite,
+                                color: backgroundColor,
                               ),
                             ),
                           ),
@@ -184,7 +187,7 @@ class ContactViewScreen extends StatelessWidget {
                                     fontFamily: 'Roboto',
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -215,7 +218,7 @@ class ContactViewScreen extends StatelessWidget {
                                     fontFamily: 'Roboto',
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -246,7 +249,7 @@ class ContactViewScreen extends StatelessWidget {
                                     fontFamily: 'Roboto',
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -283,7 +286,7 @@ class ContactViewScreen extends StatelessWidget {
                                     fontFamily: 'Roboto',
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -314,7 +317,7 @@ class ContactViewScreen extends StatelessWidget {
                                     fontFamily: 'Roboto',
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -340,7 +343,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Text(
@@ -350,7 +353,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Divider(
@@ -363,7 +366,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Text(
@@ -373,7 +376,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Divider(
@@ -386,7 +389,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Text(
@@ -396,7 +399,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Divider(
@@ -409,7 +412,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                         Text(
@@ -419,7 +422,7 @@ class ContactViewScreen extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                         ),
                       ],

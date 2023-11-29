@@ -154,13 +154,16 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'UPDATE REPORT',
@@ -169,7 +172,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
-            color: tcBlack,
+            color: textColor,
           ),
         ),
         centerTitle: true,
@@ -283,7 +286,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Divider(
@@ -292,7 +295,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: tcBlack),
+                              border: Border.all(color: textColor),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: DropdownButtonFormField<String>(
@@ -311,7 +314,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -323,7 +326,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -335,7 +338,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -347,7 +350,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -381,7 +384,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               VerticalDivider(
@@ -405,7 +408,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: tcBlack),
+                              border: Border.all(color: textColor),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: DropdownButtonFormField<String>(
@@ -424,7 +427,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -436,7 +439,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -468,7 +471,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Divider(
@@ -483,7 +486,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             maxLines: 3,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               errorMaxLines: 2,
@@ -504,7 +507,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -551,7 +554,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -569,7 +572,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -587,7 +590,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                         ],
@@ -600,7 +603,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -618,7 +621,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -636,7 +639,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                         ],

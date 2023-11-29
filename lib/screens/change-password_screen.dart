@@ -112,18 +112,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: const IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'CHANGE PASSWORD',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -149,7 +152,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Old Password',
@@ -173,7 +176,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             _oldPasswordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: tcBlack,
+                            color: textColor,
                             size: 20,
                           ),
                         ),
@@ -185,7 +188,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),
@@ -214,7 +217,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       ),
                     ),
                     Divider(
-                      color: tcWhite,
+                      color: backgroundColor,
                     ),
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
@@ -224,7 +227,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -256,7 +259,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: tcBlack,
+                            color: textColor,
                             size: 20,
                           ),
                         ),
@@ -268,7 +271,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),
@@ -308,7 +311,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     Divider(
-                      color: tcWhite,
+                      color: backgroundColor,
                     ),
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
@@ -318,7 +321,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -355,7 +358,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: tcBlack,
+                            color: textColor,
                             width: 1.w,
                           ),
                           borderRadius: BorderRadius.circular(5),
@@ -384,7 +387,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       ),
                     ),
                     Divider(
-                      color: tcWhite,
+                      color: backgroundColor,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -401,7 +404,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ],
@@ -420,7 +423,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ],
@@ -437,7 +440,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ],
@@ -454,7 +457,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ],
@@ -471,7 +474,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                           ],
@@ -482,7 +485,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
               ),
               Divider(
-                color: tcWhite,
+                color: backgroundColor,
               ),
               ProgressButton.icon(
                   iconedButtons: {

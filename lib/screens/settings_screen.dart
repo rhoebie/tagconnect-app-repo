@@ -1,6 +1,7 @@
-import 'package:TagConnect/constants/color_constant.dart';
+import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -10,23 +11,26 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  bool isDarkMode = false;
-
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'SETTINGS',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -46,7 +50,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -57,15 +61,13 @@ class _SettingScreenState extends State<SettingScreen> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Switch(
-                  value: isDarkMode,
+                  value: themeNotifier.isDarkMode,
                   onChanged: (value) {
-                    setState(() {
-                      isDarkMode = value;
-                    });
+                    themeNotifier.toggleTheme();
                   },
                 ),
               ),

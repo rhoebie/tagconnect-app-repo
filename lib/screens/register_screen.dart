@@ -135,10 +135,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -180,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontFamily: 'PublicSans',
                         fontSize: 26.sp,
                         fontWeight: FontWeight.w900,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -206,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Divider(
@@ -222,10 +225,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(15.0),
-                                  color: tcWhite,
+                                  color: backgroundColor,
                                   border: Border.all(
                                     width: 1,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                                 child: ClipRRect(
@@ -239,13 +242,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         )
                                       : Icon(
                                           Icons.question_mark,
-                                          color: tcBlack,
+                                          color: textColor,
                                           size: 50,
                                         ),
                                 ),
                               ),
                               VerticalDivider(
-                                color: tcWhite,
+                                color: backgroundColor,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +259,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: ElevatedButton(
                                       onPressed: requestCameraPermission,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: tcWhite,
+                                        backgroundColor: backgroundColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -270,13 +273,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           fontFamily: 'PublicSans',
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
-                                          color: tcBlack,
+                                          color: textColor,
                                         ),
                                       ),
                                     ),
                                   ),
                                   Divider(
-                                    color: tcWhite,
+                                    color: backgroundColor,
                                   ),
                                   Container(
                                     width: 200.w,
@@ -284,7 +287,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: ElevatedButton(
                                       onPressed: requesetGalleryPermission,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: tcWhite,
+                                        backgroundColor: backgroundColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -298,7 +301,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           fontFamily: 'PublicSans',
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
-                                          color: tcBlack,
+                                          color: textColor,
                                         ),
                                       ),
                                     ),
@@ -308,7 +311,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ],
                           ),
                           Divider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.name,
@@ -317,7 +320,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               labelText: 'First Name',
@@ -348,7 +351,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -378,7 +381,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             validator: (value) => validateFirstName(value!),
                           ),
                           Divider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.name,
@@ -387,7 +390,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Middle Name',
@@ -418,7 +421,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -448,7 +451,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             validator: (value) => validateMiddleName(value!),
                           ),
                           Divider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.name,
@@ -457,7 +460,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Last Name',
@@ -488,7 +491,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -518,7 +521,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             validator: (value) => validateLastName(value!),
                           ),
                           Divider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.number,
@@ -528,7 +531,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             maxLength: 3,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               counterText: '',
@@ -560,7 +563,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -692,10 +695,13 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -737,7 +743,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                         fontFamily: 'PublicSans',
                         fontSize: 26.sp,
                         fontWeight: FontWeight.w900,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -763,7 +769,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Divider(
@@ -776,7 +782,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Date of Birth',
@@ -807,7 +813,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -873,7 +879,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 validateBirthdate(value!, widget.userAge),
                           ),
                           Divider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.phone,
@@ -882,7 +888,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Contact',
@@ -913,7 +919,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -943,7 +949,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                             validator: (value) => validatePhoneNumber(value!),
                           ),
                           Divider(
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.streetAddress,
@@ -953,7 +959,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                             maxLines: 3,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Address',
@@ -984,7 +990,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -1182,10 +1188,13 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -1227,7 +1236,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                           fontFamily: 'PublicSans',
                           fontSize: 26.sp,
                           fontWeight: FontWeight.w900,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                       ),
                       Text(
@@ -1240,7 +1249,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                         ),
                       ),
                       Divider(
-                        color: tcWhite,
+                        color: backgroundColor,
                       ),
                       Form(
                         key: _formKey3,
@@ -1254,7 +1263,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w700,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -1269,7 +1278,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                               decoration: InputDecoration(
                                 labelText: 'Email',
@@ -1300,7 +1309,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: tcBlack,
+                                    color: textColor,
                                     width: 1.w,
                                   ),
                                   borderRadius: BorderRadius.circular(5),
@@ -1330,7 +1339,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               validator: (value) => validateEmail(value!),
                             ),
                             Divider(
-                              color: tcWhite,
+                              color: backgroundColor,
                             ),
                             TextFormField(
                               keyboardType: TextInputType.visiblePassword,
@@ -1340,7 +1349,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                               decoration: InputDecoration(
                                 labelText: 'Password',
@@ -1371,7 +1380,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: tcBlack,
+                                    color: textColor,
                                     width: 1.w,
                                   ),
                                   borderRadius: BorderRadius.circular(5),
@@ -1413,7 +1422,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               },
                             ),
                             Divider(
-                              color: tcWhite,
+                              color: backgroundColor,
                             ),
                             TextFormField(
                               keyboardType: TextInputType.visiblePassword,
@@ -1423,7 +1432,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -1462,7 +1471,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: tcBlack,
+                                    color: textColor,
                                     width: 1.w,
                                   ),
                                   borderRadius: BorderRadius.circular(5),
@@ -1491,7 +1500,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               ),
                             ),
                             Divider(
-                              color: tcWhite,
+                              color: backgroundColor,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1510,7 +1519,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                         fontFamily: 'PublicSans',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w300,
-                                        color: tcBlack,
+                                        color: textColor,
                                       ),
                                     ),
                                   ],
@@ -1529,7 +1538,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                         fontFamily: 'PublicSans',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w300,
-                                        color: tcBlack,
+                                        color: textColor,
                                       ),
                                     ),
                                   ],
@@ -1548,7 +1557,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                         fontFamily: 'PublicSans',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w300,
-                                        color: tcBlack,
+                                        color: textColor,
                                       ),
                                     ),
                                   ],
@@ -1567,7 +1576,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                         fontFamily: 'PublicSans',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w300,
-                                        color: tcBlack,
+                                        color: textColor,
                                       ),
                                     ),
                                   ],
@@ -1586,7 +1595,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                         fontFamily: 'PublicSans',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w300,
-                                        color: tcBlack,
+                                        color: textColor,
                                       ),
                                     ),
                                   ],
@@ -1600,7 +1609,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                   ),
                 ),
                 Divider(
-                  color: tcWhite,
+                  color: backgroundColor,
                   height: 30,
                 ),
                 Container(
@@ -1666,7 +1675,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                               ? Center(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                      tcWhite,
+                                      backgroundColor,
                                     ),
                                     strokeWidth: 3,
                                   ),
@@ -1678,7 +1687,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: tcWhite,
+                                    color: backgroundColor,
                                   ),
                                 ),
                         ),
@@ -1772,10 +1781,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -1813,7 +1825,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   fontFamily: 'PublicSans',
                   fontSize: 26.sp,
                   fontWeight: FontWeight.w900,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               Text(
@@ -1826,7 +1838,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
               ),
               Divider(
-                color: tcWhite,
+                color: backgroundColor,
               ),
               Form(
                 key: _formKey,
@@ -2168,7 +2180,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         fontFamily: 'PublicSans',
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
-                        color: tcBlack),
+                        color: textColor),
                   ),
                   TextButton(
                     onPressed: () {
@@ -2216,7 +2228,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       fontFamily: 'PublicSans',
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
-                      color: tcWhite,
+                      color: backgroundColor,
                     ),
                   ),
                 ),

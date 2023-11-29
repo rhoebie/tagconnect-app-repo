@@ -8,6 +8,7 @@ import 'package:TagConnect/services/report_service.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -232,7 +233,12 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
@@ -249,7 +255,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       fontFamily: 'Roboto',
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                     children: [
                       TextSpan(
@@ -271,14 +277,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
               ],
             ),
             Center(
               child: isLoading != false
-                  ? CircularProgressIndicator()
+                  ? CircularProgressIndicator(
+                      color: backgroundColor,
+                    )
                   : AvatarGlow(
                       glowColor: tcRed,
                       endRadius: 130,
@@ -310,7 +318,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   height: 5,
                                 ),
                                 Text(
-                                  'Tap to Send',
+                                  'Send Report',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'PublicSans',
@@ -338,7 +346,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         fontFamily: 'Roboto',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     InkWell(
@@ -440,7 +448,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     child: Icon(
                                                       Icons.question_mark,
                                                       size: 20,
-                                                      color: tcBlack,
+                                                      color: textColor,
                                                     ),
                                                   ),
                                                 ),
@@ -473,7 +481,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             fontSize: 12.sp,
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: tcBlack,
+                                                            color: textColor,
                                                           ),
                                                           children: [
                                                             TextSpan(
@@ -488,7 +496,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                   item.author ??
                                                                       '',
                                                               style: TextStyle(
-                                                                color: tcBlack,
+                                                                color:
+                                                                    textColor,
                                                               ),
                                                             ),
                                                           ],
@@ -507,7 +516,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           fontSize: 14.sp,
                                                           fontWeight:
                                                               FontWeight.w700,
-                                                          color: tcBlack,
+                                                          color: textColor,
                                                         ),
                                                       ),
                                                     ],
@@ -521,7 +530,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                       fontSize: 12.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      color: tcBlack,
+                                                      color: textColor,
                                                     ),
                                                   ),
                                                 ],

@@ -7,19 +7,23 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: const IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'ABOUT',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -53,7 +57,7 @@ class AboutScreen extends StatelessWidget {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               Divider(
@@ -80,7 +84,7 @@ class AboutScreen extends StatelessWidget {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               Divider(
@@ -107,7 +111,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Multiplatform Development:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -117,7 +121,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- The system will be developed using Flutter, ensuring a single codebase for a multiplatform release, enabling accessibility on both Android devices and web browsers.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -133,7 +137,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Incident Reporting:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -143,7 +147,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- Users can report incidents through the Android application, providing location and information for efficient response by barangay authorities.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -159,7 +163,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Haversine Formula Algorithm\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -169,7 +173,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- The system employs the Haversine Formula Algorithm to determine the nearest barangay for incident notification, optimizing the dispatch process.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -185,7 +189,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'User Levels:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -195,7 +199,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- The system caters to three user levels - admin, moderator, and end users - each with distinct functionalities to manage incidents, accounts, and analytics.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -211,7 +215,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Web Application for Admin:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -221,7 +225,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- Admins can create accounts, view all incident reports in the database, and perform data analytics, including bar graphs, line graphs, and total reports.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -237,7 +241,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Web Application for Moderator:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -247,7 +251,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- Moderators can create accounts (pending admin confirmation), view incident reports within their barangay boundary, manage reports, and access data analytics specific to their assigned area.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -263,7 +267,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Android Application for End Users:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -273,7 +277,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- End users can create accounts, report incidents with location details, and access data analytics, including a bar graph depicting report counts based on emergency types.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -289,7 +293,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Data Analytics:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -299,7 +303,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- Both web applications provide analytics features, including bar graphs, line graphs, and total incident reports, offering insights into trends and patterns.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -332,7 +336,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Geographical Constraint:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -342,7 +346,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- The system is limited to Taguig City and its barangays, and it may not be applicable or accurate for areas outside this scope.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -358,7 +362,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Location Accuracy:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -368,7 +372,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- The precision of incident location determination relies on the device\'s GPS and the Haversine Formula Algorithm, with potential deviations in accuracy.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -384,7 +388,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Emergency Type Limitations:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -394,7 +398,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '-  Incident categorization is based on predefined emergency types, potentially limiting the accurate description of incidents that do not fit within these categories.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -410,7 +414,7 @@ class AboutScreen extends StatelessWidget {
                     TextSpan(
                       text: 'Android Compatibility:\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
@@ -420,7 +424,7 @@ class AboutScreen extends StatelessWidget {
                       text:
                           '- The Android application is designed for devices running the Android OS, and compatibility with other operating systems is outside the system\'s scope.\n',
                       style: TextStyle(
-                        color: tcBlack,
+                        color: textColor,
                         fontFamily: 'PublicSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,

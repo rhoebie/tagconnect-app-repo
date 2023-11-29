@@ -312,13 +312,16 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'SEND REPORT',
@@ -327,7 +330,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
-            color: tcBlack,
+            color: textColor,
           ),
         ),
         centerTitle: true,
@@ -353,7 +356,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               VerticalDivider(
@@ -377,7 +380,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: tcBlack),
+                              border: Border.all(color: textColor),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: DropdownButtonFormField<String>(
@@ -396,7 +399,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -408,7 +411,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -420,7 +423,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -432,7 +435,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                       fontFamily: 'PublicSans',
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
@@ -466,7 +469,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               VerticalDivider(
@@ -496,7 +499,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                             maxLines: 3,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             decoration: InputDecoration(
                               errorMaxLines: 2,
@@ -517,7 +520,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -564,7 +567,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -582,7 +585,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -600,7 +603,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                         ],
@@ -613,7 +616,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -631,7 +634,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                           Radio(
@@ -649,7 +652,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               fontFamily: 'PublicSans',
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                           ),
                         ],
@@ -668,7 +671,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               VerticalDivider(
@@ -698,9 +701,9 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   child: Container(
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      color: tcWhite,
+                                      color: backgroundColor,
                                       border: Border.all(
-                                        color: tcBlack,
+                                        color: textColor,
                                         width: 1,
                                       ),
                                       borderRadius: BorderRadius.circular(5),
@@ -716,7 +719,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                                 fontFamily: 'PublicSans',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
-                                                color: tcBlack,
+                                                color: textColor,
                                               ),
                                             )
                                           : Row(
@@ -737,7 +740,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                                     fontFamily: 'PublicSans',
                                                     fontSize: 12.sp,
                                                     fontWeight: FontWeight.w700,
-                                                    color: tcBlack,
+                                                    color: textColor,
                                                   ),
                                                 ),
                                               ],
@@ -750,7 +753,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                 onPressed: _clearImage,
                                 icon: Icon(
                                   Icons.clear,
-                                  color: tcBlack,
+                                  color: textColor,
                                   size: 20,
                                 ),
                               ),

@@ -1,6 +1,5 @@
 import 'package:TagConnect/animations/fade_animation.dart';
 import 'package:TagConnect/configs/network_config.dart';
-import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/report_model.dart';
 import 'package:TagConnect/screens/about_screen.dart';
 import 'package:TagConnect/screens/account_screen.dart';
@@ -70,7 +69,11 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -83,7 +86,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -103,12 +106,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -128,12 +131,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -153,12 +156,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               Divider(
@@ -170,7 +173,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -190,12 +193,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -215,12 +218,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -240,12 +243,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               Divider(
@@ -257,7 +260,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   fontFamily: 'Roboto',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -277,12 +280,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
               ListTile(
@@ -302,12 +305,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                     fontFamily: 'Roboto',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: tcBlack,
+                    color: textColor,
                   ),
                 ),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: tcBlack,
+                  color: textColor,
                 ),
               ),
             ],

@@ -112,18 +112,21 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'ADD CONTACTS',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -168,7 +171,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           )
                         : Icon(
                             Icons.photo_camera,
-                            color: tcBlack,
+                            color: textColor,
                             size: 30,
                           ),
                   ),
@@ -188,7 +191,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                           children: [
                             TextSpan(
@@ -215,7 +218,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           errorMaxLines: 2,
@@ -236,7 +239,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -280,7 +283,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                           children: [
                             TextSpan(
@@ -307,7 +310,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           errorMaxLines: 2,
@@ -328,7 +331,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -366,7 +369,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                           children: [
                             TextSpan(
@@ -393,7 +396,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           errorMaxLines: 2,
@@ -414,7 +417,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -465,7 +468,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontFamily: 'Roboto',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: tcBlack,
+                            color: textColor,
                           ),
                           children: [
                             TextSpan(
@@ -492,7 +495,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                         decoration: InputDecoration(
                           errorMaxLines: 2,
@@ -513,7 +516,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: tcBlack,
+                              color: textColor,
                               width: 1.w,
                             ),
                             borderRadius: BorderRadius.circular(5),

@@ -50,19 +50,22 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: const IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'ACCOUNT',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -126,7 +129,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     child: Icon(
                                       Icons.question_mark,
                                       size: 50,
-                                      color: tcBlack,
+                                      color: textColor,
                                     ),
                                   )
                                 : Image.network(
@@ -152,7 +155,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 maxLines: 2,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublicSans',
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w700,
@@ -170,7 +173,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                                 children: [
                                   TextSpan(
@@ -196,7 +199,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                                 children: [
                                   TextSpan(
@@ -225,7 +228,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         fontFamily: 'Roboto',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Divider(
@@ -245,7 +248,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               Text(
@@ -253,7 +256,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     DateTime.parse(items.birthdate.toString())),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -275,14 +278,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               Text(
                                 items.age.toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -304,7 +307,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               Container(
@@ -318,7 +321,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     fontFamily: 'PublicSans',
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ),
@@ -337,7 +340,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         fontFamily: 'Roboto',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Divider(
@@ -357,14 +360,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               Text(
                                 items.contactnumber ?? '',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -386,14 +389,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               Text(
                                 items.email ?? '',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -415,14 +418,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                               Text(
                                 items.status ?? '',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  color: tcBlack,
+                                  color: textColor,
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,

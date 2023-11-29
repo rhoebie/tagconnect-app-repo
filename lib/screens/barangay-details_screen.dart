@@ -66,20 +66,23 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: CloseButton(),
-        iconTheme: const IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           'BARANGAY',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -98,7 +101,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
             },
             icon: Icon(
               Icons.map,
-              color: tcBlack,
+              color: textColor,
             ),
           ),
         ],
@@ -126,7 +129,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w700,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                             Text(
@@ -135,7 +138,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                             Text(
@@ -144,7 +147,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                             ),
                             Container(
@@ -155,7 +158,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                             ),
@@ -177,7 +180,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                   child: Icon(
                                     Icons.question_mark,
                                     size: 40,
-                                    color: tcBlack,
+                                    color: textColor,
                                   ),
                                 ),
                               ),
@@ -224,7 +227,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                             ],
@@ -254,7 +257,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                             ],
@@ -284,7 +287,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                             ],
@@ -314,7 +317,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: tcBlack,
+                                  color: textColor,
                                 ),
                               ),
                             ],

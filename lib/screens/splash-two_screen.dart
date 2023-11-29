@@ -11,10 +11,13 @@ class WelcomeTwoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Container(
@@ -64,7 +67,7 @@ class WelcomeTwoScreen extends StatelessWidget {
                       fontFamily: 'PublicSans',
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                 ),
@@ -117,7 +120,7 @@ class WelcomeTwoScreen extends StatelessWidget {
                           child: Icon(
                             Icons.arrow_right_alt_outlined,
                             size: 40,
-                            color: tcWhite,
+                            color: backgroundColor,
                           ),
                         ),
                       ),

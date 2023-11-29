@@ -245,11 +245,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: RichText(
@@ -291,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontFamily: 'PublicSans',
                         fontSize: 26.sp,
                         fontWeight: FontWeight.w900,
-                        color: tcBlack,
+                        color: textColor,
                       ),
                     ),
                     Text(
@@ -317,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 16.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -333,7 +336,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                               prefixIcon: Icon(
                                 Icons.email,
@@ -347,7 +350,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -386,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.sp,
-                              color: tcBlack,
+                              color: textColor,
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -402,7 +405,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcBlack,
+                                color: textColor,
                               ),
                               prefixIcon: Icon(
                                 Icons.lock,
@@ -419,7 +422,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _passwordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: tcBlack,
+                                  color: textColor,
                                   size: 20,
                                 ),
                               ),
@@ -431,7 +434,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: tcBlack,
+                                  color: textColor,
                                   width: 1.w,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
@@ -565,7 +568,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Dont have an account?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: tcBlack,
+                      color: textColor,
                       fontFamily: 'Roboto',
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w400,

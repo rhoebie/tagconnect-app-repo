@@ -23,18 +23,21 @@ class _ReportDetailState extends State<ReportDetail> {
   bool isBlurred = true;
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: CloseButton(),
-        iconTheme: IconThemeData(color: tcBlack),
-        backgroundColor: tcWhite,
+        iconTheme: IconThemeData(color: textColor),
+        backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
           widget.feedModel.emergencyType?.toUpperCase() ?? '',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: tcBlack,
+            color: textColor,
             fontFamily: 'Roboto',
             fontSize: 20.sp,
             fontWeight: FontWeight.w900,
@@ -126,7 +129,7 @@ class _ReportDetailState extends State<ReportDetail> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcWhite,
+                                color: backgroundColor,
                               ),
                             )
                           : Text(
@@ -136,7 +139,7 @@ class _ReportDetailState extends State<ReportDetail> {
                                 fontFamily: 'PublicSans',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: tcWhite,
+                                color: backgroundColor,
                               ),
                             ),
                     ),
@@ -153,7 +156,7 @@ class _ReportDetailState extends State<ReportDetail> {
                   CircleAvatar(
                     radius: 25,
                     backgroundColor: tcViolet,
-                    foregroundColor: tcWhite,
+                    foregroundColor: backgroundColor,
                     child: widget.barangayModel.image != null
                         ? ClipOval(
                             child: CachedNetworkImage(
@@ -182,7 +185,7 @@ class _ReportDetailState extends State<ReportDetail> {
                         widget.barangayModel.name ?? '',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: tcBlack,
+                          color: textColor,
                           fontFamily: 'Roboto',
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
@@ -195,7 +198,7 @@ class _ReportDetailState extends State<ReportDetail> {
                           fontFamily: 'PublicSans',
                           fontSize: 12.sp,
                           fontWeight: FontWeight.normal,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                       ),
                       Text(
@@ -205,7 +208,7 @@ class _ReportDetailState extends State<ReportDetail> {
                           fontFamily: 'PublicSans',
                           fontSize: 12.sp,
                           fontWeight: FontWeight.normal,
-                          color: tcBlack,
+                          color: textColor,
                         ),
                       ),
                     ],
@@ -225,7 +228,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -235,7 +238,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -253,7 +256,7 @@ class _ReportDetailState extends State<ReportDetail> {
               //         fontFamily: 'PublicSans',
               //         fontSize: 14.sp,
               //         fontWeight: FontWeight.w700,
-              //         color: tcBlack,
+              //         color: textColor,
               //       ),
               //     ),
               //     Text(
@@ -263,7 +266,7 @@ class _ReportDetailState extends State<ReportDetail> {
               //         fontFamily: 'PublicSans',
               //         fontSize: 12.sp,
               //         fontWeight: FontWeight.w400,
-              //         color: tcBlack,
+              //         color: textColor,
               //       ),
               //     ),
               //   ],
@@ -278,7 +281,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -288,7 +291,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -306,7 +309,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -316,7 +319,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -334,7 +337,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                   Text(
@@ -344,7 +347,7 @@ class _ReportDetailState extends State<ReportDetail> {
                       fontFamily: 'PublicSans',
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -359,7 +362,7 @@ class _ReportDetailState extends State<ReportDetail> {
               //         fontFamily: 'PublicSans',
               //         fontSize: 14.sp,
               //         fontWeight: FontWeight.w700,
-              //         color: tcBlack,
+              //         color: textColor,
               //       ),
               //     ),
               //     Container(

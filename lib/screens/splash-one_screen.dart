@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/animations/slideLeft_animation.dart';
 import 'package:TagConnect/constants/color_constant.dart';
@@ -11,10 +12,18 @@ class WelcomeOneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Color backgroundColor = theme.scaffoldBackgroundColor;
+    final Color textColor = theme.colorScheme.onBackground;
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(systemNavigationBarColor: tcBlack),
+    );
+
     return Scaffold(
-      backgroundColor: tcWhite,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: tcWhite,
+        backgroundColor: backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Container(
@@ -64,7 +73,7 @@ class WelcomeOneScreen extends StatelessWidget {
                       fontFamily: 'PublicSans',
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w400,
-                      color: tcBlack,
+                      color: textColor,
                     ),
                   ),
                 ),
