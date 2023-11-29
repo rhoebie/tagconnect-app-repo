@@ -50,6 +50,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_isDataLoaded) {
+      return Container();
+    }
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData currentTheme =
         themeNotifier.isDarkMode ? darkTheme : lightTheme;

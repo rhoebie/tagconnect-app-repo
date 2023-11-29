@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _passwordVisible = false;
   bool isFailed = false;
   bool isLoading = false;
-  bool rememberMe = true;
+  bool rememberMe = false;
   late AutoLoginNotifier autoLoginNotifier;
 
   @override
