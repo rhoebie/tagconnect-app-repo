@@ -4,24 +4,23 @@
 
 import 'dart:convert';
 
-List<ReportModel> reportModelFromJson(String str) => List<ReportModel>.from(
-    json.decode(str).map((x) => ReportModel.fromJson(x)));
+ReportModel reportModelFromJson(String str) =>
+    ReportModel.fromJson(json.decode(str));
 
-String reportModelToJson(List<ReportModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String reportModelToJson(ReportModel data) => json.encode(data.toJson());
 
 class ReportModel {
   int? id;
-  String? userId;
-  String? barangayId;
+  int? userId;
+  int? barangayId;
   String? emergencyType;
   String? forWhom;
   String? description;
-  String? casualties;
+  int? casualties;
   Location? location;
   String? visibility;
   String? image;
-  String? isDone;
+  String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -36,7 +35,7 @@ class ReportModel {
     this.location,
     this.visibility,
     this.image,
-    this.isDone,
+    this.status,
     this.createdAt,
     this.updatedAt,
   });
@@ -54,7 +53,7 @@ class ReportModel {
             : Location.fromJson(json["location"]),
         visibility: json["visibility"],
         image: json["image"],
-        isDone: json["isDone"],
+        status: json["status"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -74,7 +73,7 @@ class ReportModel {
         "location": location?.toJson(),
         "visibility": visibility,
         "image": image,
-        "isDone": isDone,
+        "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };

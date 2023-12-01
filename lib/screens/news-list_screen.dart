@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:TagConnect/constants/provider_constant.dart';
+import 'package:TagConnect/services/news_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:TagConnect/constants/color_constant.dart';
@@ -43,31 +44,20 @@ class _NewsListState extends State<NewsList> {
 
   Future<void> fetchNewsData({int page = 1}) async {
     if (page > totalPage) {
-      // No more data to fetch
       if (mounted) {
         setState(() {
           isLoadingMore = false;
         });
       }
-
       print('no more page');
       return;
     }
 
     try {
-      final url = 'https://taguigconnect.online/api/get-news?page=$page';
-      final response = await http.get(
-        Uri.parse(url),
-      );
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        final List<dynamic> data = responseData['data'];
+      final newsService = NewsService();
+      final List<NewsModel>? fetchNewsList = await newsService.getNews(page);
 
-        List<NewsModel> fetchNewsList =
-            data.map((item) => NewsModel.fromJson(item)).toList();
-
-        // Sort the list based on the date
-        fetchNewsList.sort((a, b) => a.date!.compareTo(b.date!));
+      if (fetchNewsList != null) {
         if (mounted) {
           setState(() {
             if (page == 1) {
@@ -77,13 +67,12 @@ class _NewsListState extends State<NewsList> {
               newsData.addAll(fetchNewsList);
               filteredNewsData.addAll(fetchNewsList);
             }
-            totalPage = responseData['meta']['total_page'];
+            totalPage =
+                2; // Replace with the actual total pages from the response
             currentPage = page;
             isLoadingMore = false;
           });
         }
-      } else {
-        print('Failed to load data. Status code: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
@@ -104,9 +93,19 @@ class _NewsListState extends State<NewsList> {
           });
         }
 
-        fetchNewsData(page: currentPage + 1);
+        _loadMoreData();
       }
     });
+  }
+
+  Future<void> _loadMoreData() async {
+    if (mounted) {
+      setState(() {
+        isLoadingMore = true;
+      });
+    }
+
+    await fetchNewsData(page: currentPage + 1);
   }
 
   @override

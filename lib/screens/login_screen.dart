@@ -83,16 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
         // Set email and password from CredentialModel
         _emailController.text = credentialModel.email ?? '';
         _passwordController.text = credentialModel.password ?? '';
-        if (autoLoginNotifier.isAutoLogin) {
-          Future.delayed(
-            Duration(seconds: 1),
-            () async {
-              onPressedIconWithText(
-                  email: _emailController.text,
-                  password: _passwordController.text);
-            },
-          );
-        }
       } else {
         print('Credentials file does not exist.');
       }

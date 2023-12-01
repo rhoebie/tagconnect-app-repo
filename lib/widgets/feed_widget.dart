@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:TagConnect/constants/provider_constant.dart';
+import 'package:TagConnect/models/report_model.dart';
+import 'package:TagConnect/services/report_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -22,8 +24,7 @@ class FeedWidget extends StatefulWidget {
 class _FeedWidgetState extends State<FeedWidget> {
   int selectedBarangayIndex = 0;
   int page = 1;
-  late List<FeedModel> initialReportData;
-  List<FeedModel> reportData = [];
+  List<ReportModel> reportData = [];
   List<BarangayModel> barangayData = [];
   int currentPage = 1;
   int totalPage = 1;
@@ -71,64 +72,28 @@ class _FeedWidgetState extends State<FeedWidget> {
   ];
 
   Future<void> fetchReportData(String barangayName, {int page = 1}) async {
-    if (page > totalPage) {
-      // No more data to fetch
+    try {
+      final reportService = ReportService();
+      // Use the ReportService to get reports
+      final reports =
+          await reportService.getFeedReports(barangayName, page: page);
+
       if (mounted) {
         setState(() {
+          if (page == 1) {
+            reportData = reports ?? [];
+          } else {
+            reportData.addAll(reports ?? []); // Append new data
+          }
+
+          // Update other state variables if needed
+
           isLoadingMore = false;
         });
       }
-      print('no more page');
-      return;
-    }
-
-    final url =
-        Uri.parse('https://taguigconnect.online/api/get-reports?page=$page');
-
-    print(
-        'Currently on page: https://taguigconnect.online/api/get-reports?page=$page');
-
-    // Create a map with the request body
-    final Map<String, dynamic> requestBody = {'barangayName': barangayName};
-
-    try {
-      final response = await http.post(
-        url,
-        body: json.encode(requestBody),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // If the server returns a 200 OK response, parse the JSON
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        final List<dynamic> data = responseData['data'];
-        List<FeedModel> reports =
-            data.map((item) => FeedModel.fromJson(item)).toList();
-
-        // Sort the reports by id in descending order
-        reports.sort((a, b) => b.id!.compareTo(a.id!));
-        if (mounted) {
-          setState(() {
-            if (page == 1) {
-              reportData = reports;
-            } else {
-              reportData.addAll(reports); // Append new data
-            }
-            totalPage = responseData['meta']['total_page'];
-            currentPage = page;
-            isLoadingMore = false;
-          });
-        }
-      } else {
-        // If the server did not return a 200 OK response,
-        // throw an exception.
-        throw Exception('Failed to load reports');
-      }
     } catch (error) {
-      // Handle network-related errors
-      throw Exception('Network error: $error');
+      // Handle errors if necessary
+      print('Error fetching reports: $error');
     }
   }
 
@@ -152,7 +117,7 @@ class _FeedWidgetState extends State<FeedWidget> {
     // TODO: implement initState
     super.initState();
     fetchBarangay();
-    fetchReportData('All');
+    _loadInitialData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -162,10 +127,41 @@ class _FeedWidgetState extends State<FeedWidget> {
             isLoadingMore = true;
           });
         }
-
-        fetchReportData('all', page: currentPage + 1);
+        _loadMoreData();
       }
     });
+  }
+
+// New method to load initial data
+  Future<void> _loadInitialData() async {
+    final reportService = ReportService();
+    final reports = await reportService.getFeedReports('all');
+    if (mounted) {
+      setState(() {
+        reportData = reports ?? [];
+      });
+    }
+  }
+
+// New method to load more data
+  Future<void> _loadMoreData() async {
+    final reportService = ReportService();
+    final reports =
+        await reportService.getFeedReports('all', page: currentPage + 1);
+    if (mounted) {
+      setState(() {
+        if (reports != null) {
+          if (currentPage == 1) {
+            reportData = reports;
+          } else {
+            reportData.addAll(reports);
+          }
+          totalPage = reports.length;
+          currentPage += 1;
+        }
+        isLoadingMore = false;
+      });
+    }
   }
 
   @override
@@ -292,7 +288,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                           MaterialPageRoute(
                             builder: (context) {
                               return ReportDetail(
-                                feedModel: item,
+                                reportModel: item,
                                 barangayModel: barangayInfo,
                               );
                             },

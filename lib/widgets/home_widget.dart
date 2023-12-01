@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:TagConnect/configs/request_service.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/create-report_model.dart';
+import 'package:TagConnect/services/news_service.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +11,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/news_model.dart';
-import 'package:TagConnect/models/user_model.dart';
 import 'package:TagConnect/screens/news-details_screen.dart';
 import 'package:TagConnect/screens/news-list_screen.dart';
-import 'package:http/http.dart' as http;
-import 'package:TagConnect/services/user_service.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -33,56 +28,15 @@ class _HomeWidgetState extends State<HomeWidget> {
   double? userLatitude;
   double? userLongitude;
   bool isLoading = false;
-  late UserModel userData = UserModel(
-    firstname: '',
-    lastname: '',
-    age: 0,
-    birthdate: '',
-    contactnumber: '',
-    address: '',
-    image: '',
-  );
-
-  Future<void> fetchUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      // Initialize Service for User
-      final userService = UserService();
-      final userId = prefs.getInt('userId');
-      if (userId != null) {
-        final UserModel fetchUserData = await userService.getUserById(userId);
-        if (mounted) {
-          setState(() {
-            userData = fetchUserData;
-          });
-        }
-      } else {
-        print('Error Fetching Data');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
 
   Future<List<NewsModel>?> fetchNewsData() async {
+    print('Called');
     try {
-      final url = 'https://taguigconnect.online/api/get-news?page=1';
-      final response = await http.get(
-        Uri.parse(url),
-      );
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        final List<dynamic> data = responseData['data'];
-
-        List<NewsModel> fetchNewsList =
-            data.map((item) => NewsModel.fromJson(item)).toList();
-
-        // Sort the list based on the date
-        fetchNewsList.sort((a, b) => a.date!.compareTo(b.date!));
-
-        return fetchNewsList;
+      final newsService = NewsService();
+      final fetchNews = await newsService.getNews(1);
+      if (fetchNews != null) {
+        return fetchNews;
       } else {
-        print('Failed to load data. Status code: ${response.statusCode}');
         return null;
       }
     } catch (e) {
@@ -238,7 +192,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchUserData();
+    //fetchUserData();
   }
 
   @override
@@ -256,42 +210,32 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hi, Welcome!',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
                       color: textColor,
                     ),
-                    children: [
-                      TextSpan(
-                        text: 'Welcome, ',
-                      ),
-                      TextSpan(
-                        text: userData.lastname ?? '',
-                        style: TextStyle(
-                          color: tcViolet,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-                Text(
-                  'How are you feeling today?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
+                  Text(
+                    'Not feeling safe?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: tcRed,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Center(
               child: isLoading != false
@@ -343,6 +287,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                     ),
             ),
+            SizedBox(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -471,12 +416,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               : Container(
                                                   width: 180.w,
                                                   height: 100.h,
-                                                  color: tcAsh,
+                                                  color: tcViolet,
                                                   child: Center(
                                                     child: Icon(
                                                       Icons.question_mark,
-                                                      size: 20,
-                                                      color: textColor,
+                                                      size: 30,
+                                                      color: tcWhite,
                                                     ),
                                                   ),
                                                 ),

@@ -15,7 +15,7 @@ class ReportListScreen extends StatefulWidget {
 }
 
 class _ReportListScreenState extends State<ReportListScreen> {
-  String selectedValue = "Pending";
+  String selectedValue = "Submitted";
   int? reportCount;
 
   Future<List<ReportModel>> fetchReport() async {
@@ -142,14 +142,14 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               width: 10,
                             ),
                             Container(
-                              width: 80.w,
+                              width: 93.w,
                               child: DropdownButton<String>(
                                 value: selectedValue,
                                 items: [
                                   DropdownMenuItem<String>(
-                                    value: "Pending",
+                                    value: "Submitted",
                                     child: Text(
-                                      'Pending',
+                                      'Submitted',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: textColor,
@@ -160,9 +160,9 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                     ),
                                   ),
                                   DropdownMenuItem<String>(
-                                    value: "Done",
+                                    value: "Resolved",
                                     child: Text(
-                                      'Done',
+                                      'Resolved',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: textColor,
@@ -566,6 +566,34 @@ class ReportDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      'Status',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: textColor,
+                      ),
+                    ),
+                    Text(
+                      reportModel.status ?? '',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'PublicSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       'Description',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -629,10 +657,10 @@ String calculateTimeInterval(DateTime dateTime1, DateTime dateTime2) {
 
 List<ReportModel> filterDataByStatus(
     List<ReportModel> reports, String selectedValue) {
-  if (selectedValue == "Pending") {
-    return reports.where((report) => report.isDone == 'Pending').toList();
-  } else if (selectedValue == "Done") {
-    return reports.where((report) => report.isDone == 'Done').toList();
+  if (selectedValue == "Submitted") {
+    return reports.where((report) => report.status == 'Submitted').toList();
+  } else if (selectedValue == "Resolved") {
+    return reports.where((report) => report.status == 'Resolved').toList();
   }
-  return reports; // Return all reports if no filter is applied
+  return reports;
 }

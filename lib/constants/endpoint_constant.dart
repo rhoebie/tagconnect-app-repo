@@ -1,6 +1,6 @@
 class ApiConstants {
   // BaseUrl
-  static String baseUrl = 'https://taguigconnect.online';
+  static String baseUrl = 'http://10.0.2.2:8000';
 
   // Account
   static String registerUser = '/register-user';
@@ -13,9 +13,8 @@ class ApiConstants {
 
   // Data of the user
   static String countReportEndpoint = '/get-user-reports';
+  static String feedReports = '/get-feed-reports';
   static String userEndpoint = '/users';
-  static String hotlineEndpoint = '/hotlines';
-  static String incidentEndpoint = '/incidents';
   static String barangayEndpoint = '/get-barangay';
   static String reportEndpoint = '/reports';
 
