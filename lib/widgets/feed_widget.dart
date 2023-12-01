@@ -314,8 +314,8 @@ class _FeedWidgetState extends State<FeedWidget> {
                                       ? ClipOval(
                                           child: Image.network(
                                             item.image!,
-                                            width: 35,
-                                            height: 35,
+                                            width: 30,
+                                            height: 30,
                                             fit: BoxFit.cover,
                                             loadingBuilder:
                                                 (BuildContext context,
@@ -325,7 +325,9 @@ class _FeedWidgetState extends State<FeedWidget> {
                                               if (loadingProgress == null) {
                                                 return child;
                                               } else {
-                                                return Center(
+                                                return Container(
+                                                  width: 30,
+                                                  height: 30,
                                                   child:
                                                       CircularProgressIndicator(),
                                                 );
@@ -344,7 +346,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                         ),
                                   VerticalDivider(
                                     color: Colors.transparent,
-                                    width: 5,
+                                    width: 8,
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

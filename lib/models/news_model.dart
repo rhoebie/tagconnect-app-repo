@@ -67,7 +67,11 @@ class NewsModel {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return CircularProgressIndicator();
+                    return Container(
+                      width: 40.0,
+                      height: 40.0,
+                      child: CircularProgressIndicator(),
+                    );
                   }
                 },
                 errorBuilder: (BuildContext context, Object error,
@@ -78,11 +82,12 @@ class NewsModel {
             )
           : CircleAvatar(
               radius: 20,
-              backgroundColor: tcAsh,
+              backgroundColor: tcViolet,
               child: Center(
                 child: Icon(
                   Icons.question_mark,
-                  color: textColor,
+                  color: tcWhite,
+                  size: 20,
                 ),
               ),
             ),
