@@ -1,6 +1,6 @@
 class ApiConstants {
   // BaseUrl
-  static String baseUrl = 'http://10.0.2.2:8000';
+  static String baseUrl = 'https://taguigconnect.online';
 
   // Account
   static String registerUser = '/register-user';

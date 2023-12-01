@@ -152,7 +152,6 @@ class _AccountScreenState extends State<AccountScreen> {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
                 final items = snapshot.data;
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -160,16 +159,17 @@ class _AccountScreenState extends State<AccountScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          radius: 50,
+                        Container(
+                          width: 100,
+                          height: 100,
                           child: ClipOval(
-                            child: items?.image != ''
+                            child: items!.image != null
                                 ? GestureDetector(
                                     onTap: () {
                                       showImageDialog(context);
                                     },
                                     child: Image.network(
-                                      items!.image!,
+                                      items.image!,
                                       fit: BoxFit.cover,
                                       loadingBuilder: (BuildContext context,
                                           Widget child,
@@ -208,7 +208,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             Container(
                               width: 210,
                               child: AutoSizeText(
-                                '${items!.lastname}, ${items.firstname} ${items.middlename}',
+                                '${items.lastname}, ${items.firstname} ${items.middlename}',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 textAlign: TextAlign.start,

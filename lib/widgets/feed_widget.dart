@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/report_model.dart';
 import 'package:TagConnect/services/report_service.dart';
@@ -7,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:TagConnect/constants/color_constant.dart';
-import 'package:http/http.dart' as http;
 import 'package:TagConnect/models/barangay_model.dart';
-import 'package:TagConnect/models/feed_model.dart';
 import 'package:TagConnect/screens/report-details_screen.dart';
 import 'package:TagConnect/services/barangay_service.dart';
 import 'package:provider/provider.dart';
@@ -194,11 +191,24 @@ class _FeedWidgetState extends State<FeedWidget> {
                         color: textColor,
                       ),
                     ),
+                    Container(
+                      width: 300,
+                      child: Text(
+                        'This show all the reports that have a visibility set to \'Public\' and have a status of \'Resolved\'',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: tcGray,
+                        ),
+                      ),
+                    ),
                     Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       height: 30,
                       child: ListView.builder(
@@ -302,76 +312,31 @@ class _FeedWidgetState extends State<FeedWidget> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  item.image != null
-                                      ? ClipOval(
-                                          child: Image.network(
-                                            item.image!,
-                                            width: 30,
-                                            height: 30,
-                                            fit: BoxFit.cover,
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                    Widget child,
-                                                    ImageChunkEvent?
-                                                        loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              } else {
-                                                return Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              }
-                                            },
-                                            errorBuilder: (BuildContext context,
-                                                Object error,
-                                                StackTrace? stackTrace) {
-                                              return Icon(Icons.error);
-                                            },
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons.question_mark,
-                                          size: 20,
-                                        ),
-                                  VerticalDivider(
-                                    color: Colors.transparent,
-                                    width: 8,
+                                  Text(
+                                    '${barangayInfo.name ?? ''} Report #${item.id}',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: textColor,
+                                    ),
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${barangayInfo.name ?? ''} Report #${item.id}',
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: textColor,
-                                        ),
-                                      ),
-                                      Text(
-                                        formatCustomDateTime(
-                                            item.createdAt.toString()),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'PublicSans',
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.normal,
-                                          color: textColor,
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                  Text(
+                                    formatCustomDateTime(
+                                        item.createdAt.toString()),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'PublicSans',
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: textColor,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Divider(

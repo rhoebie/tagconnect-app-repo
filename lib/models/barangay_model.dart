@@ -18,7 +18,6 @@ class BarangayModel {
   String? address;
   Location? location;
   String? image;
-  Analytics? analytics;
 
   BarangayModel({
     this.id,
@@ -29,7 +28,6 @@ class BarangayModel {
     this.address,
     this.location,
     this.image,
-    this.analytics,
   });
 
   factory BarangayModel.fromJson(Map<String, dynamic> json) => BarangayModel(
@@ -43,9 +41,6 @@ class BarangayModel {
             ? null
             : Location.fromJson(json["location"]),
         image: json["image"],
-        analytics: json["analytics"] == null
-            ? null
-            : Analytics.fromJson(json["analytics"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,43 +52,6 @@ class BarangayModel {
         "address": address,
         "location": location?.toJson(),
         "image": image,
-        "analytics": analytics?.toJson(),
-      };
-}
-
-class Analytics {
-  int? general;
-  int? medical;
-  int? fire;
-  int? crime;
-  String? responseTime;
-  int? totalReports;
-
-  Analytics({
-    this.general,
-    this.medical,
-    this.fire,
-    this.crime,
-    this.responseTime,
-    this.totalReports,
-  });
-
-  factory Analytics.fromJson(Map<String, dynamic> json) => Analytics(
-        general: json["General"],
-        medical: json["Medical"],
-        fire: json["Fire"],
-        crime: json["Crime"],
-        responseTime: json["ResponseTime"],
-        totalReports: json["TotalReports"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "General": general,
-        "Medical": medical,
-        "Fire": fire,
-        "Crime": crime,
-        "ResponseTime": responseTime,
-        "TotalReports": totalReports,
       };
 }
 

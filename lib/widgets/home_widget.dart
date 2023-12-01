@@ -231,7 +231,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       fontFamily: 'Roboto',
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
-                      color: tcRed,
+                      color: tcBlue,
                     ),
                   ),
                 ],

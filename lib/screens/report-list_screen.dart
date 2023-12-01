@@ -142,7 +142,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                               width: 10,
                             ),
                             Container(
-                              width: 93.w,
+                              width: 100.w,
                               child: DropdownButton<String>(
                                 value: selectedValue,
                                 items: [
@@ -150,6 +150,19 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                     value: "Submitted",
                                     child: Text(
                                       'Submitted',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: textColor,
+                                        fontFamily: 'PublicSans',
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  DropdownMenuItem<String>(
+                                    value: "Processing",
+                                    child: Text(
+                                      'Processing',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: textColor,
@@ -659,6 +672,8 @@ List<ReportModel> filterDataByStatus(
     List<ReportModel> reports, String selectedValue) {
   if (selectedValue == "Submitted") {
     return reports.where((report) => report.status == 'Submitted').toList();
+  } else if (selectedValue == "Processing") {
+    return reports.where((report) => report.status == 'Processing').toList();
   } else if (selectedValue == "Resolved") {
     return reports.where((report) => report.status == 'Resolved').toList();
   }

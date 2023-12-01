@@ -143,393 +143,399 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: _oldPasswordController,
-                      focusNode: _oldPasswordFocus,
-                      obscureText: !_oldPasswordVisible,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: textColor,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Old Password',
-                        labelStyle: TextStyle(
-                          fontFamily: 'PublicSans',
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        keyboardType: TextInputType.visiblePassword,
+                        controller: _oldPasswordController,
+                        focusNode: _oldPasswordFocus,
+                        obscureText: !_oldPasswordVisible,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
+                          color: textColor,
                         ),
-                        errorMaxLines: 2,
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          size: 20,
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            if (mounted) {
-                              setState(() {
-                                _oldPasswordVisible = !_oldPasswordVisible;
-                              });
-                            }
-                          },
-                          icon: Icon(
-                            _oldPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: textColor,
+                        decoration: InputDecoration(
+                          labelText: 'Old Password',
+                          labelStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          errorMaxLines: 2,
+                          prefixIcon: Icon(
+                            Icons.lock,
                             size: 20,
                           ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              if (mounted) {
+                                setState(() {
+                                  _oldPasswordVisible = !_oldPasswordVisible;
+                                });
+                              }
+                            },
+                            icon: Icon(
+                              _oldPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: textColor,
+                              size: 20,
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: textColor,
-                            width: 1.w,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: textColor,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                      ),
+                      Divider(
+                        color: backgroundColor,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.visiblePassword,
+                        controller: _passwordController,
+                        focusNode: _passwordFocus,
+                        obscureText: !_passwordVisible,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: textColor,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          labelStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          errorMaxLines: 2,
+                          hintText: 'Minimum of 6 characters',
+                          hintStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                             color: tcGray,
-                            width: 2.w,
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: backgroundColor,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: _passwordController,
-                      focusNode: _passwordFocus,
-                      obscureText: !_passwordVisible,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: textColor,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        labelStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        errorMaxLines: 2,
-                        hintText: 'Minimum of 6 characters',
-                        hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcGray,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          size: 20,
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            if (mounted) {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                                print(_passwordVisible);
-                              });
-                            }
-                          },
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: textColor,
+                          prefixIcon: Icon(
+                            Icons.lock,
                             size: 20,
                           ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              if (mounted) {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                  print(_passwordVisible);
+                                });
+                              }
+                            },
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: textColor,
+                              size: 20,
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: textColor,
-                            width: 1.w,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: textColor,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcGray,
-                            width: 2.w,
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
+                        validator: (value) => validatePassword(value!),
+                        onChanged: (value) {
+                          if (mounted) {
+                            setState(() {
+                              hasUppercase = value.contains(RegExp(r'[A-Z]'));
+                              hasLowercase = value.contains(RegExp(r'[a-z]'));
+                              hasSpecialChar = value.contains(
+                                  RegExp(r'[!@#\$%^&*(),.?":{}|<>-]'));
+                              hasDigit = value.contains(RegExp(r'[0-9]'));
+                              is6char = value.length >= 6;
+                            });
+                          }
+                        },
                       ),
-                      validator: (value) => validatePassword(value!),
-                      onChanged: (value) {
-                        if (mounted) {
-                          setState(() {
-                            hasUppercase = value.contains(RegExp(r'[A-Z]'));
-                            hasLowercase = value.contains(RegExp(r'[a-z]'));
-                            hasSpecialChar = value
-                                .contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>-]'));
-                            hasDigit = value.contains(RegExp(r'[0-9]'));
-                            is6char = value.length >= 6;
-                          });
-                        }
-                      },
-                    ),
-                    Divider(
-                      color: backgroundColor,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: _confirmPassController,
-                      focusNode: _confirmPassFocus,
-                      obscureText: true,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: textColor,
+                      Divider(
+                        color: backgroundColor,
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Password cannot be empty';
-                        } else if (value != _passwordController.text) {
-                          return 'Password do not match';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        labelStyle: TextStyle(
-                          fontFamily: 'PublicSans',
+                      TextFormField(
+                        keyboardType: TextInputType.visiblePassword,
+                        controller: _confirmPassController,
+                        focusNode: _confirmPassFocus,
+                        obscureText: true,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
+                          color: textColor,
                         ),
-                        errorMaxLines: 2,
-                        hintText: 'Minimum of 8 characters',
-                        hintStyle: TextStyle(
-                          fontFamily: 'PublicSans',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: tcGray,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          size: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.w,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Password cannot be empty';
+                          } else if (value != _passwordController.text) {
+                            return 'Password do not match';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Confirm Password',
+                          labelStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: textColor,
-                            width: 1.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcViolet,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: tcRed,
-                            width: 2.w,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          errorMaxLines: 2,
+                          hintText: 'Minimum of 8 characters',
+                          hintStyle: TextStyle(
+                            fontFamily: 'PublicSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                             color: tcGray,
-                            width: 2.w,
                           ),
-                          borderRadius: BorderRadius.circular(5),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            size: 20,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: textColor,
+                              width: 1.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcViolet,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcRed,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: tcGray,
+                              width: 2.w,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
                       ),
-                    ),
-                    Divider(
-                      color: backgroundColor,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              is6char ? Icons.check_circle : Icons.circle,
-                              color: is6char ? tcGreen : tcRed,
-                            ),
-                            Text(
-                              'Is six character long',
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                                color: textColor,
+                      Divider(
+                        color: backgroundColor,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                is6char ? Icons.check_circle : Icons.circle,
+                                color: is6char ? tcGreen : tcRed,
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              hasSpecialChar
-                                  ? Icons.check_circle
-                                  : Icons.circle,
-                              color: hasSpecialChar ? tcGreen : tcRed,
-                            ),
-                            Text(
-                              'Has Special Character',
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                                color: textColor,
+                              Text(
+                                'Is six character long',
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: textColor,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              hasUppercase ? Icons.check_circle : Icons.circle,
-                              color: hasUppercase ? tcGreen : tcRed,
-                            ),
-                            Text(
-                              'Has Uppercase',
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                                color: textColor,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                hasSpecialChar
+                                    ? Icons.check_circle
+                                    : Icons.circle,
+                                color: hasSpecialChar ? tcGreen : tcRed,
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              hasLowercase ? Icons.check_circle : Icons.circle,
-                              color: hasLowercase ? tcGreen : tcRed,
-                            ),
-                            Text(
-                              'Has Lowercase',
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                                color: textColor,
+                              Text(
+                                'Has Special Character',
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: textColor,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              hasDigit ? Icons.check_circle : Icons.circle,
-                              color: hasDigit ? tcGreen : tcRed,
-                            ),
-                            Text(
-                              'Has Digit',
-                              style: TextStyle(
-                                fontFamily: 'PublicSans',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                                color: textColor,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                hasUppercase
+                                    ? Icons.check_circle
+                                    : Icons.circle,
+                                color: hasUppercase ? tcGreen : tcRed,
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
+                              Text(
+                                'Has Uppercase',
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: textColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                hasLowercase
+                                    ? Icons.check_circle
+                                    : Icons.circle,
+                                color: hasLowercase ? tcGreen : tcRed,
+                              ),
+                              Text(
+                                'Has Lowercase',
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: textColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                hasDigit ? Icons.check_circle : Icons.circle,
+                                color: hasDigit ? tcGreen : tcRed,
+                              ),
+                              Text(
+                                'Has Digit',
+                                style: TextStyle(
+                                  fontFamily: 'PublicSans',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: textColor,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Divider(
-                color: backgroundColor,
-              ),
-              ProgressButton.icon(
-                  iconedButtons: {
-                    ButtonState.idle: IconedButton(
-                        text: 'Change Password',
-                        icon: Icon(Icons.change_circle, color: Colors.white),
-                        color: tcViolet),
-                    ButtonState.loading:
-                        IconedButton(text: 'Loading', color: tcViolet),
-                    ButtonState.fail: IconedButton(
-                        text: 'Failed',
-                        icon: Icon(Icons.cancel, color: Colors.white),
-                        color: Colors.red.shade300),
-                    ButtonState.success: IconedButton(
-                        text: 'Success',
-                        icon: Icon(
-                          Icons.check_circle,
-                          color: Colors.white,
-                        ),
-                        color: Colors.green.shade400)
-                  },
-                  onPressed: () async {
-                    if (_formKey.currentState != null &&
-                        _formKey.currentState!.validate()) {
-                      onPressedIconWithText(
-                          oldPw: _oldPasswordController.text,
-                          newPw: _passwordController.text,
-                          confPw: _confirmPassController.text);
-                    }
-                  },
-                  state: stateTextWithIcon),
-            ],
+                Divider(
+                  color: backgroundColor,
+                ),
+                ProgressButton.icon(
+                    iconedButtons: {
+                      ButtonState.idle: IconedButton(
+                          text: 'Change Password',
+                          icon: Icon(Icons.change_circle, color: Colors.white),
+                          color: tcViolet),
+                      ButtonState.loading:
+                          IconedButton(text: 'Loading', color: tcViolet),
+                      ButtonState.fail: IconedButton(
+                          text: 'Failed',
+                          icon: Icon(Icons.cancel, color: Colors.white),
+                          color: Colors.red.shade300),
+                      ButtonState.success: IconedButton(
+                          text: 'Success',
+                          icon: Icon(
+                            Icons.check_circle,
+                            color: Colors.white,
+                          ),
+                          color: Colors.green.shade400)
+                    },
+                    onPressed: () async {
+                      if (_formKey.currentState != null &&
+                          _formKey.currentState!.validate()) {
+                        onPressedIconWithText(
+                            oldPw: _oldPasswordController.text,
+                            newPw: _passwordController.text,
+                            confPw: _confirmPassController.text);
+                      }
+                    },
+                    state: stateTextWithIcon),
+              ],
+            ),
           ),
         ),
       ),
