@@ -41,7 +41,6 @@ dependencies:
   url_launcher: ^6.1.14
   flutter_html: 3.0.0-beta.2
   auto_size_text: ^3.0.0
-  rss_dart: ^1.0.4
   geocoding: ^2.1.1
   progress_state_button: ^1.0.4
   geolocator: ^10.1.0

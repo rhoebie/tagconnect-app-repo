@@ -314,8 +314,8 @@ class _FeedWidgetState extends State<FeedWidget> {
                                       ? ClipOval(
                                           child: Image.network(
                                             item.image!,
-                                            width: 30,
-                                            height: 30,
+                                            width: 35,
+                                            height: 35,
                                             fit: BoxFit.cover,
                                             loadingBuilder:
                                                 (BuildContext context,
@@ -327,17 +327,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                               } else {
                                                 return Center(
                                                   child:
-                                                      CircularProgressIndicator(
-                                                    value: loadingProgress
-                                                                .expectedTotalBytes !=
-                                                            null
-                                                        ? loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            (loadingProgress
-                                                                    .expectedTotalBytes ??
-                                                                1)
-                                                        : null,
-                                                  ),
+                                                      CircularProgressIndicator(),
                                                 );
                                               }
                                             },

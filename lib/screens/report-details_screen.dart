@@ -79,6 +79,21 @@ class _ReportDetailState extends State<ReportDetail> {
                               ? Image.network(
                                   widget.feedModel.image!,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    return Icon(Icons.error);
+                                  },
                                 )
                               : Center(
                                   child: Icon(Icons.question_mark),
@@ -159,6 +174,21 @@ class _ReportDetailState extends State<ReportDetail> {
                             child: Image.network(
                               widget.barangayModel.image!,
                               fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                              errorBuilder: (BuildContext context, Object error,
+                                  StackTrace? stackTrace) {
+                                return Icon(Icons.error);
+                              },
                             ),
                           )
                         : Icon(
@@ -345,33 +375,6 @@ class _ReportDetailState extends State<ReportDetail> {
                   ),
                 ],
               ),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(
-              //       'Image',
-              //       textAlign: TextAlign.center,
-              //       style: TextStyle(
-              //         fontFamily: 'PublicSans',
-              //         fontSize: 14.sp,
-              //         fontWeight: FontWeight.w700,
-              //         color: textColor,
-              //       ),
-              //     ),
-              //     Container(
-              //       width: double.infinity,
-              //       height: 150,
-              //       child: feedModel.image != '' || feedModel.image != null
-              //           ? Image.network(
-              //               feedModel.image!,
-              //               fit: BoxFit.cover,
-              //             )
-              //           : Center(
-              //               child: Icon(Icons.question_mark),
-              //             ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),

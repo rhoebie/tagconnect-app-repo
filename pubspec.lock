@@ -688,14 +688,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.1"
-  rss_dart:
-    dependency: "direct main"
-    description:
-      name: rss_dart
-      sha256: "2ec534aa94524c46dd0c3133e6822dc248aa874b4d26f7f10a8c9a61773718c6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   shared_preferences:
     dependency: "direct main"
     description:

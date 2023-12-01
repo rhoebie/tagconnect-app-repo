@@ -89,6 +89,20 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                     widget.barangayModel.image!,
                     width: 350,
                     height: 350,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      return Icon(Icons.error);
+                    },
                   ),
                 ),
                 Text(
@@ -168,6 +182,21 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                               child: ClipOval(
                                 child: Image.network(
                                   widget.barangayModel.image!,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    return Icon(Icons.error);
+                                  },
                                 ),
                               ),
                             ),

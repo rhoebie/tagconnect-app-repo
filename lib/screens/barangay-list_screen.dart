@@ -124,6 +124,26 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                             ? Image.network(
                                                 item.image!,
                                                 fit: BoxFit.cover,
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  } else {
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    );
+                                                  }
+                                                },
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object error,
+                                                    StackTrace? stackTrace) {
+                                                  return Icon(Icons.error);
+                                                },
                                               )
                                             : Center(
                                                 child: Icon(

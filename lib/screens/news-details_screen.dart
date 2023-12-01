@@ -28,6 +28,20 @@ class NewsDetails extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                   child: Image.network(
                     newsModel.image ?? '',
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace? stackTrace) {
+                      return Icon(Icons.error);
+                    },
                   ),
                 ),
                 TextButton(
@@ -100,6 +114,21 @@ class NewsDetails extends StatelessWidget {
                               child: Image.network(
                                 newsModel.image!,
                                 fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object error, StackTrace? stackTrace) {
+                                  return Icon(Icons.error);
+                                },
                               ),
                             ),
                           ),

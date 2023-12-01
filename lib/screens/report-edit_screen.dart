@@ -249,6 +249,26 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                             child: Image.network(
                                               widget.reportModel.image!,
                                               fit: BoxFit.cover,
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child;
+                                                } else {
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  );
+                                                }
+                                              },
+                                              errorBuilder:
+                                                  (BuildContext context,
+                                                      Object error,
+                                                      StackTrace? stackTrace) {
+                                                return Icon(Icons.error);
+                                              },
                                             ),
                                           ),
                                         )

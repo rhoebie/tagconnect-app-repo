@@ -62,6 +62,18 @@ class NewsModel {
                 width: 40.0,
                 height: 40.0,
                 fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+                errorBuilder: (BuildContext context, Object error,
+                    StackTrace? stackTrace) {
+                  return Icon(Icons.error);
+                },
               ),
             )
           : CircleAvatar(
