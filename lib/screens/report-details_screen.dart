@@ -76,14 +76,6 @@ class _ReportDetailState extends State<ReportDetail> {
                           height: 150,
                           child: widget.feedModel.image != '' ||
                                   widget.feedModel.image != null
-                              // ? CachedNetworkImage(
-                              //     imageUrl: widget.feedModel.image!,
-                              //     fit: BoxFit.cover,
-                              //     placeholder: (context, url) => Center(
-                              //         child: CircularProgressIndicator()),
-                              //     errorWidget: (context, url, error) =>
-                              //         Icon(Icons.error),
-                              //   )
                               ? Image.network(
                                   widget.feedModel.image!,
                                   fit: BoxFit.cover,
@@ -163,19 +155,11 @@ class _ReportDetailState extends State<ReportDetail> {
                     backgroundColor: tcViolet,
                     foregroundColor: backgroundColor,
                     child: widget.barangayModel.image != null
-                        // ? ClipOval(
-                        //     child: CachedNetworkImage(
-                        //       imageUrl: widget.barangayModel.image!,
-                        //       fit: BoxFit.cover,
-                        //       placeholder: (context, url) =>
-                        //           Center(child: CircularProgressIndicator()),
-                        //       errorWidget: (context, url, error) =>
-                        //           Icon(Icons.error),
-                        //     ),
-                        //   )
-                        ? Image.network(
-                            widget.barangayModel.image!,
-                            fit: BoxFit.cover,
+                        ? ClipOval(
+                            child: Image.network(
+                              widget.barangayModel.image!,
+                              fit: BoxFit.cover,
+                            ),
                           )
                         : Icon(
                             Icons.question_mark,

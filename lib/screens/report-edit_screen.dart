@@ -246,17 +246,6 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           child: Container(
-                                            // child: CachedNetworkImage(
-                                            //   imageUrl:
-                                            //       widget.reportModel.image!,
-                                            //   fit: BoxFit.cover,
-                                            //   placeholder: (context, url) => Center(
-                                            //       child:
-                                            //           CircularProgressIndicator()),
-                                            //   errorWidget:
-                                            //       (context, url, error) =>
-                                            //           Icon(Icons.error),
-                                            // ),
                                             child: Image.network(
                                               widget.reportModel.image!,
                                               fit: BoxFit.cover,

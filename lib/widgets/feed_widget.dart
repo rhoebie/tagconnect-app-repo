@@ -312,23 +312,40 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 children: [
                                   item.image != null
                                       ? ClipOval(
-                                          // child: CachedNetworkImage(
-                                          // width: 30,
-                                          // height: 30,
-                                          //   imageUrl: item.image!,
-                                          //   fit: BoxFit.cover,
-                                          //   placeholder: (context, url) => Center(
-                                          //       child:
-                                          //           CircularProgressIndicator()),
-                                          //   errorWidget:
-                                          //       (context, url, error) =>
-                                          //           Icon(Icons.error),
-                                          // ),
                                           child: Image.network(
                                             item.image!,
                                             width: 30,
                                             height: 30,
                                             fit: BoxFit.cover,
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent?
+                                                        loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              } else {
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            (loadingProgress
+                                                                    .expectedTotalBytes ??
+                                                                1)
+                                                        : null,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object error,
+                                                StackTrace? stackTrace) {
+                                              return Icon(Icons.error);
+                                            },
                                           ),
                                         )
                                       : Icon(

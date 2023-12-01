@@ -110,6 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
         final token = await authService.login(email, password);
 
         if (token != null) {
+          if (rememberMe) {
+            saveCredentials();
+          }
           print('User Token: $token');
           _emailController.clear();
           _passwordController.clear();
@@ -556,23 +559,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.green.shade400)
                             },
                             onPressed: () async {
-                              if (rememberMe) {
-                                saveCredentials();
-                                if (_formKey.currentState != null &&
-                                    _formKey.currentState!.validate()) {
-                                  onPressedIconWithText(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                  );
-                                }
-                              } else {
-                                if (_formKey.currentState != null &&
-                                    _formKey.currentState!.validate()) {
-                                  onPressedIconWithText(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                  );
-                                }
+                              if (_formKey.currentState != null &&
+                                  _formKey.currentState!.validate()) {
+                                onPressedIconWithText(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
                               }
                             },
                             state: stateTextWithIcon),

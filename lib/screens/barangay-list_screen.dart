@@ -121,17 +121,6 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                         height: 150.h,
                                         width: double.infinity,
                                         child: item.image != null
-                                            // ? CachedNetworkImage(
-                                            //     imageUrl: item.image!,
-                                            //     fit: BoxFit.cover,
-                                            //     placeholder: (context, url) =>
-                                            //         Center(
-                                            //             child:
-                                            //                 CircularProgressIndicator()),
-                                            //     errorWidget:
-                                            //         (context, url, error) =>
-                                            //             Icon(Icons.error),
-                                            //   )
                                             ? Image.network(
                                                 item.image!,
                                                 fit: BoxFit.cover,

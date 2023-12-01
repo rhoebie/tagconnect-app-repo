@@ -353,14 +353,6 @@ class ReportDetail extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                               child: Container(
-                                // child: CachedNetworkImage(
-                                //   imageUrl: reportModel.image!,
-                                //   fit: BoxFit.cover,
-                                //   placeholder: (context, url) => Center(
-                                //       child: CircularProgressIndicator()),
-                                //   errorWidget: (context, url, error) =>
-                                //       Icon(Icons.error),
-                                // ),
                                 child: Image.network(
                                   reportModel.image!,
                                   fit: BoxFit.cover,

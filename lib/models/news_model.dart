@@ -57,15 +57,6 @@ class NewsModel {
     return ListTile(
       leading: image != null
           ? ClipOval(
-              // child: CachedNetworkImage(
-              //   width: 40,
-              //   height: 40,
-              //   imageUrl: image!,
-              //   fit: BoxFit.cover,
-              //   placeholder: (context, url) =>
-              //       Center(child: CircularProgressIndicator()),
-              //   errorWidget: (context, url, error) => Icon(Icons.error),
-              // ),
               child: Image.network(
                 image!,
                 width: 40.0,

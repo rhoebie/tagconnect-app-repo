@@ -441,18 +441,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               ? Container(
                                                   width: 180.w,
                                                   height: 100.h,
-                                                  // child: CachedNetworkImage(
-                                                  //   imageUrl: item.image!,
-                                                  //   fit: BoxFit.cover,
-                                                  //   placeholder: (context,
-                                                  //           url) =>
-                                                  //       Center(
-                                                  //           child:
-                                                  //               CircularProgressIndicator()),
-                                                  //   errorWidget:
-                                                  //       (context, url, error) =>
-                                                  //           Icon(Icons.error),
-                                                  // ),
                                                   child: Image.network(
                                                     item.image!,
                                                     fit: BoxFit.cover,
