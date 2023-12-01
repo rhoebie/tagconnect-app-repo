@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:TagConnect/constants/provider_constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -313,17 +312,23 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 children: [
                                   item.image != null
                                       ? ClipOval(
-                                          child: CachedNetworkImage(
+                                          // child: CachedNetworkImage(
+                                          // width: 30,
+                                          // height: 30,
+                                          //   imageUrl: item.image!,
+                                          //   fit: BoxFit.cover,
+                                          //   placeholder: (context, url) => Center(
+                                          //       child:
+                                          //           CircularProgressIndicator()),
+                                          //   errorWidget:
+                                          //       (context, url, error) =>
+                                          //           Icon(Icons.error),
+                                          // ),
+                                          child: Image.network(
+                                            item.image!,
                                             width: 30,
                                             height: 30,
-                                            imageUrl: item.image!,
                                             fit: BoxFit.cover,
-                                            placeholder: (context, url) => Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
                                           ),
                                         )
                                       : Icon(

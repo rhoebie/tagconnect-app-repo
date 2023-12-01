@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -58,14 +57,20 @@ class NewsModel {
     return ListTile(
       leading: image != null
           ? ClipOval(
-              child: CachedNetworkImage(
-                width: 40,
-                height: 40,
-                imageUrl: image!,
+              // child: CachedNetworkImage(
+              //   width: 40,
+              //   height: 40,
+              //   imageUrl: image!,
+              //   fit: BoxFit.cover,
+              //   placeholder: (context, url) =>
+              //       Center(child: CircularProgressIndicator()),
+              //   errorWidget: (context, url, error) => Icon(Icons.error),
+              // ),
+              child: Image.network(
+                image!,
+                width: 40.0,
+                height: 40.0,
                 fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             )
           : CircleAvatar(

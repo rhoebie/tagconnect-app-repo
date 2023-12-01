@@ -7,7 +7,6 @@ import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/create-report_model.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -442,17 +441,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               ? Container(
                                                   width: 180.w,
                                                   height: 100.h,
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: item.image!,
+                                                  // child: CachedNetworkImage(
+                                                  //   imageUrl: item.image!,
+                                                  //   fit: BoxFit.cover,
+                                                  //   placeholder: (context,
+                                                  //           url) =>
+                                                  //       Center(
+                                                  //           child:
+                                                  //               CircularProgressIndicator()),
+                                                  //   errorWidget:
+                                                  //       (context, url, error) =>
+                                                  //           Icon(Icons.error),
+                                                  // ),
+                                                  child: Image.network(
+                                                    item.image!,
                                                     fit: BoxFit.cover,
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(Icons.error),
                                                   ),
                                                 )
                                               : Container(

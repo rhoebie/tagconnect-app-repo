@@ -37,8 +37,6 @@ dependencies:
   device_info_plus: ^9.1.0
   permission_handler: ^11.0.1
   connectivity_plus: ^5.0.1
-  animations: ^2.0.8
-  latlong2: ^0.9.0
   http: ^1.1.0
   url_launcher: ^6.1.14
   flutter_html: 3.0.0-beta.2
@@ -49,7 +47,6 @@ dependencies:
   geolocator: ^10.1.0
   fl_chart: ^0.64.0
   path_provider: ^2.1.1
-  cached_network_image: ^3.3.0
   sqflite: ^2.3.0
   avatar_glow: ^2.0.2
   local_auth: ^2.1.7
@@ -58,6 +55,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

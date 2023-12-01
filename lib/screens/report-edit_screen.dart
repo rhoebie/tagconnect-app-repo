@@ -7,7 +7,6 @@ import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/models/report_model.dart';
 import 'package:TagConnect/models/update-report_model.dart';
 import 'package:TagConnect/services/report_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -247,16 +246,20 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           child: Container(
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  widget.reportModel.image!,
+                                            // child: CachedNetworkImage(
+                                            //   imageUrl:
+                                            //       widget.reportModel.image!,
+                                            //   fit: BoxFit.cover,
+                                            //   placeholder: (context, url) => Center(
+                                            //       child:
+                                            //           CircularProgressIndicator()),
+                                            //   errorWidget:
+                                            //       (context, url, error) =>
+                                            //           Icon(Icons.error),
+                                            // ),
+                                            child: Image.network(
+                                              widget.reportModel.image!,
                                               fit: BoxFit.cover,
-                                              placeholder: (context, url) => Center(
-                                                  child:
-                                                      CircularProgressIndicator()),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
                                             ),
                                           ),
                                         )

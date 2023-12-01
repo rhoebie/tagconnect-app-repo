@@ -1,5 +1,4 @@
 import 'package:TagConnect/screens/report-edit_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -354,13 +353,17 @@ class ReportDetail extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                               child: Container(
-                                child: CachedNetworkImage(
-                                  imageUrl: reportModel.image!,
+                                // child: CachedNetworkImage(
+                                //   imageUrl: reportModel.image!,
+                                //   fit: BoxFit.cover,
+                                //   placeholder: (context, url) => Center(
+                                //       child: CircularProgressIndicator()),
+                                //   errorWidget: (context, url, error) =>
+                                //       Icon(Icons.error),
+                                // ),
+                                child: Image.network(
+                                  reportModel.image!,
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => Center(
-                                      child: CircularProgressIndicator()),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
                                 ),
                               ),
                             )
