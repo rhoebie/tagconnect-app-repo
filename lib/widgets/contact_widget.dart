@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:TagConnect/constants/provider_constant.dart';
+import 'package:TagConnect/screens/contact-view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
@@ -353,8 +354,64 @@ class _ContactWidgetState extends State<ContactWidget> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return filteredContacts[index].buildContactWidget(
-                      context, filteredContacts[index], loadContacts);
+                  final item = filteredContacts[index];
+                  String firstLetter = item.firstname!.isNotEmpty
+                      ? item.firstname![0].toUpperCase()
+                      : '?';
+                  return ListTile(
+                    leading: item.image != null
+                        ? CircleAvatar(
+                            backgroundColor: tcAsh,
+                            backgroundImage: MemoryImage(
+                              base64Decode(item.image!),
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundColor: tcViolet,
+                            child: Center(
+                              child: Text(
+                                firstLetter,
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: tcWhite,
+                                ),
+                              ),
+                            ),
+                          ),
+                    title: Text(
+                      item.firstname ?? '',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: textColor,
+                      ),
+                    ),
+                    subtitle: Text(
+                      item.contact ?? '',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                        color: tcGray,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            print(item.id);
+                            return ContactViewScreen(
+                              contact: item,
+                              callbackFunction: loadContacts,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
                 },
                 childCount: filteredContacts.length,
               ),

@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:TagConnect/constants/color_constant.dart';
-import 'package:TagConnect/models/barangay_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReportDetail extends StatefulWidget {
   final ReportModel reportModel;
-  final BarangayModel barangayModel;
+  final String barangayModel;
   const ReportDetail(
       {super.key, required this.reportModel, required this.barangayModel});
 
@@ -52,7 +51,7 @@ class _ReportDetailState extends State<ReportDetail> {
             },
             icon: Icon(
               Icons.location_pin,
-              color: tcRed,
+              color: tcBlack,
             ),
           ),
         ],
@@ -141,47 +140,12 @@ class _ReportDetailState extends State<ReportDetail> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: tcViolet,
-                      foregroundColor: backgroundColor,
-                      child: widget.barangayModel.image != null
-                          ? ClipOval(
-                              child: Image.network(
-                                widget.barangayModel.image!,
-                                fit: BoxFit.cover,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  } else {
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  }
-                                },
-                                errorBuilder: (BuildContext context,
-                                    Object error, StackTrace? stackTrace) {
-                                  return Icon(Icons.error);
-                                },
-                              ),
-                            )
-                          : Icon(
-                              Icons.question_mark,
-                              size: 20,
-                            ),
-                    ),
-                    VerticalDivider(
-                      color: Colors.transparent,
-                      width: 5,
-                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.barangayModel.name ?? '',
+                          widget.barangayModel,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: textColor,

@@ -113,7 +113,6 @@ class _FeedWidgetState extends State<FeedWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchBarangay();
     _loadInitialData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -131,6 +130,7 @@ class _FeedWidgetState extends State<FeedWidget> {
 
 // New method to load initial data
   Future<void> _loadInitialData() async {
+    await fetchBarangay();
     final reportService = ReportService();
     final reports = await reportService.getFeedReports('all');
     if (mounted) {
@@ -287,10 +287,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final item = reportData[index];
-                    final barangayInfo = barangayData.firstWhere(
-                      (barangay) => barangay.id == item.barangayId,
-                      orElse: () => BarangayModel(),
-                    );
+                    String barangayText = barangayList[item.barangayId! - 1];
 
                     return InkWell(
                       onTap: () {
@@ -299,7 +296,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                             builder: (context) {
                               return ReportDetail(
                                 reportModel: item,
-                                barangayModel: barangayInfo,
+                                barangayModel: barangayText,
                               );
                             },
                           ),
@@ -317,7 +314,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${barangayInfo.name ?? ''} Report #${item.id}',
+                                    '$barangayText Report #${item.id}',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontFamily: 'Roboto',

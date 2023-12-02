@@ -4,11 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:TagConnect/constants/color_constant.dart';
-import 'package:TagConnect/screens/contact-view_screen.dart';
-
 ContactModel contactModelFromJson(String str) =>
     ContactModel.fromJson(json.decode(str));
 
@@ -48,74 +43,4 @@ class ContactModel {
         "contact": contact,
         "image": image,
       };
-
-  Widget buildContactWidget(
-      BuildContext context, ContactModel contactData, VoidCallback voidFunct) {
-    final ThemeData theme = Theme.of(context);
-    final Color textColor = theme.colorScheme.onBackground;
-    String firstLetter =
-        firstname!.isNotEmpty ? firstname![0].toUpperCase() : '?';
-
-    return ListTile(
-      leading: image != null
-          ? CircleAvatar(
-              backgroundColor: tcAsh,
-              backgroundImage: MemoryImage(
-                base64Decode(image!),
-              ),
-            )
-          : CircleAvatar(
-              backgroundColor: tcViolet,
-              child: Center(
-                child: Text(
-                  firstLetter,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: tcWhite,
-                  ),
-                ),
-              ),
-            ),
-      title: Text(
-        firstname ?? '',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-          color: textColor,
-        ),
-      ),
-      subtitle: Text(
-        contact ?? '',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w400,
-          color: tcGray,
-        ),
-      ),
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return ContactViewScreen(
-                contact: contactData,
-                callbackFunction: voidFunct,
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  void printContactData() {
-    print('Firstname: $firstname');
-    print('Lastname: $lastname');
-    print('Email: $email');
-    print('Contact: $contact');
-    print('Image: $image');
-  }
 }

@@ -11,18 +11,29 @@ import 'package:TagConnect/screens/contact-edit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactViewScreen extends StatelessWidget {
+class ContactViewScreen extends StatefulWidget {
   final ContactModel contact;
   final VoidCallback callbackFunction;
   const ContactViewScreen(
       {super.key, required this.contact, required this.callbackFunction});
 
   @override
+  State<ContactViewScreen> createState() => _ContactViewScreenState();
+}
+
+class _ContactViewScreenState extends State<ContactViewScreen> {
+  @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
+
+    void navPop() {
+      widget.callbackFunction.call();
+      Navigator.of(context).pop();
+    }
+
     Future<void> deleteContact(int contactId) async {
       try {
         Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -48,8 +59,7 @@ class ContactViewScreen extends StatelessWidget {
               file.writeAsStringSync(jsonData);
 
               print('Contact deleted successfully');
-              callbackFunction.call();
-              Navigator.of(context).pop();
+              navPop();
             } else {
               print('Contact not found in existing data');
             }
@@ -60,8 +70,8 @@ class ContactViewScreen extends StatelessWidget {
       }
     }
 
-    String firstLetter = contact.firstname!.isNotEmpty
-        ? contact.firstname![0].toUpperCase()
+    String firstLetter = widget.contact.firstname!.isNotEmpty
+        ? widget.contact.firstname![0].toUpperCase()
         : '?';
 
     void showImageDialog(BuildContext context) {
@@ -75,7 +85,7 @@ class ContactViewScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: Image.memory(
-                    base64Decode(contact.image!),
+                    base64Decode(widget.contact.image!),
                     width: 350,
                     height: 350,
                   ),
@@ -101,7 +111,7 @@ class ContactViewScreen extends StatelessWidget {
         backgroundColor: backgroundColor,
         elevation: 0,
         title: Text(
-          contact.firstname ?? '',
+          widget.contact.firstname ?? '',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: textColor,
@@ -118,8 +128,8 @@ class ContactViewScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return ContactEditScreen(
-                      contact: contact,
-                      callbackFunction: callbackFunction,
+                      contact: widget.contact,
+                      callbackFunction: navPop,
                     );
                   },
                 ),
@@ -134,7 +144,7 @@ class ContactViewScreen extends StatelessWidget {
                 builder: (BuildContext context) => AlertDialog(
                   title: const Text('System'),
                   content: Text(
-                      'Are you sure you want to delete ${contact.firstname ?? ''} in your contacts?'),
+                      'Are you sure you want to delete ${widget.contact.firstname ?? ''} in your contacts?'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context),
@@ -142,7 +152,8 @@ class ContactViewScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () async {
-                        await deleteContact(contact.id);
+                        await deleteContact(widget.contact.id);
+                        navPop();
                       },
                       child: const Text('Yes'),
                     ),
@@ -162,7 +173,7 @@ class ContactViewScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  contact.image != null
+                  widget.contact.image != null
                       ? GestureDetector(
                           onTap: () {
                             showImageDialog(context);
@@ -172,7 +183,7 @@ class ContactViewScreen extends StatelessWidget {
                             backgroundColor:
                                 themeNotifier.isDarkMode ? tcDark : tcAsh,
                             backgroundImage: MemoryImage(
-                              base64Decode(contact.image!),
+                              base64Decode(widget.contact.image!),
                             ),
                           ),
                         )
@@ -194,7 +205,7 @@ class ContactViewScreen extends StatelessWidget {
                   Divider(
                     color: Colors.transparent,
                   ),
-                  contact.email != ''
+                  widget.contact.email != ''
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,7 +217,7 @@ class ContactViewScreen extends StatelessWidget {
                                   onTap: () async {
                                     final Uri launchUri = Uri(
                                       scheme: 'sms',
-                                      path: contact.contact,
+                                      path: widget.contact.contact,
                                     );
                                     await launchUrl(launchUri);
                                   },
@@ -245,7 +256,7 @@ class ContactViewScreen extends StatelessWidget {
                                   onTap: () async {
                                     final Uri launchUri = Uri(
                                       scheme: 'tel',
-                                      path: contact.contact,
+                                      path: widget.contact.contact,
                                     );
                                     await launchUrl(launchUri);
                                   },
@@ -284,7 +295,7 @@ class ContactViewScreen extends StatelessWidget {
                                   onTap: () async {
                                     final Uri launchUri = Uri(
                                       scheme: 'mailto',
-                                      path: contact.email,
+                                      path: widget.contact.email,
                                     );
                                     await launchUrl(launchUri);
                                   },
@@ -329,7 +340,7 @@ class ContactViewScreen extends StatelessWidget {
                                   onTap: () async {
                                     final Uri launchUri = Uri(
                                       scheme: 'sms',
-                                      path: contact.contact,
+                                      path: widget.contact.contact,
                                     );
                                     await launchUrl(launchUri);
                                   },
@@ -368,7 +379,7 @@ class ContactViewScreen extends StatelessWidget {
                                   onTap: () async {
                                     final Uri launchUri = Uri(
                                       scheme: 'tel',
-                                      path: contact.contact,
+                                      path: widget.contact.contact,
                                     );
                                     await launchUrl(launchUri);
                                   },
@@ -439,7 +450,7 @@ class ContactViewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              contact.firstname ?? '',
+                              widget.contact.firstname ?? '',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Roboto',
@@ -468,7 +479,7 @@ class ContactViewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              contact.lastname ?? '',
+                              widget.contact.lastname ?? '',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Roboto',
@@ -497,7 +508,7 @@ class ContactViewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              contact.email ?? '',
+                              widget.contact.email ?? '',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Roboto',
@@ -526,7 +537,7 @@ class ContactViewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              contact.contact ?? '',
+                              widget.contact.contact ?? '',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Roboto',
