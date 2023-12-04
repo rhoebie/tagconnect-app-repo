@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/configs/request_config.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/create-report_model.dart';

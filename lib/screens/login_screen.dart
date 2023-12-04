@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/configs/request_config.dart';
 import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/credential_model.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<bool> loginUser(
       {required String email, required String password}) async {
     try {
-      bool isConnnected = await NetworkService.isConnected();
+      bool isConnnected = await NetworkConfig.isConnected();
       if (isConnnected) {
         final authService = UserService();
         final token = await authService.login(email, password);

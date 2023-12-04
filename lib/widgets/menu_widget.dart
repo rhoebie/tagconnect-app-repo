@@ -27,7 +27,7 @@ class _MenuWidgetState extends State<MenuWidget> {
   String? imageUrl;
 
   Future<void> logoutuser() async {
-    bool isConnnected = await NetworkService.isConnected();
+    bool isConnnected = await NetworkConfig.isConnected();
     try {
       if (isConnnected) {
         final userService = UserService();

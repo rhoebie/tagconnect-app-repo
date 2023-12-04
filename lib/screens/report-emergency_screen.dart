@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/configs/request_config.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/models/barangay_model.dart';
 import 'package:TagConnect/models/create-report_model.dart';

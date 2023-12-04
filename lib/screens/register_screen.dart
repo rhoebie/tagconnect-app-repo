@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:TagConnect/animations/slideLeft_animation.dart';
 import 'package:TagConnect/configs/network_config.dart';
-import 'package:TagConnect/configs/request_service.dart';
+import 'package:TagConnect/configs/request_config.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -1120,7 +1120,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
     required String image,
     String? token,
   }) async {
-    bool isConnected = await NetworkService.isConnected();
+    bool isConnected = await NetworkConfig.isConnected();
     final userService = UserService();
 
     try {

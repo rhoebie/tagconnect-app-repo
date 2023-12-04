@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<bool> loginUser(
       {required String email, required String password}) async {
     try {
-      bool isConnnected = await NetworkService.isConnected();
+      bool isConnnected = await NetworkConfig.isConnected();
       if (isConnnected) {
         final authService = UserService();
         final token = await authService.login(email, password);
