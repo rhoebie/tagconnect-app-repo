@@ -14,8 +14,9 @@ class ReportService {
     final token = prefs.getString('token');
 
     final response = await http.get(
-      Uri.parse('$baseUrl${ApiConstants.countReportEndpoint}'),
+      Uri.parse('$baseUrl${ApiConstants.userReport}'),
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       },
     );
