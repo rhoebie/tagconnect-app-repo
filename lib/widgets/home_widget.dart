@@ -7,6 +7,7 @@ import 'package:TagConnect/services/news_service.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -152,6 +153,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Future<void> prompt() async {
+    HapticFeedback.vibrate();
     try {
       showDialog(
         context: context,
