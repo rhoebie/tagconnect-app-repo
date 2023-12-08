@@ -94,11 +94,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<bool> loginUser(
       {required String email, required String password}) async {
+    final prefs = await SharedPreferences.getInstance();
     try {
+      final tokenFcm = prefs.getString('fCMToken') ?? '';
       bool isConnnected = await NetworkConfig.isConnected();
       if (isConnnected) {
         final authService = UserService();
-        final token = await authService.login(email, password);
+        final token = await authService.login(email, password, tokenFcm);
 
         if (token != null) {
           return true;

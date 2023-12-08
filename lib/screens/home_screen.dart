@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {

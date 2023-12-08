@@ -191,10 +191,11 @@ class UserService {
     }
   }
 
-  Future<String?> login(String email, String password) async {
+  Future<String?> login(String email, String password, String fcmToken) async {
     final prefs = await SharedPreferences.getInstance();
     final headers = {'Content-Type': 'application/json'};
-    final body = json.encode({'email': email, 'password': password});
+    final body = json
+        .encode({'email': email, 'password': password, 'fcmToken': fcmToken});
     // try to login
     try {
       final response = await http.post(

@@ -8,8 +8,8 @@ class FirebaseApiService {
     final prefs = await SharedPreferences.getInstance();
     await _firebaseMessaging.requestPermission();
 
-    final fCMToken = await _firebaseMessaging.getToken();
-    await prefs.setString('fCMToken', fCMToken!);
+    String fCMToken = await _firebaseMessaging.getToken() ?? '';
+    await prefs.setString('fCMToken', fCMToken);
     print('Token: $fCMToken');
   }
 }
