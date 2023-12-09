@@ -50,7 +50,7 @@ class ReportService {
 
     if (response.statusCode == 201) {
       // Successfully created the report
-      print('Report submitted successfully');
+      print('Report submitted successfully: ${response.body}');
       return true;
     } else {
       print('Error submitting the report: ${response.body}');
