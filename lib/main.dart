@@ -1,9 +1,11 @@
 import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:TagConnect/firebase_options.dart';
+import 'package:TagConnect/models/notification_model.dart';
 import 'package:TagConnect/screens/splash_screen.dart';
 import 'package:TagConnect/services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +21,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeNotifier()),
         ChangeNotifierProvider(create: (_) => AutoLoginNotifier()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: const MyApp(),
     ),
@@ -39,6 +42,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _isDataLoaded = false;
     _loadData();
+    _setupNotificationListener();
     super.initState();
   }
 
@@ -49,6 +53,22 @@ class _MyAppState extends State<MyApp> {
         _isDataLoaded = true;
       });
     }
+  }
+
+  void _setupNotificationListener() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notificationData = message.notification;
+      if (notificationData == null) return;
+
+      final newNotification = NotificationModel(
+          title: notificationData.title ?? '',
+          body: notificationData.body ?? '',
+          data: message.data);
+
+      final notificationProvider =
+          Provider.of<NotificationProvider>(context, listen: false);
+      notificationProvider.addNotification(newNotification);
+    });
   }
 
   @override

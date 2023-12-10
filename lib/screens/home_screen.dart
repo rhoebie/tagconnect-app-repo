@@ -1,3 +1,4 @@
+import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:TagConnect/constants/color_constant.dart';
@@ -6,6 +7,7 @@ import 'package:TagConnect/widgets/feed_widget.dart';
 import 'package:TagConnect/widgets/contact_widget.dart';
 import 'package:TagConnect/widgets/home_widget.dart';
 import 'package:TagConnect/widgets/menu_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final notificationProvider = Provider.of<NotificationProvider>(context);
+    final hasNotifications = notificationProvider.notifications.isNotEmpty;
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
@@ -72,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             icon: Icon(
-              Icons.notifications_rounded,
+              hasNotifications
+                  ? Icons.notifications_active_rounded
+                  : Icons.notifications_none_rounded,
               size: 25,
               color: textColor,
             ),

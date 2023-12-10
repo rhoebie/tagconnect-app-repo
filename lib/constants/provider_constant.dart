@@ -1,4 +1,5 @@
 import 'package:TagConnect/constants/theme_constants.dart';
+import 'package:TagConnect/models/notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,5 +73,28 @@ class ThemeNotifier extends ChangeNotifier {
   Future<void> saveDarkMode(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(darkModeKey, value);
+  }
+}
+
+class NotificationProvider with ChangeNotifier {
+  List<NotificationModel> _notifications = [];
+
+  List<NotificationModel> get notifications => _notifications;
+
+  void addNotification(NotificationModel notification) {
+    _notifications.add(notification);
+    notifyListeners();
+  }
+
+  void removeNotification(int index) {
+    if (index >= 0 && index < notifications.length) {
+      notifications.removeAt(index);
+    }
+    notifyListeners();
+  }
+
+  void clearNotification() {
+    notifications.clear();
+    notifyListeners();
   }
 }
