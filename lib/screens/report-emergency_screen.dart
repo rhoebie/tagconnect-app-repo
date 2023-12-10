@@ -6,6 +6,7 @@ import 'package:TagConnect/configs/request_config.dart';
 import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/models/barangay_model.dart';
 import 'package:TagConnect/models/create-report_model.dart';
+import 'package:TagConnect/services/notification_service.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -257,15 +258,56 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
         image: imahe,
       );
 
-      final bool response = await reportService.createReport(reportMod);
+      final String response = await reportService.createReport(reportMod);
 
-      if (response) {
+      if (response != '') {
+        Future.delayed(
+          const Duration(seconds: 1),
+          () async {
+            final bool notifStatus = await notifyModerator(response);
+            if (notifStatus) {
+              if (mounted) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
+              return true;
+            } else {
+              print('Failed Notification');
+              return true;
+            }
+          },
+        );
         return true;
+      } else {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+        print('Failed');
+        return false;
       }
     } catch (e) {
       print('Error: $e');
     }
     return false;
+  }
+
+  Future<bool> notifyModerator(String token) async {
+    final notifService = NotificationService();
+    try {
+      final bool status = await notifService.triggerNotification(token);
+      if (status) {
+        print('notified');
+        return true;
+      } else {
+        print('not notified');
+        return true;
+      }
+    } catch (e) {
+      throw Exception('Failed $e');
+    }
   }
 
   void onPressedIconWithText(

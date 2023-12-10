@@ -4,6 +4,7 @@ import 'package:TagConnect/constants/barangay_constant.dart';
 import 'package:TagConnect/constants/provider_constant.dart';
 import 'package:TagConnect/models/create-report_model.dart';
 import 'package:TagConnect/services/news_service.dart';
+import 'package:TagConnect/services/notification_service.dart';
 import 'package:TagConnect/services/report_service.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
@@ -136,19 +137,50 @@ class _HomeWidgetState extends State<HomeWidget> {
         image: null,
       );
 
-      final bool response = await reportService.createReport(reportMod);
+      final String response = await reportService.createReport(reportMod);
 
-      if (response) {
+      if (response != '') {
+        Future.delayed(
+          const Duration(seconds: 1),
+          () async {
+            final bool notifStatus = await notifyModerator(response);
+            if (notifStatus) {
+              if (mounted) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
+            } else {
+              print('Failed Notification');
+            }
+          },
+        );
+      } else {
         if (mounted) {
           setState(() {
             isLoading = false;
           });
         }
-
-        print('Success');
+        print('Failed');
       }
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  Future<bool> notifyModerator(String token) async {
+    final notifService = NotificationService();
+    try {
+      final bool status = await notifService.triggerNotification(token);
+      if (status) {
+        print('notified');
+        return true;
+      } else {
+        print('not notified');
+        return true;
+      }
+    } catch (e) {
+      throw Exception('Failed $e');
     }
   }
 
@@ -188,13 +220,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     } catch (e) {
       print('Error: $e');
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    //fetchUserData();
   }
 
   @override

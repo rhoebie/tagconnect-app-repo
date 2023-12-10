@@ -34,7 +34,7 @@ class ReportService {
     }
   }
 
-  Future<bool> createReport(CreateReportModel report) async {
+  Future<String> createReport(CreateReportModel report) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
@@ -51,10 +51,14 @@ class ReportService {
     if (response.statusCode == 201) {
       // Successfully created the report
       print('Report submitted successfully: ${response.body}');
-      return true;
+
+      // Extract fcmToken from the JSON response
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      String fcmToken = jsonResponse['fcmToken'];
+      return fcmToken;
     } else {
       print('Error submitting the report: ${response.body}');
-      return false;
+      return '';
     }
   }
 
