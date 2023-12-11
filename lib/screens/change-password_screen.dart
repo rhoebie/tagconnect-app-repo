@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:TagConnect/models/credential_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +47,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       if (response) {
         await prefs.remove('userPassword');
         await prefs.setString('userPassword', _passwordController.text);
+        saveCredentials();
         return true;
       }
     } catch (e) {
@@ -49,6 +55,29 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       throw e;
     }
     return false;
+  }
+
+  Future<void> saveCredentials() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      final email = prefs.getString('userEmail');
+      final password = _passwordController.text;
+
+      // Create a CredentialModel instance
+      final credentialModel = CredentialModel(email: email, password: password);
+
+      // Convert CredentialModel to JSON
+      final jsonCredentials = json.encode(credentialModel.toJson());
+
+      // Save JSON to a text file
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/credentials.txt');
+      await file.writeAsString(jsonCredentials);
+      print('Save');
+    } catch (e) {
+      print('Error saving credentials: $e');
+    }
   }
 
   void clearText() {
