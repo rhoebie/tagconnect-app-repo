@@ -51,14 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
         // Set email and password from CredentialModel
         if (autoLoginNotifier.isAutoLogin) {
           Future.delayed(
-            Duration(seconds: 1),
+            Duration(milliseconds: 500),
             () async {
               final response = await loginUser(
                   email: credentialModel.email!,
                   password: credentialModel.password!);
               if (response) {
                 Future.delayed(
-                  const Duration(seconds: 2),
+                  const Duration(milliseconds: 500),
                   () {
                     Navigator.of(context)
                         .pushReplacement(FadeAnimation(const HomeScreen()));
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 );
               } else {
                 Future.delayed(
-                  const Duration(seconds: 2),
+                  const Duration(milliseconds: 500),
                   () {
                     Navigator.of(context)
                         .pushReplacement(FadeAnimation(const LoginScreen()));
@@ -77,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
           );
         } else {
           Future.delayed(
-            const Duration(seconds: 2),
+            const Duration(milliseconds: 500),
             () {
               Navigator.of(context)
                   .pushReplacement(FadeAnimation(const LoginScreen()));
@@ -85,6 +85,13 @@ class _SplashScreenState extends State<SplashScreen> {
           );
         }
       } else {
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          () {
+            Navigator.of(context)
+                .pushReplacement(FadeAnimation(const LoginScreen()));
+          },
+        );
         print('Credentials file does not exist.');
       }
     } catch (e) {
@@ -142,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen> {
       bool isFirstTimeOpen = prefs.getBool('firstOpen') ?? false;
       if (!isFirstTimeOpen) {
         Future.delayed(
-          const Duration(seconds: 2),
+          const Duration(milliseconds: 500),
           () {
             Navigator.of(context)
                 .pushReplacement(FadeAnimation(const WelcomeOneScreen()));
