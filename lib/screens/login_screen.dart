@@ -344,6 +344,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Email',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -413,6 +415,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Password',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',

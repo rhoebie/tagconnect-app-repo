@@ -508,7 +508,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             color: tcGray,
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 10),
+                              vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 1.w,

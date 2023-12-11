@@ -314,8 +314,8 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             ),
                             child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 10),
                                 border: InputBorder.none,
                               ),
                               value: selectedEmergencyType,
@@ -429,8 +429,8 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             ),
                             child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 10),
                                 border: InputBorder.none,
                               ),
                               value: selectedForWhom,
@@ -516,7 +516,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                 color: tcGray,
                               ),
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 10),
+                                  vertical: 14, horizontal: 10),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 1.w,

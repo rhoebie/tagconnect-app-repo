@@ -330,6 +330,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'First Name',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -344,8 +346,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 14),
                               prefixIcon: Icon(
                                 Icons.person,
                                 size: 20,
@@ -400,6 +400,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Middle Name',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -414,8 +416,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 14),
                               prefixIcon: Icon(
                                 Icons.person,
                                 size: 20,
@@ -470,6 +470,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Last Name',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -484,8 +486,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 14),
                               prefixIcon: Icon(
                                 Icons.person,
                                 size: 20,
@@ -541,6 +541,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               labelText: 'Age',
                               labelStyle: TextStyle(
@@ -556,8 +558,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 14),
                               prefixIcon: Icon(
                                 Icons.numbers,
                                 size: 20,
@@ -793,6 +793,8 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Date of Birth',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -807,8 +809,6 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 14),
                               prefixIcon: Icon(
                                 Icons.celebration,
                                 size: 20,
@@ -902,6 +902,8 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Contact',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -916,8 +918,6 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 16),
                               prefixIcon: Icon(
                                 Icons.phone,
                                 size: 20,
@@ -973,6 +973,8 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 10),
                               labelText: 'Address',
                               labelStyle: TextStyle(
                                 fontFamily: 'PublicSans',
@@ -987,8 +989,6 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 16),
                               prefixIcon: Icon(
                                 Icons.home,
                                 size: 20,
@@ -1296,6 +1296,8 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 color: textColor,
                               ),
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 10),
                                 labelText: 'Email',
                                 labelStyle: TextStyle(
                                   fontFamily: 'PublicSans',
@@ -1310,8 +1312,6 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   fontWeight: FontWeight.w400,
                                   color: tcGray,
                                 ),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 16),
                                 prefixIcon: Icon(
                                   Icons.email,
                                   size: 20,
@@ -1367,6 +1367,8 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 color: textColor,
                               ),
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 10),
                                 labelText: 'Password',
                                 labelStyle: TextStyle(
                                   fontFamily: 'PublicSans',
@@ -1381,8 +1383,6 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   fontWeight: FontWeight.w400,
                                   color: tcGray,
                                 ),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 16),
                                 prefixIcon: Icon(
                                   Icons.lock,
                                   size: 20,
@@ -1458,6 +1458,8 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 return null;
                               },
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 10),
                                 labelText: 'Confirm Password',
                                 labelStyle: TextStyle(
                                   fontFamily: 'PublicSans',
@@ -1472,8 +1474,6 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   fontWeight: FontWeight.w400,
                                   color: tcGray,
                                 ),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 16),
                                 prefixIcon: Icon(
                                   Icons.lock,
                                   size: 20,
@@ -1881,7 +1881,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             maxLength: 1,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0), // Adjust vertical padding
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -1932,7 +1932,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             maxLength: 1,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0), // Adjust vertical padding
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -1985,7 +1985,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             maxLength: 1,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0), // Adjust vertical padding
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -2038,7 +2038,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             maxLength: 1,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0), // Adjust vertical padding
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -2091,7 +2091,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             maxLength: 1,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0), // Adjust vertical padding
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -2144,7 +2144,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             maxLength: 1,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 0), // Adjust vertical padding
+                                  vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(

@@ -132,6 +132,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             return null;
                           },
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 10),
                             labelText: 'Email',
                             labelStyle: TextStyle(
                               fontFamily: 'PublicSans',
@@ -392,7 +394,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 maxLength: 1,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0), // Adjust vertical padding
+                                      vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -436,7 +438,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 maxLength: 1,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0), // Adjust vertical padding
+                                      vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -481,7 +483,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 maxLength: 1,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0), // Adjust vertical padding
+                                      vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -525,7 +527,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 maxLength: 1,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0), // Adjust vertical padding
+                                      vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -569,7 +571,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 maxLength: 1,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0), // Adjust vertical padding
+                                      vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -613,7 +615,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 maxLength: 1,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0), // Adjust vertical padding
+                                      vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -879,7 +881,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               fontWeight: FontWeight.w400,
                               color: tcGray,
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 16),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 10),
                             prefixIcon: Icon(
                               Icons.lock,
                               size: 20,

@@ -732,7 +732,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             color: tcGray,
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 10),
+                              vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 1.w,
@@ -799,7 +799,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             color: tcGray,
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 10),
+                              vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 1.w,
@@ -898,6 +898,9 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                     }
                   },
                   state: stateTextWithIcon,
+                ),
+                SizedBox(
+                  height: 15,
                 ),
               ],
             ),

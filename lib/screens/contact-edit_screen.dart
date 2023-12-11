@@ -564,7 +564,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: tcGray,
                         ),
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,

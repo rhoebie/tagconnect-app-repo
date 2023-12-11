@@ -191,6 +191,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: textColor,
                         ),
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
                           labelText: 'Old Password',
                           labelStyle: TextStyle(
                             fontFamily: 'PublicSans',
@@ -268,6 +270,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: textColor,
                         ),
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
                           labelText: 'Password',
                           labelStyle: TextStyle(
                             fontFamily: 'PublicSans',
@@ -374,6 +378,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
                           labelText: 'Confirm Password',
                           labelStyle: TextStyle(
                             fontFamily: 'PublicSans',
