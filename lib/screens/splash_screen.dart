@@ -174,11 +174,6 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.location_pin,
-                  color: tcRed,
-                  size: 50,
-                ),
                 RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
