@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -40,10 +41,55 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings androidInitializationSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: androidInitializationSettings);
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+        'messageId', 'messageName',
+        importance: Importance.max);
+
+    createChannel(channel);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    FirebaseMessaging.onMessage.listen((event) {
+      final notification = event.notification;
+      final android = event.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+                android: AndroidNotificationDetails(channel.id, channel.name,
+                    icon: android.smallIcon)));
+
+        //
+        final newNotification = NotificationModel(
+            title: notification.title ?? '',
+            body: notification.body ?? '',
+            data: event.data);
+
+        final notificationProvider =
+            Provider.of<NotificationProvider>(context, listen: false);
+        notificationProvider.addNotification(newNotification);
+      }
+    });
     _isDataLoaded = false;
     _loadData();
-    onForegroundNotification();
     super.initState();
+  }
+
+  void createChannel(AndroidNotificationChannel channel) async {
+    final FlutterLocalNotificationsPlugin plugin =
+        FlutterLocalNotificationsPlugin();
+    await plugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
   }
 
   Future<void> _loadData() async {
@@ -53,22 +99,6 @@ class _MyAppState extends State<MyApp> {
         _isDataLoaded = true;
       });
     }
-  }
-
-  void onForegroundNotification() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      final notificationData = message.notification;
-      if (notificationData == null) return;
-
-      final newNotification = NotificationModel(
-          title: notificationData.title ?? '',
-          body: notificationData.body ?? '',
-          data: message.data);
-
-      final notificationProvider =
-          Provider.of<NotificationProvider>(context, listen: false);
-      notificationProvider.addNotification(newNotification);
-    });
   }
 
   void onBackgroundNotification() {
