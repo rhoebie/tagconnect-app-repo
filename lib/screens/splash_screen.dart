@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   password: credentialModel.password!);
               if (response) {
                 Future.delayed(
-                  const Duration(milliseconds: 500),
+                  const Duration(milliseconds: 1500),
                   () {
                     Navigator.of(context)
                         .pushReplacement(FadeAnimation(const HomeScreen()));
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 );
               } else {
                 Future.delayed(
-                  const Duration(milliseconds: 500),
+                  const Duration(milliseconds: 1500),
                   () {
                     Navigator.of(context)
                         .pushReplacement(FadeAnimation(const LoginScreen()));
@@ -77,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
           );
         } else {
           Future.delayed(
-            const Duration(milliseconds: 500),
+            const Duration(milliseconds: 1500),
             () {
               Navigator.of(context)
                   .pushReplacement(FadeAnimation(const LoginScreen()));
@@ -86,10 +86,10 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       } else {
         Future.delayed(
-          const Duration(milliseconds: 500),
+          const Duration(milliseconds: 1500),
           () {
             Navigator.of(context)
-                .pushReplacement(FadeAnimation(const LoginScreen()));
+                .pushReplacement(FadeAnimation(const WelcomeOneScreen()));
           },
         );
         print('Credentials file does not exist.');
@@ -149,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen> {
       bool isFirstTimeOpen = prefs.getBool('firstOpen') ?? false;
       if (!isFirstTimeOpen) {
         Future.delayed(
-          const Duration(milliseconds: 500),
+          const Duration(milliseconds: 1500),
           () {
             Navigator.of(context)
                 .pushReplacement(FadeAnimation(const WelcomeOneScreen()));

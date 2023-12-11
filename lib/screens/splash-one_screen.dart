@@ -16,10 +16,6 @@ class WelcomeOneScreen extends StatelessWidget {
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;
 
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(systemNavigationBarColor: tcBlack),
-    );
-
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(

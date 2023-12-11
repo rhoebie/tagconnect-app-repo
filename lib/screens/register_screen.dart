@@ -666,8 +666,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             elevation: 2,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.arrow_right_alt_outlined,
+                            color: backgroundColor,
                             size: 40,
                           ),
                         ),
@@ -1077,8 +1078,9 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                             ),
                             elevation: 2,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.arrow_right_alt_outlined,
+                            color: backgroundColor,
                             size: 40,
                           ),
                         ),
