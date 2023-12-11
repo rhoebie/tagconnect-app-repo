@@ -840,7 +840,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                   Text(
-                    'Changing the password of admin@admin.com',
+                    'Changing the password of ${_emailController.text}',
                     style: TextStyle(
                       fontFamily: 'PublicSans',
                       fontSize: 16.sp,
@@ -1094,7 +1094,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     Container(
                       width: 100.w,
-                      height: 50.h,
+                      height: 40.h,
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -1133,7 +1133,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'PublicSans',
-                                  fontSize: 18.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
                                   color: backgroundColor,
                                 ),

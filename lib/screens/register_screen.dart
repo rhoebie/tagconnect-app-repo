@@ -628,7 +628,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       Container(
                         width: 80.w,
-                        height: 50.h,
+                        height: 40.h,
                         child: ElevatedButton(
                           onPressed: () {
                             if (_image != null) {
@@ -1059,7 +1059,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                       ),
                       Container(
                         width: 80.w,
-                        height: 50.h,
+                        height: 40.h,
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey2.currentState!.validate()) {
@@ -1648,7 +1648,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                       ),
                       Container(
                         width: 120.w,
-                        height: 50.h,
+                        height: 40.h,
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey3.currentState!.validate()) {
@@ -1705,7 +1705,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'PublicSans',
-                                    fontSize: 16.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                     color: backgroundColor,
                                   ),

@@ -1,4 +1,5 @@
 import 'package:TagConnect/animations/slideLeft_animation.dart';
+import 'package:TagConnect/animations/slideRight_animation.dart';
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,88 +48,86 @@ class WelcomeTwoScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(),
-                Image.asset(
-                  'assets/images/shield.png',
-                  width: 200.w,
-                  height: 200.h,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40.w),
-                  child: Text(
-                    'Your information is securely guarded, ensuring its utmost protection.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                      color: textColor,
-                    ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(),
+              Image.asset(
+                'assets/images/cyber-security.png',
+                width: 170.w,
+                height: 170.w,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: Text(
+                  'Your information is securely guarded, ensuring its utmost protection.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'PublicSans',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w400,
+                    color: textColor,
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          SlideRightAnimation(
+                            const WelcomeOneScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Back',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: tcViolet,
+                          fontFamily: 'PublicSans',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                      child: ElevatedButton(
                         onPressed: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.setBool('firstOpen', true);
                           Navigator.push(
                             context,
                             SlideLeftAnimation(
-                              const WelcomeOneScreen(),
+                              const LoginScreen(),
                             ),
                           );
                         },
-                        child: Text(
-                          'Back',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: tcViolet,
-                            fontFamily: 'PublicSans',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: tcViolet,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          elevation: 2,
+                        ),
+                        child: Icon(
+                          Icons.arrow_right_alt_outlined,
+                          size: 40.r,
+                          color: backgroundColor,
                         ),
                       ),
-                      Container(
-                        height: 50.h,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setBool('firstOpen', true);
-                            Navigator.push(
-                              context,
-                              SlideLeftAnimation(
-                                const LoginScreen(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: tcViolet,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 2,
-                          ),
-                          child: Icon(
-                            Icons.arrow_right_alt_outlined,
-                            size: 40,
-                            color: backgroundColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

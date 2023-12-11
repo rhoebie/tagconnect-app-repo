@@ -178,9 +178,6 @@ class _FeedWidgetState extends State<FeedWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(
-                      color: Colors.transparent,
-                    ),
                     Text(
                       'Report Feed',
                       textAlign: TextAlign.center,

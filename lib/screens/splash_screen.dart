@@ -170,53 +170,59 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: Center(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.w700,
-                      color: tcViolet,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/social.png',
+                width: 100,
+                height: 100,
+              ),
+              const Divider(
+                color: Colors.transparent,
+              ),
+              RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontFamily: 'PublicSans',
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w700,
+                    color: tcViolet,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'TAG',
                     ),
-                    children: [
-                      TextSpan(
-                        text: 'TAG',
+                    TextSpan(
+                      text: 'CONNECT',
+                      style: TextStyle(
+                        color: tcRed,
                       ),
-                      TextSpan(
-                        text: 'CONNECT',
-                        style: TextStyle(
-                          color: tcRed,
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 250.w,
+                child: Text(
+                  'An efficient incident reporting and analytics system for Taguig City',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'PublicSans',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w300,
+                    color: tcGray,
                   ),
                 ),
-                Container(
-                  width: 250.w,
-                  child: Text(
-                    'An efficient incident reporting and analytics system for Taguig City',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w300,
-                      color: tcGray,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                const CircularProgressIndicator(
-                  color: tcViolet,
-                ),
-              ],
-            ),
+              ),
+              Divider(
+                color: Colors.transparent,
+              ),
+              const CircularProgressIndicator(
+                color: tcViolet,
+              ),
+            ],
           ),
         ),
       ),

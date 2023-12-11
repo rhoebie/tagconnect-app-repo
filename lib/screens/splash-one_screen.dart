@@ -49,36 +49,60 @@ class WelcomeOneScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(),
-                Image.asset(
-                  'assets/images/management.png',
-                  width: 200.w,
-                  height: 200.h,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40.w),
-                  child: Text(
-                    'Our system enables users to report incident quickly and easily using their mobile devices',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'PublicSans',
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                      color: textColor,
-                    ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(),
+              Image.asset(
+                'assets/images/energy.png',
+                width: 170.w,
+                height: 170.w,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: Text(
+                  'Our system enables users to report incident quickly and easily using their mobile devices',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'PublicSans',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w400,
+                    color: textColor,
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setBool('firstOpen', true);
+                        Navigator.push(
+                          context,
+                          SlideLeftAnimation(
+                            const LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Skip',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: tcViolet,
+                          fontFamily: 'PublicSans',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                      child: ElevatedButton(
                         onPressed: () async {
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();
@@ -86,54 +110,28 @@ class WelcomeOneScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             SlideLeftAnimation(
-                              const LoginScreen(),
+                              const WelcomeTwoScreen(),
                             ),
                           );
                         },
-                        child: Text(
-                          'Skip',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: tcViolet,
-                            fontFamily: 'PublicSans',
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: tcViolet,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          elevation: 2,
+                        ),
+                        child: Icon(
+                          Icons.arrow_right_alt_outlined,
+                          size: 40.r,
+                          color: tcWhite,
                         ),
                       ),
-                      Container(
-                        height: 50.h,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setBool('firstOpen', true);
-                            Navigator.push(
-                              context,
-                              SlideLeftAnimation(
-                                const WelcomeTwoScreen(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: tcViolet,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 2,
-                          ),
-                          child: const Icon(
-                            Icons.arrow_right_alt_outlined,
-                            size: 40,
-                            color: tcWhite,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
