@@ -19,8 +19,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeNotifier()),
-        ChangeNotifierProvider(create: (_) => AutoLoginNotifier()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AutoLoginProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: const MyApp(),
@@ -42,12 +42,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _isDataLoaded = false;
     _loadData();
-    _setupNotificationListener();
+    onForegroundNotification();
     super.initState();
   }
 
   Future<void> _loadData() async {
-    await Provider.of<ThemeNotifier>(context, listen: false).loadDarkMode();
+    await Provider.of<ThemeProvider>(context, listen: false).loadDarkMode();
     if (mounted) {
       setState(() {
         _isDataLoaded = true;
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _setupNotificationListener() {
+  void onForegroundNotification() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notificationData = message.notification;
       if (notificationData == null) return;
@@ -71,12 +71,29 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void onBackgroundNotification() {
+    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+      final notificationData = message.notification;
+      if (notificationData == null) return;
+
+      final newNotification = NotificationModel(
+        title: notificationData.title ?? '',
+        body: notificationData.body ?? '',
+        data: message.data,
+      );
+
+      final notificationProvider =
+          Provider.of<NotificationProvider>(context, listen: false);
+      notificationProvider.addNotification(newNotification);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!_isDataLoaded) {
       return Container();
     }
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final themeNotifier = Provider.of<ThemeProvider>(context);
     final ThemeData currentTheme =
         themeNotifier.isDarkMode ? darkTheme : lightTheme;
     final Color statusBarColor = currentTheme.scaffoldBackgroundColor;

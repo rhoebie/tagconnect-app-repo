@@ -146,7 +146,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
     super.initState();
     print(widget.reportModel.location!.latitude!);
     selectedEmergencyType = widget.reportModel.emergencyType!;
-    _descriptionController.text = widget.reportModel.description!;
+    _descriptionController.text = widget.reportModel.description ?? '';
     selectedCasualties = widget.reportModel.casualties != 'Yes' ? false : true;
     selectedForWhom = widget.reportModel.forWhom;
     selectedVisibility =

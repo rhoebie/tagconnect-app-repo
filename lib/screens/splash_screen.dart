@@ -26,12 +26,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  late AutoLoginNotifier autoLoginNotifier;
+  late AutoLoginProvider autoLoginNotifier;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    autoLoginNotifier = Provider.of<AutoLoginNotifier>(context, listen: false);
+    autoLoginNotifier = Provider.of<AutoLoginProvider>(context, listen: false);
     loadSavedCredentials();
   }
 

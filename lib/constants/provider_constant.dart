@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:TagConnect/constants/theme_constants.dart';
 import 'package:TagConnect/models/notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as path;
 
-class AutoLoginNotifier extends ChangeNotifier {
+class AutoLoginProvider extends ChangeNotifier {
   bool _isAutoLogin = false;
 
   bool get isAutoLogin => _isAutoLogin;
@@ -12,7 +16,7 @@ class AutoLoginNotifier extends ChangeNotifier {
   // Key for storing the auto-login value
   static const String autoLoginKey = 'autoLogin';
 
-  AutoLoginNotifier() {
+  AutoLoginProvider() {
     loadAutoLogin();
   }
 
@@ -34,7 +38,7 @@ class AutoLoginNotifier extends ChangeNotifier {
   }
 }
 
-class ThemeNotifier extends ChangeNotifier {
+class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
 
   bool get isDarkMode => _isDarkMode;
@@ -42,7 +46,7 @@ class ThemeNotifier extends ChangeNotifier {
   // Key for storing the dark mode value
   static const String darkModeKey = 'darkMode';
 
-  ThemeNotifier() {
+  ThemeProvider() {
     loadDarkMode();
   }
 
@@ -77,23 +81,77 @@ class ThemeNotifier extends ChangeNotifier {
 }
 
 class NotificationProvider with ChangeNotifier {
+  late Database _database;
   List<NotificationModel> _notifications = [];
-
   List<NotificationModel> get notifications => _notifications;
 
-  void addNotification(NotificationModel notification) {
-    _notifications.add(notification);
+  NotificationProvider() {
+    initializeDatabase();
+  }
+
+  Future<void> initializeDatabase() async {
+    _database = await openDatabase(
+      path.join(await getDatabasesPath(), 'notifications.db'),
+      onCreate: (db, version) {
+        return db.execute('''
+          CREATE TABLE notifications (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            body TEXT,
+            data TEXT
+          )
+        ''');
+      },
+      version: 1,
+    );
+    fetchNotifications();
+  }
+
+  Future<void> fetchNotifications() async {
+    final List<Map<String, dynamic>> rows =
+        await _database.query('notifications');
+    _notifications = rows.map((row) {
+      return NotificationModel(
+        id: row['id'],
+        title: row['title'],
+        body: row['body'],
+        data: jsonDecode(row['data']),
+      );
+    }).toList();
     notifyListeners();
   }
 
-  void removeNotification(int index) {
+  void addNotification(NotificationModel notification) async {
+    final int id = await _database.insert(
+      'notifications',
+      notification.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    final NotificationModel notificationWithId = NotificationModel(
+      id: id,
+      title: notification.title,
+      body: notification.body,
+      data: notification.data,
+    );
+    _notifications.add(notificationWithId);
+    notifyListeners();
+  }
+
+  void removeNotification(int index) async {
     if (index >= 0 && index < notifications.length) {
-      notifications.removeAt(index);
+      final NotificationModel removedNotification =
+          notifications.removeAt(index);
+      await _database.delete(
+        'notifications',
+        where: 'id = ?',
+        whereArgs: [removedNotification.id],
+      );
     }
     notifyListeners();
   }
 
-  void clearNotification() {
+  void clearNotification() async {
+    await _database.delete('notifications');
     notifications.clear();
     notifyListeners();
   }

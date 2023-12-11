@@ -1,5 +1,7 @@
 import 'package:TagConnect/constants/color_constant.dart';
 import 'package:TagConnect/constants/provider_constant.dart';
+import 'package:TagConnect/screens/report-list_screen.dart';
+import 'package:TagConnect/services/report_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -12,13 +14,36 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  bool isLoading = false;
+  Future<void> getReportDetails(int id) async {
+    final reportService = ReportService();
+    try {
+      final fetchData = await reportService.getReportbyID(id);
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return ReportDetail(
+              reportModel: fetchData,
+            );
+          },
+        ),
+      );
+    } catch (e) {
+      throw Exception('Failed to load reports $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var notificationsProvider = Provider.of<NotificationProvider>(context);
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final ThemeData theme = Theme.of(context);
-    final Color backgroundColor = theme.scaffoldBackgroundColor;
-    final Color textColor = theme.colorScheme.onBackground;
+    final notificationsProvider = Provider.of<NotificationProvider>(context);
+    final themeNotifier = Provider.of<ThemeProvider>(context);
+    final theme = Theme.of(context);
+    final backgroundColor = theme.scaffoldBackgroundColor;
+    final textColor = theme.colorScheme.onBackground;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
@@ -55,11 +80,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
               return ListView.builder(
                 itemCount: notificationsProvider.notifications.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      // handles when tap it will go to report details
+                  // Sort the notifications in descending order based on timestamp
+                  notificationsProvider.notifications.sort((a, b) {
+                    final timestampA = DateTime.parse(a.data['notified_at']);
+                    final timestampB = DateTime.parse(b.data['notified_at']);
+                    return timestampB.compareTo(timestampA);
+                  });
+
+                  final notification =
+                      notificationsProvider.notifications[index];
+
+                  return GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await getReportDetails(
+                          int.parse(notification.data['report_id']));
+                      print('Hello');
                     },
-                    borderRadius: BorderRadius.circular(10),
                     child: Card(
                       color: themeNotifier.isDarkMode ? tcDark : tcWhite,
                       child: Container(
@@ -71,7 +110,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${notificationsProvider.notifications[index].title} ${notificationsProvider.notifications[index].data['report_id']}',
+                                  '${notification.title} ${notification.data['report_id']}',
                                   style: TextStyle(
                                     color: textColor,
                                     fontFamily: 'Roboto',
@@ -98,7 +137,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             Container(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                notificationsProvider.notifications[index].body,
+                                notification.body,
                                 style: TextStyle(
                                   color: textColor,
                                   fontFamily: 'PublicSans',
@@ -114,8 +153,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             Container(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                notificationsProvider
-                                    .notifications[index].data['notified_at'],
+                                notification.data['notified_at'],
                                 style: TextStyle(
                                   color: textColor,
                                   fontFamily: 'Roboto',

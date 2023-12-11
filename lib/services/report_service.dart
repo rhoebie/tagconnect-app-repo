@@ -34,6 +34,31 @@ class ReportService {
     }
   }
 
+  Future<ReportModel> getReportbyID(int id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    final response = await http.get(
+      Uri.parse('$baseUrl${ApiConstants.reportEndpoint}/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Parse the response JSON directly as a list
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final Map<String, dynamic> data = responseData['data'];
+
+      // Map the list of report data to ReportModels
+      return ReportModel.fromJson(data);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to load reports');
+    }
+  }
+
   Future<String> createReport(CreateReportModel report) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');

@@ -1,4 +1,6 @@
+import 'package:TagConnect/configs/request_config.dart';
 import 'package:TagConnect/constants/provider_constant.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:TagConnect/constants/color_constant.dart';
@@ -8,6 +10,7 @@ import 'package:TagConnect/widgets/contact_widget.dart';
 import 'package:TagConnect/widgets/home_widget.dart';
 import 'package:TagConnect/widgets/menu_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +22,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   PageController _pageController = PageController();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+  Future<void> checkPermission() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      bool checkPermission =
+          await RequestService.checkAllPermission(androidInfo);
+
+      await prefs.setBool('firstCheck', true);
+      if (checkPermission) {
+        print('Permission Granted');
+      } else {
+        print('Permission not granted');
+      }
+    } catch (e) {
+      print('Error $e');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    checkPermission();
+    super.initState();
+  }
 
   @override
   void dispose() {

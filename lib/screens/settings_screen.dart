@@ -13,8 +13,8 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final autoLoginNotifier = Provider.of<AutoLoginNotifier>(context);
+    final themeNotifier = Provider.of<ThemeProvider>(context);
+    final autoLoginNotifier = Provider.of<AutoLoginProvider>(context);
     final ThemeData theme = Theme.of(context);
     final Color backgroundColor = theme.scaffoldBackgroundColor;
     final Color textColor = theme.colorScheme.onBackground;

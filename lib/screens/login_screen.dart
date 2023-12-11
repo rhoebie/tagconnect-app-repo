@@ -41,12 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isFailed = false;
   bool isLoading = false;
   bool rememberMe = false;
-  late AutoLoginNotifier autoLoginNotifier;
+  late AutoLoginProvider autoLoginNotifier;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    autoLoginNotifier = Provider.of<AutoLoginNotifier>(context, listen: false);
+    autoLoginNotifier = Provider.of<AutoLoginProvider>(context, listen: false);
     loadSavedCredentials();
   }
 
