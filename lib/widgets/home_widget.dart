@@ -148,6 +148,24 @@ class _HomeWidgetState extends State<HomeWidget> {
               if (mounted) {
                 setState(() {
                   isLoading = false;
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Report Submitted'),
+                        content: Text(
+                            'Wait for further updates about your submitted report'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 });
               }
             } else {
