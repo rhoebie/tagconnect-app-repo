@@ -105,7 +105,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
         Future.delayed(
-          Duration(seconds: 1),
+          const Duration(seconds: 1),
           () async {
             bool isSent = await changePassword(oldPw, newPw, confPw);
             if (mounted) {
@@ -118,7 +118,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             }
             if (isSent) {
               Future.delayed(
-                Duration(seconds: 1),
+                const Duration(seconds: 1),
                 () async {
                   clearText();
                 },
@@ -153,7 +153,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -191,7 +191,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: textColor,
                         ),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           labelText: 'Old Password',
                           labelStyle: TextStyle(
@@ -200,7 +200,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                           errorMaxLines: 2,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.lock,
                             size: 20,
                           ),
@@ -270,7 +270,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: textColor,
                         ),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           labelText: 'Password',
                           labelStyle: TextStyle(
@@ -286,7 +286,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.lock,
                             size: 20,
                           ),
@@ -378,7 +378,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           labelText: 'Confirm Password',
                           labelStyle: TextStyle(
@@ -394,7 +394,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.lock,
                             size: 20,
                           ),
@@ -541,19 +541,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 ProgressButton.icon(
                     iconedButtons: {
-                      ButtonState.idle: IconedButton(
+                      ButtonState.idle: const IconedButton(
                           text: 'Change Password',
                           icon: Icon(Icons.change_circle, color: Colors.white),
                           color: tcViolet),
                       ButtonState.loading:
-                          IconedButton(text: 'Loading', color: tcViolet),
+                          const IconedButton(text: 'Loading', color: tcViolet),
                       ButtonState.fail: IconedButton(
                           text: 'Failed',
-                          icon: Icon(Icons.cancel, color: Colors.white),
+                          icon: const Icon(Icons.cancel, color: Colors.white),
                           color: Colors.red.shade300),
                       ButtonState.success: IconedButton(
                           text: 'Success',
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.check_circle,
                             color: Colors.white,
                           ),

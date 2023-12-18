@@ -68,7 +68,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             onPressed: () {
               notificationsProvider.clearNotification();
             },
-            icon: Icon(Icons.clear_all_rounded),
+            icon: const Icon(Icons.clear_all_rounded),
           ),
         ],
       ),
@@ -102,7 +102,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     child: Card(
                       color: themeNotifier.isDarkMode ? tcDark : tcWhite,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
                             Row(
@@ -124,13 +124,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                         .removeNotification(index);
                                   },
                                   borderRadius: BorderRadius.circular(50),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.clear_rounded,
                                   ),
                                 )
                               ],
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 5,
                             ),
@@ -146,7 +146,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 ),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 10,
                             ),

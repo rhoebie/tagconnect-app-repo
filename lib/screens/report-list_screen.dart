@@ -43,7 +43,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -66,7 +66,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
             future: fetchReport(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(
                     color: tcViolet,
                   ),
@@ -108,7 +108,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 10,
                             ),
@@ -138,7 +138,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Container(
@@ -199,7 +199,7 @@ class _ReportListScreenState extends State<ReportListScreen> {
                         ),
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Expanded(
@@ -295,7 +295,7 @@ class ReportDetail extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -355,7 +355,7 @@ class ReportDetail extends StatelessWidget {
                     Container(
                       height: 200.h,
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: tcAsh,
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -364,7 +364,7 @@ class ReportDetail extends StatelessWidget {
                       child: reportModel.image != null
                           ? ClipRRect(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10)),
                               child: Container(
                                 child: Image.network(
                                   reportModel.image!,
@@ -375,25 +375,25 @@ class ReportDetail extends StatelessWidget {
                                     if (loadingProgress == null) {
                                       return child;
                                     } else {
-                                      return Center(
+                                      return const Center(
                                         child: CircularProgressIndicator(),
                                       );
                                     }
                                   },
                                   errorBuilder: (BuildContext context,
                                       Object error, StackTrace? stackTrace) {
-                                    return Icon(Icons.error);
+                                    return const Icon(Icons.error);
                                   },
                                 ),
                               ),
                             )
-                          : Center(
+                          : const Center(
                               child: Icon(Icons.question_mark),
                             ),
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -432,7 +432,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -460,7 +460,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -488,7 +488,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -516,7 +516,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -544,7 +544,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -572,7 +572,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -600,7 +600,7 @@ class ReportDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(

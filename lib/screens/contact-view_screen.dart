@@ -83,7 +83,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Image.memory(
                     base64Decode(widget.contact.image!),
                     width: 350,
@@ -94,7 +94,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: const Text('Close'),
                 ),
               ],
             ),
@@ -106,7 +106,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -135,7 +135,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                 ),
               );
             },
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
           ),
           IconButton(
             onPressed: () async {
@@ -161,7 +161,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                 ),
               );
             },
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
           ),
         ],
       ),
@@ -202,7 +202,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                             ),
                           ),
                         ),
-                  Divider(
+                  const Divider(
                     color: Colors.transparent,
                   ),
                   widget.contact.email != ''
@@ -234,7 +234,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                                     ),
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.transparent,
                                   height: 5,
                                 ),
@@ -273,7 +273,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                                     ),
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.transparent,
                                   height: 5,
                                 ),
@@ -312,7 +312,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                                     ),
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.transparent,
                                   height: 5,
                                 ),
@@ -357,7 +357,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                                     ),
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.transparent,
                                   height: 5,
                                 ),
@@ -396,7 +396,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                                     ),
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.transparent,
                                   height: 5,
                                 ),
@@ -413,7 +413,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                             ),
                           ],
                         ),
-                  Divider(
+                  const Divider(
                     color: Colors.transparent,
                   ),
                   Container(
@@ -428,12 +428,12 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                       ),
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.transparent,
                     height: 10,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
                         Row(
@@ -461,7 +461,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.transparent,
                           height: 5,
                         ),
@@ -490,7 +490,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.transparent,
                           height: 5,
                         ),
@@ -519,7 +519,7 @@ class _ContactViewScreenState extends State<ContactViewScreen> {
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.transparent,
                           height: 5,
                         ),

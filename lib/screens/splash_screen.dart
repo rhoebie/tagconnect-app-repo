@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
         // Set email and password from CredentialModel
         if (autoLoginNotifier.isAutoLogin) {
           Future.delayed(
-            Duration(milliseconds: 500),
+            const Duration(milliseconds: 500),
             () async {
               final response = await loginUser(
                   email: credentialModel.email!,
@@ -191,10 +191,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: tcViolet,
                   ),
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'TAG',
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'CONNECT',
                       style: TextStyle(
                         color: tcRed,
@@ -216,7 +216,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               const CircularProgressIndicator(

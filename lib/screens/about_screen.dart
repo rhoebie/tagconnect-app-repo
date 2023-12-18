@@ -15,7 +15,7 @@ class AboutScreen extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -46,7 +46,7 @@ class AboutScreen extends StatelessWidget {
                   color: tcViolet,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
                 height: 5,
               ),
@@ -60,7 +60,7 @@ class AboutScreen extends StatelessWidget {
                   color: textColor,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Text(
@@ -73,7 +73,7 @@ class AboutScreen extends StatelessWidget {
                   color: tcViolet,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
                 height: 5,
               ),
@@ -87,7 +87,7 @@ class AboutScreen extends StatelessWidget {
                   color: textColor,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Text(
@@ -100,7 +100,7 @@ class AboutScreen extends StatelessWidget {
                   color: tcGreen,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
                 height: 5,
               ),
@@ -312,7 +312,7 @@ class AboutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Text(
@@ -325,7 +325,7 @@ class AboutScreen extends StatelessWidget {
                   color: tcRed,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
                 height: 5,
               ),

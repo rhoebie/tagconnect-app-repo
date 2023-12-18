@@ -23,7 +23,7 @@ class _SettingScreenState extends State<SettingScreen> {
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -58,7 +58,7 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                leading: Icon(Icons.login_rounded),
+                leading: const Icon(Icons.login_rounded),
                 title: Text(
                   'Auto Login',
                   style: TextStyle(
@@ -90,8 +90,8 @@ class _SettingScreenState extends State<SettingScreen> {
               ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 leading: themeNotifier.isDarkMode
-                    ? Icon(Icons.dark_mode_rounded)
-                    : Icon(Icons.light_mode_rounded),
+                    ? const Icon(Icons.dark_mode_rounded)
+                    : const Icon(Icons.light_mode_rounded),
                 title: Text(
                   'Theme Mode',
                   style: TextStyle(

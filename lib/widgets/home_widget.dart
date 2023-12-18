@@ -92,14 +92,14 @@ class _HomeWidgetState extends State<HomeWidget> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Permission'),
-              content: Text('Need Location/GPS Permission'),
+              title: const Text('Permission'),
+              content: const Text('Need Location/GPS Permission'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: Text('Yes'),
+                  child: const Text('Yes'),
                 ),
               ],
             );
@@ -152,15 +152,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Report Submitted'),
-                        content: Text(
+                        title: const Text('Report Submitted'),
+                        content: const Text(
                             'Wait for further updates about your submitted report'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(true);
                             },
-                            child: Text('OK'),
+                            child: const Text('OK'),
                           ),
                         ],
                       );
@@ -209,20 +209,20 @@ class _HomeWidgetState extends State<HomeWidget> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirmation'),
-            content: Text('Are you sure you want to continue?'),
+            title: const Text('Confirmation'),
+            content: const Text('Are you sure you want to continue?'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No'),
+                child: const Text('No'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes'),
+                child: const Text('Yes'),
               ),
             ],
           );
@@ -290,7 +290,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   : AvatarGlow(
                       glowColor: tcRed,
                       endRadius: 130,
-                      duration: Duration(milliseconds: 2000),
+                      duration: const Duration(milliseconds: 2000),
                       repeat: true,
                       showTwoGlows: true,
                       curve: Curves.easeOutQuad,
@@ -300,7 +300,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         child: Container(
                             height: 140,
                             width: 140,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: tcRed,
                               shape: BoxShape.circle,
                             ),
@@ -308,12 +308,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.touch_app,
                                   color: tcWhite,
                                   size: 70,
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.transparent,
                                   height: 5,
                                 ),
@@ -332,7 +332,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                     ),
             ),
-            SizedBox(),
+            const SizedBox(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -355,7 +355,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return NewsList();
+                              return const NewsList();
                             },
                           ),
                         );
@@ -381,13 +381,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                   width: double.infinity.w,
                   height: 250.h,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: FutureBuilder(
                       future: fetchNewsData(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(
                               color: tcViolet,
                             ),
@@ -425,7 +425,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.vertical(
+                                          borderRadius: const BorderRadius.vertical(
                                               top: Radius.circular(10)),
                                           child: item.image != null
                                               ? Container(
@@ -443,7 +443,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                           null) {
                                                         return child;
                                                       } else {
-                                                        return Center(
+                                                        return const Center(
                                                           child:
                                                               CircularProgressIndicator(),
                                                         );
@@ -454,7 +454,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             Object error,
                                                             StackTrace?
                                                                 stackTrace) {
-                                                      return Icon(Icons.error);
+                                                      return const Icon(Icons.error);
                                                     },
                                                   ),
                                                 )
@@ -462,7 +462,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                   width: 180.w,
                                                   height: 100.h,
                                                   color: tcViolet,
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.question_mark,
                                                       size: 30,
@@ -473,7 +473,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         ),
                                         Expanded(
                                           child: Container(
-                                              padding: EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -502,7 +502,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                             color: textColor,
                                                           ),
                                                           children: [
-                                                            TextSpan(
+                                                            const TextSpan(
                                                                 text:
                                                                     'Author: ',
                                                                 style: TextStyle(
@@ -562,7 +562,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                             },
                           );
                         } else {
-                          return Center(
+                          return const Center(
                             child: Text('No data available'),
                           );
                         }

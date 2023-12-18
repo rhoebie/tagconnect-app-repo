@@ -67,10 +67,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -107,7 +107,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       color: tcGray,
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.transparent,
                   ),
                   Form(
@@ -132,7 +132,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 14, horizontal: 10),
                             labelText: 'Email',
                             labelStyle: TextStyle(
@@ -147,7 +147,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               fontWeight: FontWeight.w400,
                               color: tcGray,
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.email,
                               size: 20,
                             ),
@@ -192,7 +192,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ],
               ),
-              Icon(
+              const Icon(
                 Icons.email,
                 size: 150,
                 color: tcViolet,
@@ -297,7 +297,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         Navigator.push(
           context,
           SlideLeftAnimation(
-            ResetPasswordScreen(),
+            const ResetPasswordScreen(),
           ),
         );
         print('code is correct');
@@ -330,10 +330,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -387,13 +387,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 focusNode: fnOne,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     color: tcViolet,
                                     fontWeight: FontWeight.w700),
                                 maxLength: 1,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
@@ -431,13 +431,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 focusNode: fnTwo,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     color: tcViolet,
                                     fontWeight: FontWeight.w700),
                                 maxLength: 1,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
@@ -476,13 +476,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 focusNode: fnThree,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     color: tcViolet,
                                     fontWeight: FontWeight.w700),
                                 maxLength: 1,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
@@ -520,13 +520,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 focusNode: fnFour,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     color: tcViolet,
                                     fontWeight: FontWeight.w700),
                                 maxLength: 1,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
@@ -564,13 +564,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 focusNode: fnFive,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     color: tcViolet,
                                     fontWeight: FontWeight.w700),
                                 maxLength: 1,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
@@ -608,13 +608,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 focusNode: fnSix,
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     color: tcViolet,
                                     fontWeight: FontWeight.w700),
                                 maxLength: 1,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 14, horizontal: 10),
                                   counterText: '',
                                   enabledBorder: OutlineInputBorder(
@@ -652,7 +652,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                   ),
                 ],
               ),
-              Icon(
+              const Icon(
                 Icons.verified_user,
                 size: 150,
                 color: tcViolet,
@@ -764,7 +764,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Navigator.push(
           context,
           SlideLeftAnimation(
-            LoginScreen(),
+            const LoginScreen(),
           ),
         );
         print('password reset');
@@ -808,10 +808,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -873,7 +873,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             errorMaxLines: 3,
-                            errorStyle: TextStyle(),
+                            errorStyle: const TextStyle(),
                             hintText: 'Minimum of 6 characters',
                             hintStyle: TextStyle(
                               fontFamily: 'PublicSans',
@@ -881,9 +881,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               fontWeight: FontWeight.w400,
                               color: tcGray,
                             ),
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 14, horizontal: 10),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.lock,
                               size: 20,
                             ),
@@ -953,7 +953,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           },
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(top: 10),
                           child: Visibility(
                             visible: isFailed,
                             child: Text(

@@ -119,7 +119,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -142,7 +142,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                 await addAndSaveContact();
               }
             },
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
@@ -177,7 +177,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Form(
@@ -195,10 +195,10 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             color: textColor,
                           ),
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'First Name ',
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '(required)',
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -208,7 +208,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ],
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                         height: 5,
                       ),
@@ -230,7 +230,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -274,7 +274,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           return null;
                         },
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       RichText(
@@ -287,10 +287,10 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             color: textColor,
                           ),
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'Last Name ',
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '(optiional)',
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -300,7 +300,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ],
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                         height: 5,
                       ),
@@ -322,7 +322,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -360,7 +360,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       RichText(
@@ -373,10 +373,10 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             color: textColor,
                           ),
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'Email Address ',
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '(optional)',
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -386,7 +386,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ],
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                         height: 5,
                       ),
@@ -408,7 +408,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -459,7 +459,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           return null;
                         },
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       RichText(
@@ -472,10 +472,10 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             color: textColor,
                           ),
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'Phone Number ',
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '(required)',
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -485,7 +485,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                           ],
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                         height: 5,
                       ),
@@ -507,7 +507,7 @@ class _ContactAddScreenState extends State<ContactAddScreen> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(

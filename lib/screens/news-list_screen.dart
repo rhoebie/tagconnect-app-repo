@@ -121,7 +121,7 @@ class _NewsListState extends State<NewsList> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -143,7 +143,7 @@ class _NewsListState extends State<NewsList> {
                   Uri.parse('https://www.manilatimes.net/news');
               await launchUrl(launchUri);
             },
-            icon: Icon(Icons.language_rounded),
+            icon: const Icon(Icons.language_rounded),
           ),
         ],
       ),
@@ -160,14 +160,14 @@ class _NewsListState extends State<NewsList> {
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 flexibleSpace: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           decoration: BoxDecoration(
                             color: themeNotifier.isDarkMode ? tcDark : tcAsh,
                             borderRadius: BorderRadius.circular(25),
@@ -206,10 +206,10 @@ class _NewsListState extends State<NewsList> {
               SliverToBoxAdapter(
                 child: Container(
                   height: 50,
-                  margin: EdgeInsetsDirectional.symmetric(vertical: 15),
+                  margin: const EdgeInsetsDirectional.symmetric(vertical: 15),
                   child: Center(
                     child: isLoadingMore
-                        ? CircularProgressIndicator()
+                        ? const CircularProgressIndicator()
                         : Container(
                             child: Text(
                               'End of List',

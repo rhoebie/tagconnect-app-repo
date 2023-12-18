@@ -70,17 +70,17 @@ class NewsModel {
                     return Container(
                       width: 40.0,
                       height: 40.0,
-                      child: CircularProgressIndicator(),
+                      child: const CircularProgressIndicator(),
                     );
                   }
                 },
                 errorBuilder: (BuildContext context, Object error,
                     StackTrace? stackTrace) {
-                  return Icon(Icons.error);
+                  return const Icon(Icons.error);
                 },
               ),
             )
-          : CircleAvatar(
+          : const CircleAvatar(
               radius: 20,
               backgroundColor: tcViolet,
               child: Center(

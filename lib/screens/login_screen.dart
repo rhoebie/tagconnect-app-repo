@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
         Future.delayed(
-          Duration(seconds: 1),
+          const Duration(seconds: 1),
           () async {
             bool isLogin = await loginUser(email: email, password: password);
             if (mounted) {
@@ -155,11 +155,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if (isLogin) {
               Future.delayed(
-                Duration(seconds: 1),
+                const Duration(seconds: 1),
                 () async {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    FadeAnimation(HomeScreen()),
+                    FadeAnimation(const HomeScreen()),
                     (route) => false,
                   );
                 },
@@ -213,8 +213,8 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Permission'),
-              content: Column(
+              title: const Text('Permission'),
+              content: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -231,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: Text('Ok'),
+                  child: const Text('Ok'),
                 ),
               ],
             );
@@ -278,10 +278,10 @@ class _LoginScreenState extends State<LoginScreen> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -319,7 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: tcGray,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Form(
@@ -344,7 +344,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Email',
                               labelStyle: TextStyle(
@@ -353,7 +353,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: textColor,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.email,
                                 size: 20,
                               ),
@@ -393,7 +393,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                           ),
                           TextFormField(
@@ -415,7 +415,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Password',
                               labelStyle: TextStyle(
@@ -424,7 +424,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: textColor,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.lock,
                                 size: 20,
                               ),
@@ -496,7 +496,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
                                     },
                                   ),
-                                  Text('Remember Me'),
+                                  const Text('Remember Me'),
                                 ],
                               ),
                               Row(
@@ -529,7 +529,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Row(
@@ -537,19 +537,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         ProgressButton.icon(
                             iconedButtons: {
-                              ButtonState.idle: IconedButton(
+                              ButtonState.idle: const IconedButton(
                                   text: 'Login',
                                   icon: Icon(Icons.login, color: Colors.white),
                                   color: tcViolet),
-                              ButtonState.loading: IconedButton(
+                              ButtonState.loading: const IconedButton(
                                   text: 'Loading', color: tcViolet),
                               ButtonState.fail: IconedButton(
                                   text: 'Failed',
-                                  icon: Icon(Icons.cancel, color: Colors.white),
+                                  icon: const Icon(Icons.cancel, color: Colors.white),
                                   color: Colors.red.shade300),
                               ButtonState.success: IconedButton(
                                   text: 'Success',
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.check_circle,
                                     color: Colors.white,
                                   ),
@@ -602,7 +602,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    child: Text('Sign up'),
+                    child: const Text('Sign up'),
                   ),
                 ],
               ),

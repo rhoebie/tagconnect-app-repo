@@ -90,7 +90,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                         color: themeNotifier.isDarkMode ? tcDark : tcAsh,
                         borderRadius: BorderRadius.circular(25),
@@ -115,17 +115,17 @@ class _ContactWidgetState extends State<ContactWidget> {
                       ),
                     ),
                   ),
-                  VerticalDivider(
+                  const VerticalDivider(
                     color: Colors.transparent,
                     width: 10,
                   ),
                   Card(
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     elevation: 5,
                     color: tcViolet,
                     child: IconButton(
                       tooltip: 'Add Contact',
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.add,
                         color: Colors.white,
                       ),
@@ -152,7 +152,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Text(
@@ -165,7 +165,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                         color: textColor,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 10,
                     ),
@@ -187,7 +187,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               width: 80,
-                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              margin: const EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
                                 color: tcOrange,
                                 borderRadius: BorderRadius.circular(50),
@@ -197,7 +197,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
@@ -210,7 +210,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                         color: tcWhite,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                   ],
@@ -229,7 +229,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               width: 80,
-                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              margin: const EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
                                 color: tcGreen,
                                 borderRadius: BorderRadius.circular(50),
@@ -239,7 +239,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
@@ -252,7 +252,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                         color: tcWhite,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                   ],
@@ -271,7 +271,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               width: 80,
-                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              margin: const EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
                                 color: tcRed,
                                 borderRadius: BorderRadius.circular(50),
@@ -281,7 +281,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
@@ -294,7 +294,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                         color: tcWhite,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                   ],
@@ -313,7 +313,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               width: 80,
-                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              margin: const EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
                                 color: tcBlue,
                                 borderRadius: BorderRadius.circular(50),
@@ -323,7 +323,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
@@ -336,7 +336,7 @@ class _ContactWidgetState extends State<ContactWidget> {
                                         color: tcWhite,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                   ],

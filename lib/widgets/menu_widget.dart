@@ -35,7 +35,7 @@ class _MenuWidgetState extends State<MenuWidget> {
 
         if (response) {
           Navigator.of(context).pushReplacement(
-            FadeAnimation(LoginScreen()),
+            FadeAnimation(const LoginScreen()),
           );
           print('Logout successful.');
         } else {
@@ -94,7 +94,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return NewsList();
+                        return const NewsList();
                       },
                     ),
                   );
@@ -119,7 +119,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return ReportEmergencyScreen();
+                        return const ReportEmergencyScreen();
                       },
                     ),
                   );
@@ -144,7 +144,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return BarangayListScreen();
+                        return const BarangayListScreen();
                       },
                     ),
                   );
@@ -164,7 +164,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   color: textColor,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Text(
@@ -181,7 +181,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return ReportListScreen();
+                        return const ReportListScreen();
                       },
                     ),
                   );
@@ -206,7 +206,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return AccountScreen();
+                        return const AccountScreen();
                       },
                     ),
                   );
@@ -231,7 +231,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return ChangePasswordScreen();
+                        return const ChangePasswordScreen();
                       },
                     ),
                   );
@@ -251,7 +251,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   color: textColor,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Text(
@@ -268,7 +268,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return SettingScreen();
+                        return const SettingScreen();
                       },
                     ),
                   );
@@ -293,7 +293,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return AboutScreen();
+                        return const AboutScreen();
                       },
                     ),
                   );

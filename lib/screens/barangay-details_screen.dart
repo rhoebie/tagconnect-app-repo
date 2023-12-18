@@ -48,7 +48,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
   }
 
   void showWaitSnackBar(BuildContext context) {
-    final snackBar = SnackBar(
+    final snackBar = const SnackBar(
       content: Row(
         children: [
           CircularProgressIndicator(),
@@ -78,7 +78,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Image.network(
                     widget.barangayModel.image!,
                     width: 350,
@@ -88,14 +88,14 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                       if (loadingProgress == null) {
                         return child;
                       } else {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
                     },
                     errorBuilder: (BuildContext context, Object error,
                         StackTrace? stackTrace) {
-                      return Icon(Icons.error);
+                      return const Icon(Icons.error);
                     },
                   ),
                 ),
@@ -112,7 +112,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: const Text('Close'),
                 ),
               ],
             ),
@@ -126,7 +126,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -182,14 +182,14 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                     if (loadingProgress == null) {
                                       return child;
                                     } else {
-                                      return Center(
+                                      return const Center(
                                         child: CircularProgressIndicator(),
                                       );
                                     }
                                   },
                                   errorBuilder: (BuildContext context,
                                       Object error, StackTrace? stackTrace) {
-                                    return Icon(Icons.error);
+                                    return const Icon(Icons.error);
                                   },
                                 ),
                               ),
@@ -206,7 +206,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                               ),
                             ),
                           ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 10,
                     ),
@@ -237,7 +237,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                 ),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 5,
                             ),
@@ -275,7 +275,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                                 ),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 5,
                             ),
@@ -292,7 +292,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                         ),
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Container(
@@ -307,12 +307,12 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 10,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
                           Row(
@@ -338,7 +338,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 5,
                           ),
@@ -365,7 +365,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 5,
                           ),
@@ -392,7 +392,7 @@ class _BarangayDetailsWidgetState extends State<BarangayDetailsWidget> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 5,
                           ),

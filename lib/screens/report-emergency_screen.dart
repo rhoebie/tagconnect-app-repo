@@ -216,14 +216,14 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Permission'),
-              content: Text('Need Location/GPS Permission'),
+              title: const Text('Permission'),
+              content: const Text('Need Location/GPS Permission'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: Text('Yes'),
+                  child: const Text('Yes'),
                 ),
               ],
             );
@@ -320,7 +320,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
         Future.delayed(
-          Duration(seconds: 1),
+          const Duration(seconds: 1),
           () async {
             bool isSent = await submitReport(
                 emergencyType, description, casualties, visibility, imahe);
@@ -335,7 +335,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
 
             if (isSent) {
               Future.delayed(
-                Duration(seconds: 1),
+                const Duration(seconds: 1),
                 () async {
                   if (mounted) {
                     setState(() {});
@@ -376,7 +376,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -416,7 +416,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   color: textColor,
                                 ),
                               ),
-                              VerticalDivider(
+                              const VerticalDivider(
                                 color: Colors.transparent,
                                 width: 5,
                               ),
@@ -431,7 +431,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -441,7 +441,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 14, horizontal: 10),
                                 border: InputBorder.none,
@@ -514,7 +514,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Column(
@@ -531,7 +531,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   color: textColor,
                                 ),
                               ),
-                              VerticalDivider(
+                              const VerticalDivider(
                                 color: Colors.transparent,
                                 width: 5,
                               ),
@@ -546,7 +546,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -569,7 +569,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -615,7 +615,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Row(
@@ -724,7 +724,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Column(
@@ -741,7 +741,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                   color: textColor,
                                 ),
                               ),
-                              VerticalDivider(
+                              const VerticalDivider(
                                 color: Colors.transparent,
                                 width: 5,
                               ),
@@ -756,7 +756,7 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -793,11 +793,11 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.photo_camera,
                                                   size: 20,
                                                 ),
-                                                VerticalDivider(
+                                                const VerticalDivider(
                                                   color: Colors.transparent,
                                                   width: 5,
                                                 ),
@@ -831,24 +831,24 @@ class _ReportEmergencyScreenState extends State<ReportEmergencyScreen> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 ProgressButton.icon(
                     iconedButtons: {
-                      ButtonState.idle: IconedButton(
+                      ButtonState.idle: const IconedButton(
                           text: 'Send',
                           icon: Icon(Icons.send, color: Colors.white),
                           color: tcViolet),
                       ButtonState.loading:
-                          IconedButton(text: 'Loading', color: tcViolet),
+                          const IconedButton(text: 'Loading', color: tcViolet),
                       ButtonState.fail: IconedButton(
                           text: 'Failed',
-                          icon: Icon(Icons.cancel, color: Colors.white),
+                          icon: const Icon(Icons.cancel, color: Colors.white),
                           color: Colors.red.shade300),
                       ButtonState.success: IconedButton(
                           text: 'Success',
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.check_circle,
                             color: Colors.white,
                           ),

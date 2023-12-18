@@ -134,7 +134,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
         Future.delayed(
-          Duration(seconds: 1),
+          const Duration(seconds: 1),
           () async {
             bool isSent = await updateUser(userdata);
             if (mounted) {
@@ -147,7 +147,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
             }
             if (isSent) {
               Future.delayed(
-                Duration(seconds: 1),
+                const Duration(seconds: 1),
                 () async {
                   widget.callbackFunction.call();
                   Navigator.pop(
@@ -208,7 +208,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -273,7 +273,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                             if (loadingProgress == null) {
                                               return child;
                                             } else {
-                                              return Center(
+                                              return const Center(
                                                 child:
                                                     CircularProgressIndicator(),
                                               );
@@ -282,7 +282,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                           errorBuilder: (BuildContext context,
                                               Object error,
                                               StackTrace? stackTrace) {
-                                            return Icon(Icons.error);
+                                            return const Icon(Icons.error);
                                           },
                                         )
                                       : Icon(
@@ -361,7 +361,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       TextFormField(
@@ -381,7 +381,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                           ),
                           errorMaxLines: 2,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -419,7 +419,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       TextFormField(
@@ -439,7 +439,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                           ),
                           errorMaxLines: 2,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -477,7 +477,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       TextFormField(
@@ -497,7 +497,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                           ),
                           errorMaxLines: 2,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -535,7 +535,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       TextFormField(
@@ -564,7 +564,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -603,7 +603,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                         ),
                         validator: (value) => validateAge(value!),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       TextFormField(
@@ -630,7 +630,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -700,7 +700,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                                 }
                               }
                             },
-                            icon: Icon(Icons.calendar_month),
+                            icon: const Icon(Icons.calendar_month),
                           ),
                         ),
                       ),
@@ -731,7 +731,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -798,7 +798,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                             fontWeight: FontWeight.w400,
                             color: tcGray,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -840,24 +840,24 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 ProgressButton.icon(
                   iconedButtons: {
-                    ButtonState.idle: IconedButton(
+                    ButtonState.idle: const IconedButton(
                         text: 'Update',
                         icon: Icon(Icons.send, color: Colors.white),
                         color: tcViolet),
                     ButtonState.loading:
-                        IconedButton(text: 'Loading', color: tcViolet),
+                        const IconedButton(text: 'Loading', color: tcViolet),
                     ButtonState.fail: IconedButton(
                         text: 'Failed',
-                        icon: Icon(Icons.cancel, color: Colors.white),
+                        icon: const Icon(Icons.cancel, color: Colors.white),
                         color: Colors.red.shade300),
                     ButtonState.success: IconedButton(
                         text: 'Success',
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.check_circle,
                           color: Colors.white,
                         ),
@@ -899,7 +899,7 @@ class _AccountEditWidgetState extends State<AccountEditWidget> {
                   },
                   state: stateTextWithIcon,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
               ],

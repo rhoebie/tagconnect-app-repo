@@ -33,10 +33,10 @@ class WelcomeOneScreen extends StatelessWidget {
                 color: tcViolet,
               ),
               children: [
-                TextSpan(
+                const TextSpan(
                   text: 'TAG',
                 ),
-                TextSpan(
+                const TextSpan(
                   text: 'CONNECT',
                   style: TextStyle(
                     color: tcRed,

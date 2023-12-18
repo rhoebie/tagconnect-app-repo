@@ -25,7 +25,7 @@ class NewsDetails extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                   child: Image.network(
                     newsModel.image ?? '',
                     loadingBuilder: (BuildContext context, Widget child,
@@ -33,14 +33,14 @@ class NewsDetails extends StatelessWidget {
                       if (loadingProgress == null) {
                         return child;
                       } else {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
                     },
                     errorBuilder: (BuildContext context, Object error,
                         StackTrace? stackTrace) {
-                      return Icon(Icons.error);
+                      return const Icon(Icons.error);
                     },
                   ),
                 ),
@@ -48,7 +48,7 @@ class NewsDetails extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: const Text('Close'),
                 ),
               ],
             ),
@@ -60,7 +60,7 @@ class NewsDetails extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -81,7 +81,7 @@ class NewsDetails extends StatelessWidget {
               final Uri launchUri = Uri.parse(newsModel.link!);
               await launchUrl(launchUri);
             },
-            icon: Icon(Icons.language_rounded),
+            icon: const Icon(Icons.language_rounded),
           ),
         ],
       ),
@@ -97,7 +97,7 @@ class NewsDetails extends StatelessWidget {
                 Container(
                   height: 200.h,
                   width: double.infinity,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: tcAsh,
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
@@ -109,7 +109,7 @@ class NewsDetails extends StatelessWidget {
                             showImageDialog(context);
                           },
                           child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
                             child: Container(
                               child: Image.network(
                                 newsModel.image!,
@@ -120,24 +120,24 @@ class NewsDetails extends StatelessWidget {
                                   if (loadingProgress == null) {
                                     return child;
                                   } else {
-                                    return Center(
+                                    return const Center(
                                       child: CircularProgressIndicator(),
                                     );
                                   }
                                 },
                                 errorBuilder: (BuildContext context,
                                     Object error, StackTrace? stackTrace) {
-                                  return Icon(Icons.error);
+                                  return const Icon(Icons.error);
                                 },
                               ),
                             ),
                           ),
                         )
-                      : Center(
+                      : const Center(
                           child: Icon(Icons.question_mark),
                         ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                   height: 10,
                 ),
@@ -171,7 +171,7 @@ class NewsDetails extends StatelessWidget {
                     color: textColor,
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 html.Html(

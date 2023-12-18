@@ -157,7 +157,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -180,7 +180,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                 await updateContact(widget.contact);
               }
             },
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
@@ -233,7 +233,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                             ),
                           ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Form(
@@ -251,10 +251,10 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: textColor,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'First Name ',
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: '(required)',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -264,7 +264,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
@@ -287,7 +287,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: tcGray,
                         ),
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,
@@ -330,7 +330,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         return null;
                       },
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     RichText(
@@ -343,10 +343,10 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: textColor,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Last Name ',
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: '(optiional)',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -356,7 +356,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
@@ -379,7 +379,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: tcGray,
                         ),
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,
@@ -416,7 +416,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     RichText(
@@ -429,10 +429,10 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: textColor,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Email Address ',
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: '(optional)',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -442,7 +442,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
@@ -465,7 +465,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: tcGray,
                         ),
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,
@@ -515,7 +515,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         return null;
                       },
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     RichText(
@@ -528,10 +528,10 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: textColor,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Phone Number ',
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: '(required)',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -541,7 +541,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
@@ -564,7 +564,7 @@ class _ContactEditScreenState extends State<ContactEditScreen> {
                           color: tcGray,
                         ),
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.w,

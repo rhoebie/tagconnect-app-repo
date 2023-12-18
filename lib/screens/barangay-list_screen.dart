@@ -48,7 +48,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -66,7 +66,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               Expanded(
@@ -74,7 +74,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                   future: fetchBarangay(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(
                           color: tcViolet,
                         ),
@@ -85,7 +85,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                       final data1 = snapshot.data!;
 
                       return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: .7,
                           mainAxisSpacing: 20,
@@ -114,7 +114,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.vertical(
+                                      borderRadius: const BorderRadius.vertical(
                                           top: Radius.circular(5)),
                                       child: Container(
                                         color: tcAsh,
@@ -132,7 +132,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                                   if (loadingProgress == null) {
                                                     return child;
                                                   } else {
-                                                    return Center(
+                                                    return const Center(
                                                       child:
                                                           CircularProgressIndicator(),
                                                     );
@@ -142,7 +142,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                                         context,
                                                     Object error,
                                                     StackTrace? stackTrace) {
-                                                  return Icon(Icons.error);
+                                                  return const Icon(Icons.error);
                                                 },
                                               )
                                             : Center(
@@ -156,7 +156,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -203,7 +203,7 @@ class _BarangayListScreenState extends State<BarangayListScreen> {
                         },
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: Text('No data available'),
                       );
                     }

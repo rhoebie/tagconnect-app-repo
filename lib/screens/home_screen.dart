@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return NotificationScreen();
+                    return const NotificationScreen();
                   },
                 ),
               );
@@ -119,10 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: PageView(
             controller: _pageController,
             children: [
-              HomeWidget(),
-              FeedWidget(),
-              ContactWidget(),
-              MenuWidget(),
+              const HomeWidget(),
+              const FeedWidget(),
+              const ContactWidget(),
+              const MenuWidget(),
             ],
             onPageChanged: (index) {
               if (mounted) {
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             physics:
-                NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics
+                const NeverScrollableScrollPhysics(), // Use BouncingScrollPhysics
           ),
         ),
       ),
@@ -148,19 +148,19 @@ class _HomeScreenState extends State<HomeScreen> {
           _onItemTapped(index);
         },
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.language_rounded),
             label: 'Feed',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.phone_rounded),
             label: 'Contacts',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.menu_rounded),
             label: 'Menu',
           ),

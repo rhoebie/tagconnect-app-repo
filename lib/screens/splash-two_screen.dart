@@ -32,10 +32,10 @@ class WelcomeTwoScreen extends StatelessWidget {
                 color: tcViolet,
               ),
               children: [
-                TextSpan(
+                const TextSpan(
                   text: 'TAG',
                 ),
-                TextSpan(
+                const TextSpan(
                   text: 'CONNECT',
                   style: TextStyle(
                     color: tcRed,
@@ -51,7 +51,7 @@ class WelcomeTwoScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(),
+              const SizedBox(),
               Image.asset(
                 'assets/images/cyber-security.png',
                 width: 170.w,

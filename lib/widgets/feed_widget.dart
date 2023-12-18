@@ -174,7 +174,7 @@ class _FeedWidgetState extends State<FeedWidget> {
           slivers: [
             SliverToBoxAdapter(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -201,7 +201,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
@@ -228,7 +228,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                             },
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 2.5),
+                              margin: const EdgeInsets.symmetric(horizontal: 2.5),
                               decoration: BoxDecoration(
                                 color: themeNotifier.isDarkMode
                                     ? isSelected
@@ -244,7 +244,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Text(
                                       index == 0
                                           ? "All"
@@ -261,7 +261,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                                 : textColor,
                                       ),
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                   ],
                                 ),
                               ),
@@ -270,7 +270,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                         },
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 5,
                     ),
@@ -279,7 +279,7 @@ class _FeedWidgetState extends State<FeedWidget> {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -302,7 +302,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                       child: Card(
                         color: themeNotifier.isDarkMode ? tcDark : tcWhite,
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -333,7 +333,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                   ),
                                 ],
                               ),
-                              Divider(
+                              const Divider(
                                 color: Colors.transparent,
                                 height: 5,
                               ),
@@ -367,10 +367,10 @@ class _FeedWidgetState extends State<FeedWidget> {
               sliver: SliverToBoxAdapter(
                 child: Container(
                   height: 50,
-                  margin: EdgeInsetsDirectional.symmetric(vertical: 15),
+                  margin: const EdgeInsetsDirectional.symmetric(vertical: 15),
                   child: Center(
                     child: isLoadingMore
-                        ? CircularProgressIndicator()
+                        ? const CircularProgressIndicator()
                         : Container(
                             child: Text(
                               'End of List',

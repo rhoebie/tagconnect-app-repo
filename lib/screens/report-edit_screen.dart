@@ -162,7 +162,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -199,7 +199,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                 );
               }
             },
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
@@ -225,7 +225,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                             child: Container(
                               height: 200.h,
                               width: double.infinity,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: tcAsh,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
@@ -243,7 +243,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                     )
                                   : widget.reportModel.image != null
                                       ? ClipRRect(
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(10)),
                                           child: Container(
                                             child: Image.network(
@@ -257,7 +257,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                                 if (loadingProgress == null) {
                                                   return child;
                                                 } else {
-                                                  return Center(
+                                                  return const Center(
                                                     child:
                                                         CircularProgressIndicator(),
                                                   );
@@ -267,12 +267,12 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                                   (BuildContext context,
                                                       Object error,
                                                       StackTrace? stackTrace) {
-                                                return Icon(Icons.error);
+                                                return const Icon(Icons.error);
                                               },
                                             ),
                                           ),
                                         )
-                                      : Center(
+                                      : const Center(
                                           child: Icon(Icons.question_mark),
                                         ),
                             ),
@@ -288,7 +288,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Column(
@@ -303,7 +303,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               color: textColor,
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -313,7 +313,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 14, horizontal: 10),
                                 border: InputBorder.none,
@@ -386,7 +386,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Column(
@@ -403,7 +403,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                   color: textColor,
                                 ),
                               ),
-                              VerticalDivider(
+                              const VerticalDivider(
                                 color: Colors.transparent,
                                 width: 5,
                               ),
@@ -418,7 +418,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -428,7 +428,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 14, horizontal: 10),
                                 border: InputBorder.none,
@@ -477,7 +477,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Column(
@@ -492,7 +492,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                               color: textColor,
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -515,7 +515,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -561,7 +561,7 @@ class _ReportEditScreenState extends State<ReportEditScreen> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.transparent,
                       ),
                       Row(

@@ -27,7 +27,7 @@ class _ReportDetailState extends State<ReportDetail> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -49,7 +49,7 @@ class _ReportDetailState extends State<ReportDetail> {
                   'https://maps.google.com/?q=${widget.reportModel.location!.latitude!},${widget.reportModel.location!.longitude!}');
               await launchUrl(launchUri);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.location_pin,
               color: tcBlack,
             ),
@@ -90,17 +90,17 @@ class _ReportDetailState extends State<ReportDetail> {
                                     if (loadingProgress == null) {
                                       return child;
                                     } else {
-                                      return Center(
+                                      return const Center(
                                         child: CircularProgressIndicator(),
                                       );
                                     }
                                   },
                                   errorBuilder: (BuildContext context,
                                       Object error, StackTrace? stackTrace) {
-                                    return Icon(Icons.error);
+                                    return const Icon(Icons.error);
                                   },
                                 )
-                              : Center(
+                              : const Center(
                                   child: Icon(Icons.question_mark),
                                 ),
                         ),
@@ -117,7 +117,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                   height: 10,
                 ),
@@ -133,7 +133,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     ),
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Row(
@@ -178,7 +178,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     )
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -206,7 +206,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -234,7 +234,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -262,7 +262,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(
@@ -290,7 +290,7 @@ class _ReportDetailState extends State<ReportDetail> {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Column(

@@ -161,10 +161,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -202,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: tcGray,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Form(
@@ -219,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                           ),
                           Row(
@@ -330,7 +330,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'First Name',
                               labelStyle: TextStyle(
@@ -346,7 +346,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.person,
                                 size: 20,
                               ),
@@ -400,7 +400,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Middle Name',
                               labelStyle: TextStyle(
@@ -416,7 +416,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.person,
                                 size: 20,
                               ),
@@ -470,7 +470,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Last Name',
                               labelStyle: TextStyle(
@@ -486,7 +486,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.person,
                                 size: 20,
                               ),
@@ -541,7 +541,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               labelText: 'Age',
@@ -558,7 +558,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.numbers,
                                 size: 20,
                               ),
@@ -604,7 +604,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Container(
@@ -722,10 +722,10 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -763,7 +763,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                         color: tcGray,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Form(
@@ -780,7 +780,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                           ),
                           TextFormField(
@@ -793,7 +793,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Date of Birth',
                               labelStyle: TextStyle(
@@ -809,7 +809,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.celebration,
                                 size: 20,
                               ),
@@ -883,7 +883,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                     }
                                   }
                                 },
-                                icon: Icon(Icons.calendar_month),
+                                icon: const Icon(Icons.calendar_month),
                               ),
                             ),
                             validator: (value) =>
@@ -902,7 +902,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Contact',
                               labelStyle: TextStyle(
@@ -918,7 +918,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.phone,
                                 size: 20,
                               ),
@@ -973,7 +973,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                               color: textColor,
                             ),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               labelText: 'Address',
                               labelStyle: TextStyle(
@@ -989,7 +989,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                                 fontWeight: FontWeight.w400,
                                 color: tcGray,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.home,
                                 size: 20,
                               ),
@@ -1035,7 +1035,7 @@ class _RegisterScreenTwoState extends State<RegisterScreenTwo> {
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   color: Colors.transparent,
                 ),
                 Container(
@@ -1144,7 +1144,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
 
         if (success) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Register Successful"),
           ));
           Navigator.push(
@@ -1154,7 +1154,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
           clearText();
         } else {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Register Failed, Please try again later."),
           ));
         }
@@ -1222,10 +1222,10 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -1283,7 +1283,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 ),
                               ],
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                             ),
                             TextFormField(
@@ -1296,7 +1296,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 color: textColor,
                               ),
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     vertical: 14, horizontal: 10),
                                 labelText: 'Email',
                                 labelStyle: TextStyle(
@@ -1312,7 +1312,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   fontWeight: FontWeight.w400,
                                   color: tcGray,
                                 ),
-                                prefixIcon: Icon(
+                                prefixIcon: const Icon(
                                   Icons.email,
                                   size: 20,
                                 ),
@@ -1367,7 +1367,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 color: textColor,
                               ),
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     vertical: 14, horizontal: 10),
                                 labelText: 'Password',
                                 labelStyle: TextStyle(
@@ -1383,7 +1383,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   fontWeight: FontWeight.w400,
                                   color: tcGray,
                                 ),
-                                prefixIcon: Icon(
+                                prefixIcon: const Icon(
                                   Icons.lock,
                                   size: 20,
                                 ),
@@ -1458,7 +1458,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     vertical: 14, horizontal: 10),
                                 labelText: 'Confirm Password',
                                 labelStyle: TextStyle(
@@ -1474,7 +1474,7 @@ class _RegisterScreenThreeState extends State<RegisterScreenThree> {
                                   fontWeight: FontWeight.w400,
                                   color: tcGray,
                                 ),
-                                prefixIcon: Icon(
+                                prefixIcon: const Icon(
                                   Icons.lock,
                                   size: 20,
                                 ),
@@ -1757,13 +1757,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
       final response = await userService.verify(email, code);
       if (response) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Email Verified"),
         ));
-        Navigator.push(context, SlideLeftAnimation(LoginScreen()));
+        Navigator.push(context, SlideLeftAnimation(const LoginScreen()));
       } else {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Failed to Provide code"),
         ));
       }
@@ -1820,10 +1820,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
               color: tcViolet,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'TAG',
               ),
-              TextSpan(
+              const TextSpan(
                 text: 'CONNECT',
                 style: TextStyle(
                   color: tcRed,
@@ -1835,7 +1835,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1874,13 +1874,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             focusNode: fnOne,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: tcViolet,
                                 fontWeight: FontWeight.w700),
                             maxLength: 1,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
@@ -1925,13 +1925,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             focusNode: fnTwo,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: tcViolet,
                                 fontWeight: FontWeight.w700),
                             maxLength: 1,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
@@ -1978,13 +1978,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             focusNode: fnThree,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: tcViolet,
                                 fontWeight: FontWeight.w700),
                             maxLength: 1,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
@@ -2031,13 +2031,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             focusNode: fnFour,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: tcViolet,
                                 fontWeight: FontWeight.w700),
                             maxLength: 1,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
@@ -2084,13 +2084,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             focusNode: fnFive,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: tcViolet,
                                 fontWeight: FontWeight.w700),
                             maxLength: 1,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
@@ -2137,13 +2137,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             focusNode: fnSix,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 color: tcViolet,
                                 fontWeight: FontWeight.w700),
                             maxLength: 1,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 14, horizontal: 10),
                               counterText: '',
                               enabledBorder: OutlineInputBorder(
@@ -2188,7 +2188,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               ),
               Row(

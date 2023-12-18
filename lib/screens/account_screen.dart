@@ -64,7 +64,7 @@ class _AccountScreenState extends State<AccountScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Image.network(
                     userModel.image ?? '',
                     width: 350,
@@ -74,14 +74,14 @@ class _AccountScreenState extends State<AccountScreen> {
                       if (loadingProgress == null) {
                         return child;
                       } else {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
                     },
                     errorBuilder: (BuildContext context, Object error,
                         StackTrace? stackTrace) {
-                      return Icon(Icons.error);
+                      return const Icon(Icons.error);
                     },
                   ),
                 ),
@@ -89,7 +89,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: const Text('Close'),
                 ),
               ],
             ),
@@ -102,7 +102,7 @@ class _AccountScreenState extends State<AccountScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: CloseButton(),
+        leading: const CloseButton(),
         iconTheme: IconThemeData(color: textColor),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -128,7 +128,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               );
             },
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
           ),
         ],
         centerTitle: true,
@@ -142,7 +142,7 @@ class _AccountScreenState extends State<AccountScreen> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container(
                   width: double.infinity,
-                  child: Center(
+                  child: const Center(
                     child: CircularProgressIndicator(
                       color: tcViolet,
                     ),
@@ -177,7 +177,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                         if (loadingProgress == null) {
                                           return child;
                                         } else {
-                                          return Center(
+                                          return const Center(
                                             child: CircularProgressIndicator(),
                                           );
                                         }
@@ -185,7 +185,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                       errorBuilder: (BuildContext context,
                                           Object error,
                                           StackTrace? stackTrace) {
-                                        return Icon(Icons.error);
+                                        return const Icon(Icons.error);
                                       },
                                     ),
                                   )
@@ -198,7 +198,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   ),
                           ),
                         ),
-                        VerticalDivider(
+                        const VerticalDivider(
                           color: Colors.transparent,
                         ),
                         Column(
@@ -220,7 +220,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 ),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 5,
                             ),
@@ -234,7 +234,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   color: textColor,
                                 ),
                                 children: [
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'Account ID: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -246,7 +246,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 ],
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               color: Colors.transparent,
                               height: 5,
                             ),
@@ -260,7 +260,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   color: textColor,
                                 ),
                                 children: [
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'Role: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -276,7 +276,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         )
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 30,
                     ),
@@ -289,11 +289,11 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: textColor,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           Row(
@@ -322,7 +322,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -351,7 +351,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -386,7 +386,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ],
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                       height: 30,
                     ),
@@ -399,11 +399,11 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: textColor,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.transparent,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           Row(
@@ -431,7 +431,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -460,7 +460,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -489,7 +489,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.transparent,
                             height: 10,
                           ),
@@ -499,7 +499,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 );
               } else {
-                return Center(
+                return const Center(
                   child: Text('No data available'),
                 );
               }
